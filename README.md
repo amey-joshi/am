@@ -1,2 +1,2 @@
 # am
-A collection of problems in applied mathematics
+A collection of problems, tutorials and notes in applied mathematics.
