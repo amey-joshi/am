@@ -21,7 +21,8 @@ the stability of recurrent neural networks.
 
 \section{Notation}\label{s2}
 We follow the contemporary mathematical practice of not using separate
-notation for vectors and scalars. Instead, we define every symbol.
+notation for vectors and scalars. Instead, we define every symbol. Whenver
+a symbol stands for a vector, it denotes a column vector.
 
 \section{Ordinary Differential Equations of the first order}\label{s3}
 An ordinary differential equation, abbreviated as ODE, of the first order 
@@ -54,12 +55,12 @@ In general, $n$ steps beyond the first, one can write
 y(x_n + h) = y(x_{n}) + h f(x_{n}, y(x_{n})).
 \end{equation}
 Euler's algorithm is not the best numerical algorithm to solve ODE's but
-it provides the germ for the the rest.
+it provides the germ for the rest.
 
 \section{RNN with a Single Layer}\label{s4}
 Recurrent neural networks, abbreviated as RNN, feed a part of their output
-to their input. The output if a step $n$ thus depends on both the input
-at that step and the output at the previous step. This makes them similar
+to their input. The output of a step $n$ thus depends on both the input
+at that step and the output of the previous step. This makes them similar
 to the ordinary differential equations described in the previous section.
 Suppose we have a single layer neural network that is updated using the
 following rule:
@@ -93,8 +94,13 @@ Here
 	   \end{pmatrix}
 \end{equation}
 is an $q \times p$ matrix and $h \in \mathbb{R}^p$ so that their product
-$\nabla y(x_n) \cdot h$ is in $\mathbb{R}^q$. An RNN corresponding to this
-equation is
+$\nabla y(x_n) \cdot h$ is in $\mathbb{R}^q$. The symbol $y_{i, x_j}$ 
+stands for the partial derivative of the $i$th component of $y$, denoted by
+$y_i$ with respect to $x_j$. Thus,
+\[
+    y_{i, x_j} = \frac{\partial y_i}{\partial x_j}.
+\]
+An RNN corresponding to this equation is
 \begin{equation}\label{s4e7}
 y_{n+1} = \sigma\left(W_x x_n + W_y y_n\right),
 \end{equation}
@@ -103,22 +109,19 @@ where $y_n$ and $y_{n+1}$ are $q$-dimensional vectors, $x_n \in \mathbb{R}
 $q \times q$ weight matrix for the output.
 
 \section{Higher order ODE}\label{s5}
-A system of first order ODE is a set of equations of the form
+We can interpret the vector form of equation \eqref{s3e1} as a system of 
+first order ODE
 \begin{eqnarray*}
 \frac{dy_1}{dx} &=& f_1(x, y_1, \ldots, y_k) \\
 \vdots \\
 \frac{dy_k}{dx} &=& f_k(x, y_1, \ldots, y_k) \\
 \end{eqnarray*}
-It can be written in a vector form as
+Its equivalent vector form is
 \begin{equation}\label{s5e1}
-\frac{dy}{dx} = f,
+\frac{d}{dx}\begin{pmatrix}y_1 \\ \vdots \\ y_k\end{pmatrix} = 
+\begin{pmatrix}f_1 \\ \vdots \\ f_k\end{pmatrix}.
 \end{equation}
-where
-\[
-y = \begin{pmatrix}y_1 \\ \vdots \\ y_k\end{pmatrix},\;\text{and}\;
-f = \begin{pmatrix}f_1 \\ \vdots \\ f_k\end{pmatrix}
-\]
-A system of first order ODE is interesting because they are equivalent to
+A system of first order ODE is interesting because it is equivalent to
 a higher order differential equation. For example, one can write the $k$th
 order ODE
 \begin{equation}\label{s5e2}
@@ -138,7 +141,7 @@ it numerically using equations \eqref{s4e5}, \eqref{s4e6} and \eqref{s4e7}.
 \section{Runge-Kutta methods}\label{s6}
 Runge-Kutta methods are a collection of numerical algorithms developed by
 the German mathematicians Carl Runge and Martin Kutta in the late 
-nineteenth centuries\cite{lambert1991numerical}. We will describe the most
+nineteenth century\cite{lambert1991numerical}. We will describe the most
 commonly used among them, called the `RK4' method. If $y: \mathbb{R}
 \mapsto \mathbb{R}$ is the unknown function that obeys the ODE
 \begin{equation}\label{s6e1}
@@ -158,9 +161,15 @@ k_3 &=& f\left(t_n + \frac{h}{2}, y(t_n) + h\frac{k_2}{2}\right)
 k_4 &=& f(t_n + h, y_n + hk_3). \label{s6e6}
 \end{eqnarray}
 Let us study these equations carefully. The value of $y$ at $t_n + h$ 
-depends on $y(t_n)$ and four other numbers $k_1, \ldots, k_4$. Of these,
+depends on $y(t_n)$ and four other numbers $k_1, \ldots, k_4$. Each of
+these is the value of the derivative of $y$ at different points. Of these,
 $k_1$ depends on $y(t_n)$ and $t_n$, $k_2$ on $y(t_n)$, $t_n$ and $k_1$,
-$k_3$ on $y(t_n), t_n$ and $k_2$ and $k_4$ on $y(t_n), t_n$ and $k_3$. 
+$k_3$ on $y(t_n), t_n$ and $k_2$ and $k_4$ on $y(t_n), t_n$ and $k_3$. If
+one were to implement this algorithm, every iteration of it would consist
+of using the output of the previous iteration and a calculation of four
+constants, one after another, to get the value of the current iteration.
+This is indeed like a recurrent neural network with four hidden layers.
+
 Runge-Kutta methods perform much better then Euler methods when $f$ is 
 a non-linear function of $x$. The number of intermediate values, $4$ in 
 this case, is called the \emph{the number of stages} of the algorithm.
@@ -174,12 +183,13 @@ alone but on four other numbers which must be computed sequentially. $k_1$
 is computed from $t_n$ and $y_n$. The rest from $t_n$, $y_n$ and the 
 `previous' $k$. We can thus construct a neural network with four hidden 
 layers, each computing $k_1$ to $k_4$ and the output later combining
-all of them to get the final result. This is a $4$-stage, $1$st order
-RNN.
+all of them to get the final result. We call a recurrent neural network
+implementing an algorithm to solve an ordinary differential equation an
+ODERNN.
 
-We now define a general RNN\cite{niu2019recurrent}.
+We now define a general ODERNN\cite{niu2019recurrent}.
 \begin{defn}\label{s7d1}
-An ODE-RNN of $n$th order in non-linearity and $t$th order in gradient,
+An ODE-RNN of $n$-th order in non-linearity and $t$-th order in gradient,
 called $(n,t)$-ODERNN, where $n, t \ge 1$ are integers is described by
 the following update rule.
 \begin{eqnarray}
