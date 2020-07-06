@@ -22,7 +22,10 @@ the stability of recurrent neural networks.
 \section{Notation}\label{s2}
 We follow the contemporary mathematical practice of not using separate
 notation for vectors and scalars. Instead, we define every symbol. Whenver
-a symbol stands for a vector, it denotes a column vector.
+a symbol stands for a vector, it denotes a column vector. $\mathbb{R}$ is 
+the set of real numbers. $\mathbb{Z}$ is the set of integers. If $z$ is
+a complex number then $\Re(z)$ denotes its real part and $\Im(z)$ its
+imaginary part.
 
 \section{Ordinary Differential Equations of the first order}\label{s3}
 An ordinary differential equation, abbreviated as ODE, of the first order 
@@ -209,11 +212,11 @@ Here each $t_k = \lfloor tk/n\rfloor$. Because $t_k$ for each hidden layer
 is defined in terms of $t$, we also specify it in the name of the ODE. 
 This explain $t$ in $(n, t)$-ODERNN.
 \item $Y_l \in \mathbb{R}^s$, $l \in \mathbb{Z}$;
-\item $W_1,\ldots, W_{n+1}$ are $p \times s$ weight matrices;
-\item $b_1,\ldots, b_{n+1} \in \mathbb{R}^p$ are bias vectors;
-\item $\alpha_{q, k}, \beta_k$, for $q = 2, \ldots, n$ and $k = 1, \ldots,
-n$, $\gamma_2, \ldots, \gamma_{n}, \kappa_2, \ldots, \kappa_{n}$ are 
-$p \times p$ matrices;
+\item $W_1,\ldots, W_{n+1}$ are $p \times s$ weight matrices; 
+\item $b_1,\ldots, b_{n+1} \in \mathbb{R}^p$ are bias vectors; 
+\item $\alpha_{q, k}$, for $q = 2, \ldots, n$ and $k = 1, \ldots, n - 1$
+are $p \times p$ matrices. So are $\gamma_2, \ldots, \gamma_{n}, \kappa_2, 
+\ldots, \kappa_{n}$;
 \item $\gamma_{n+1}$ is an $s \times s$ matrix and $\kappa_{n+1}$ is a 
 $s \times p$ matrix.
 \item $h \in \mathbb{R}$ is a constant and
@@ -227,7 +230,13 @@ i = 1, \ldots, q+1.
 \end{defn}
 \noindent Before proceeding, a few remarks are in order.
 \begin{rem}
-$K_1, \ldots, K_q$ are all $p$-dimensional vectors. That is, they 
+There is probably a typo in equation (3) of section 2.1 Niu and other's
+paper\cite{niu2019recurrent}. I believe that the range of the sum should
+be $1$ to $q - 1$ as given here instead of $1$ to $n$ as mentioned in the
+paper.
+\end{rem}
+\begin{rem}
+$K_1, \ldots, K_n$ are all $p$-dimensional vectors. That is, they 
 are all members of $\mathbb{R}^p$.
 \end{rem}
 \begin{rem}
@@ -314,14 +323,14 @@ and \eqref{s8e2} a $(2, 1)$-ODERNN.
 \section{Stability analysis}\label{s9}
 RNNs frequently have a problem of `exploding gradients'
 \cite{gereon2018hands}. In the context of ODEs this is called an 
-instability. Because of a correspondence between and RNN and an ODE, we 
+instability. Because of a correspondence between an RNN and an ODE, we 
 can study the problem of exploding gradients in the former as the 
 instability in the latter. In this section we will review certain notions
 of stability of ODE.
 
 Consider the initial value problem of equation \eqref{s3e1}. The general
 $k$-step method to get its approximate numerical solution is defined by
-the formula
+the formula\cite{dahlquist1963special}
 \begin{equation}\label{s9e1}
 \sum_{i=0}^k \alpha_i x_{n+i} = h\sum_{i=0}^k \beta_i f_{n+i},
 \end{equation}
@@ -346,7 +355,7 @@ Then if $||y_1(x_2) - y_2(x_2)|| \le ||y_1(x_1) - y_2(x_1)||$ for all
 $a \le x_1 \le x_2 \le b$ then the solutions are said to be contractive
 in $[a, b]$.
 \end{defn}
-A contractive solutions get closer to each other as one gets away from
+Contractive solutions get closer to each other as one gets away from
 the initial point.
 
 \begin{defn}\label{s9d3}
@@ -375,11 +384,11 @@ Runge-Kutta method is $BN$-stable if the matrices $\beta_n$ (equation
 \eqref{s7e3}) and the Burrage-Butcher tensor are positive semi-definite.
 \end{thm}
 
-The GRU described in section \ref{s8} has $\alpha_{i, j} = 0$ because there
-is only a single hidden layer. The Burrage-Butcher tensor is thus $-\beta_1
-\beta_1^T$, which is \emph{not} positive semidefinite unless $\beta_1 = 0$.
-Thus the GRU is not a stable algorithm, an observation also corroborated by
-elsewhere\cite{kanai2017preventing}.
+The GRU described in section \ref{s8} has $\alpha_{i, j} = 0$ because the
+hidden layers are not connected to each other. The Burrage-Butcher tensor 
+is thus $-\beta_1 \beta_1^T$, which is \emph{not} positive semidefinite 
+unless $\beta_1 = 0$.  Thus the GRU is not a stable algorithm, an 
+observation also corroborated by elsewhere\cite{kanai2017preventing}.
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
 \end{document}
