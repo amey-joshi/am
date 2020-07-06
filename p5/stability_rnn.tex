@@ -1,0 +1,375 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\numberwithin{equation}{section}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}{Definition}
+\newtheorem*{rem}{Remark}
+\begin{document}
+\title{Stability Analysis of Recurrent Neural Networks \\
+    using Ordinary Differential Equations}
+\author{Dan Will}
+\maketitle
+\section{Introduction}\label{s1}
+Recurrent neural networks feed their output to their input. This feature
+makes them look like algorithms to get numerical solutions of ordinary
+differential equations. It is well known that training neural networks is
+rife with vanishing and exploding gradients\cite{gereon2018hands}. This
+phenomenon is closely related to the behaviour of the numerical algorithms
+to solve ordinary differential equations, a topic that has been studied
+intensively for several decades. We use this analogy to derive criteria for
+the stability of recurrent neural networks.
+
+\section{Notation}\label{s2}
+We follow the contemporary mathematical practice of not using separate
+notation for vectors and scalars. Instead, we define every symbol.
+
+\section{Ordinary Differential Equations of the first order}\label{s3}
+An ordinary differential equation, abbreviated as ODE, of the first order 
+is an equation of the form
+\begin{equation}\label{s3e1}
+\frac{dy}{dx} = f(x, y),
+\end{equation}
+where $x \in \mathbb{R}$, $y$ is the real-valued unknown function, $f: 
+\mathbb{R}^2 \mapsto \mathbb{R}$. Note that $f$ depends on both $x$ and 
+$y$. It called a first order ODE because the highest order derivative
+of the unknown function $y$ with respect to $x$ is of the first order.
+This equation is usually accompanied with the initial value of $y$ at a 
+certain $x$, say $x = x_0$. Equation \eqref{s3e1} and $y(x_0) = y_0$ is
+called an \emph{inital value problem}.
+
+The oldest method to solve equation \eqref{s3e1} numerically was devised 
+by Euler in the eighteenth century. It follows straight from the definition
+of the first derivative of a function. If we know the value of $y$ at $x_0$,
+we can approximate the value of $y$ at a neighbouring point $x_0 + h$ as
+\begin{equation}\label{s3e2}
+y(x_0 + h) = y(x_0) + h\left[\frac{dy}{dx}\right]_{x_0}.
+\end{equation}
+But the value of the derivative of $y$ with respect to $x$ is given by
+the differential equation itself. Thus,
+\begin{equation}\label{s3e3}
+y(x_0 + h) = y(x_0) + h f(x_0, y(x_0)).
+\end{equation}
+In general, $n$ steps beyond the first, one can write
+\begin{equation}\label{s3e4}
+y(x_n + h) = y(x_{n}) + h f(x_{n}, y(x_{n})).
+\end{equation}
+Euler's algorithm is not the best numerical algorithm to solve ODE's but
+it provides the germ for the the rest.
+
+\section{RNN with a Single Layer}\label{s4}
+Recurrent neural networks, abbreviated as RNN, feed a part of their output
+to their input. The output if a step $n$ thus depends on both the input
+at that step and the output at the previous step. This makes them similar
+to the ordinary differential equations described in the previous section.
+Suppose we have a single layer neural network that is updated using the
+following rule:
+\begin{equation}\label{s4e1}
+y_{n+1} = \sigma(w_x x_{n} + w_y y_n),
+\end{equation}
+where $w_x$ and $w_y$ are weights and $\sigma$ is an activation function. 
+If we now identify the correspondence
+\begin{eqnarray}
+y_{n+1} &\rightarrow& y(x_n + h) \\
+y_{n} &\rightarrow& y(x_n) \\
+\sigma(w_x x_n + w_y y_n) &\rightarrow& y(x_n) + hf(x_n, y(x_n))
+\end{eqnarray}
+then we can spot a striking resemblance between Euler's algorithm and an
+RNN. The idea that an RNN corresponds to an ODE and therefore the stability
+of an RNN can be studied using the stability of the underlying ODE is the
+topic of this article.
+
+We need not interpret equation \eqref{s3e1} as a scalar equation. We can
+as well let $y$ and $f$ be vector functions. That is, $y:\mathbb{R}^p
+\mapsto \mathbb{R}^q$, $x \in \mathbb{R}^p$ and $f: \mathbb{R}^{p+q}
+\mapsto \mathbb{R}^q$. In this case, equation \eqref{s3e4} becomes
+\begin{equation}\label{s4e5}
+y(x_n + h) = y(x_n) + \nabla y(x_n)\cdot h.
+\end{equation}
+Here
+\begin{equation}\label{s4e6}
+\nabla y = \begin{pmatrix} y_{1, x_1} & \ldots & y_{1, x_p} \\
+	   \vdots \\
+	   y_{q, x_1} & \ldots & y_{q, x_p}
+	   \end{pmatrix}
+\end{equation}
+is an $q \times p$ matrix and $h \in \mathbb{R}^p$ so that their product
+$\nabla y(x_n) \cdot h$ is in $\mathbb{R}^q$. An RNN corresponding to this
+equation is
+\begin{equation}\label{s4e7}
+y_{n+1} = \sigma\left(W_x x_n + W_y y_n\right),
+\end{equation}
+where $y_n$ and $y_{n+1}$ are $q$-dimensional vectors, $x_n \in \mathbb{R}
+^p$, $W_x$ is an $q \times p$ weight matrix for the input and $W_y$ is an
+$q \times q$ weight matrix for the output.
+
+\section{Higher order ODE}\label{s5}
+A system of first order ODE is a set of equations of the form
+\begin{eqnarray*}
+\frac{dy_1}{dx} &=& f_1(x, y_1, \ldots, y_k) \\
+\vdots \\
+\frac{dy_k}{dx} &=& f_k(x, y_1, \ldots, y_k) \\
+\end{eqnarray*}
+It can be written in a vector form as
+\begin{equation}\label{s5e1}
+\frac{dy}{dx} = f,
+\end{equation}
+where
+\[
+y = \begin{pmatrix}y_1 \\ \vdots \\ y_k\end{pmatrix},\;\text{and}\;
+f = \begin{pmatrix}f_1 \\ \vdots \\ f_k\end{pmatrix}
+\]
+A system of first order ODE is interesting because they are equivalent to
+a higher order differential equation. For example, one can write the $k$th
+order ODE
+\begin{equation}\label{s5e2}
+\frac{d^ky}{dx^k} = f\left(x, y, \frac{dy}{dx}, \ldots, 
+	\frac{d^{k-1}y}{dx^{k-1}}\right)
+\end{equation}
+as the system
+\begin{eqnarray*}
+\frac{dy_{k-1}}{dx} &=& f(x, y, y_1, \ldots, y_{k-1}) \\
+\frac{dy_{k-2}}{dx} &=& y_{k-1} \\
+\vdots \\
+\frac{dy}{dx} &=& y_1
+\end{eqnarray*}
+If this equation is also accompanied by an initial value then we can solve
+it numerically using equations \eqref{s4e5}, \eqref{s4e6} and \eqref{s4e7}.
+
+\section{Runge-Kutta methods}\label{s6}
+Runge-Kutta methods are a collection of numerical algorithms developed by
+the German mathematicians Carl Runge and Martin Kutta in the late 
+nineteenth centuries\cite{lambert1991numerical}. We will describe the most
+commonly used among them, called the `RK4' method. If $y: \mathbb{R}
+\mapsto \mathbb{R}$ is the unknown function that obeys the ODE
+\begin{equation}\label{s6e1}
+\frac{dy}{dt} = f(t, y), y(t_0) = y_0
+\end{equation}
+then one can get the value oy $y$ at $t_n + h$ using the formula
+\begin{equation}\label{s6e2}
+y(t_n + h) = y(t_n) + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4).
+\end{equation}
+The constants $k_1, \ldots, k_4$ are given by
+\begin{eqnarray}
+k_1 &=& f(t_n, y(t_n)) \label{s6e3} \\
+k_2 &=& f\left(t_n + \frac{h}{2}, y(t_n) + h\frac{k_1}{2}\right) 
+ \label{s6e4} \\
+k_3 &=& f\left(t_n + \frac{h}{2}, y(t_n) + h\frac{k_2}{2}\right) 
+ \label{s6e5} \\
+k_4 &=& f(t_n + h, y_n + hk_3). \label{s6e6}
+\end{eqnarray}
+Let us study these equations carefully. The value of $y$ at $t_n + h$ 
+depends on $y(t_n)$ and four other numbers $k_1, \ldots, k_4$. Of these,
+$k_1$ depends on $y(t_n)$ and $t_n$, $k_2$ on $y(t_n)$, $t_n$ and $k_1$,
+$k_3$ on $y(t_n), t_n$ and $k_2$ and $k_4$ on $y(t_n), t_n$ and $k_3$. 
+Runge-Kutta methods perform much better then Euler methods when $f$ is 
+a non-linear function of $x$. The number of intermediate values, $4$ in 
+this case, is called the \emph{the number of stages} of the algorithm.
+
+\section{RNN with Hidden Layers}\label{s7}
+Let us try to interpret the `RK4' algorithm as a neural network. It is 
+clearly a recurrent neural network because the output at `time' $t_n + h$
+depends on that at `time' $t_n$. If we write $y(t_n) = y_n$ then we can
+say that $y_{n+1}$ depends on $y_n$. However, it does not depend on $y_n$
+alone but on four other numbers which must be computed sequentially. $k_1$
+is computed from $t_n$ and $y_n$. The rest from $t_n$, $y_n$ and the 
+`previous' $k$. We can thus construct a neural network with four hidden 
+layers, each computing $k_1$ to $k_4$ and the output later combining
+all of them to get the final result. This is a $4$-stage, $1$st order
+RNN.
+
+We now define a general RNN\cite{niu2019recurrent}.
+\begin{defn}\label{s7d1}
+An ODE-RNN of $n$th order in non-linearity and $t$th order in gradient,
+called $(n,t)$-ODERNN, where $n, t \ge 1$ are integers is described by
+the following update rule.
+\begin{eqnarray}
+K_1 &=& \sigma_1(W_1Y_l + b_1) \label{s7e1} \\
+K_q &=& \gamma_q K_{q-1} + \kappa_1\sigma_q\left(
+ W_qY_{l-t_{q-1}}+b_q+h\sum_{k=1}^{q-1}\alpha_{q,k}K_k\right)\label{s7e2}\\
+Y_{l+1} &=& \gamma_{n+1}Y_l + \kappa_{n+1}\sigma_{q+1}\left(
+ W_{n+1}Y_{l-t_{n-1}}+b_{n+1}+h\sum_{k=1}^n\beta_kK_k
+ \right)\label{s7e3},
+\end{eqnarray}
+where
+\begin{enumerate}
+\item $q = 1, \ldots, n$. This explains the $n$ in the $(n,t)$-ODERNN.
+\item The right hand side of equations \eqref{s7e1} to \eqref{s7e3} 
+depend on $Y_l$ to $Y_{l - t_{n-1}}$, a total of $n$ previous values.
+Here each $t_k = \lfloor tk/n\rfloor$. Because $t_k$ for each hidden layer
+is defined in terms of $t$, we also specify it in the name of the ODE. 
+This explain $t$ in $(n, t)$-ODERNN.
+\item $Y_l \in \mathbb{R}^s$, $l \in \mathbb{Z}$;
+\item $W_1,\ldots, W_{n+1}$ are $p \times s$ weight matrices;
+\item $b_1,\ldots, b_{n+1} \in \mathbb{R}^p$ are bias vectors;
+\item $\alpha_{q, k}, \beta_k$, for $q = 2, \ldots, n$ and $k = 1, \ldots,
+n$, $\gamma_2, \ldots, \gamma_{n}, \kappa_2, \ldots, \kappa_{n}$ are 
+$p \times p$ matrices;
+\item $\gamma_{n+1}$ is an $s \times s$ matrix and $\kappa_{n+1}$ is a 
+$s \times p$ matrix.
+\item $h \in \mathbb{R}$ is a constant and
+\item $\sigma_1, \ldots, \sigma_{q+1}$ are activation function defined as
+\[
+\sigma_i\begin{pmatrix}x_1 \\ \vdots \\ x_p\end{pmatrix} = 
+\begin{pmatrix}\sigma_i(x_1) \\ \vdots \\ \sigma_i(x_p)\end{pmatrix},
+i = 1, \ldots, q+1.
+\]
+\end{enumerate}
+\end{defn}
+\noindent Before proceeding, a few remarks are in order.
+\begin{rem}
+$K_1, \ldots, K_q$ are all $p$-dimensional vectors. That is, they 
+are all members of $\mathbb{R}^p$.
+\end{rem}
+\begin{rem}
+We can readily confirm that the arguments to the activation functions
+$\sigma_1, \ldots, \sigma_{q+1}$ are all $p$-dimensional vectors.
+\end{rem}
+\begin{rem}
+The number of hidden layers is $n$. The RNN thus has $n + 2$ layers. 
+\end{rem}
+
+\noindent We also define
+\begin{defn}\label{s7d2}
+The Burrage-Butcher tensor corresponding to the $(n,t)$-ODERNN of 
+definition \ref{s7d1} is
+\begin{equation}\label{x}
+Q_{i, j} = \beta_i\alpha_{i, j} + \beta_j\alpha_{j, i} - \beta_i\beta_j^T.
+\end{equation}
+\end{defn}
+
+\noindent Let us consider a few examples of $(n,t)$-ODERNN.
+\begin{enumerate}
+\item $(2,2)$-ODERNN. It has the composition rules
+\begin{eqnarray*}
+K_1 &=& \sigma_1(W_1 Y_l + b_1) \\
+K_2 &=& \gamma_2K_1 + \kappa_2\sigma_2(W_2Y_{l-1}+b_2+h\alpha_{2,1}K_1) \\
+Y_{l+1} &=& \gamma_3Y_l + \kappa_3\sigma_3\left(
+ W_3 Y_{l-1} + b_3 + h(\beta_1K_1 + \beta_2K_2)\right)
+\end{eqnarray*}
+\item $(4, 2)$-ODERNN. It has $4$ hidden layers and it uses $2$ previous
+inputs. It has the composition rules
+\begin{eqnarray*}
+K_1 &=& \sigma_1(W_1 Y_l + b_1) \\
+K_2 &=& \gamma_2K_1 + \kappa_2\sigma_2(W_2Y_{l-1}+b_2+h\alpha_{2,1}K_1) \\
+K_3 &=& \gamma_3K_2 + \kappa_3\sigma_3\left(W_3Y_{l-1} + b_3 + 
+    h\sum_{k=1}^{2}\alpha_{3, k}K_k\right) \\
+K_4 &=& \gamma_4K_2 + \kappa_4\sigma_4\left(W_4Y_{l-2} + b_4 + 
+    h\sum_{k=1}^{3}\alpha_{4, k}K_k\right) \\
+Y_{l+1} &=& \gamma_5Y_l + \kappa_5\sigma_5\left(W_5Y_2 + b_5 + 
+    h\sum_{k=1}^{4}\alpha_{5, k}K_k\right) 
+\end{eqnarray*}
+\end{enumerate}
+
+\section{Gated Recurrent Unit as ODERNN}\label{s8}
+Consider a single layer of a Gated Recurrent Unit (GRU). Its composition
+rule is\cite{gereon2018hands}
+\begin{eqnarray}
+\begin{pmatrix} r_t \\ z_t \end{pmatrix} &=&
+\sigma
+\begin{pmatrix}
+    W_r X_t + U_r Y_{t-1} + b_z \\ 
+    W_rX_t + U_rY_{t-1} + b_r
+\end{pmatrix} \label{s8e1} \\
+Y_t &=& (1 - z_t) \circ Y_{t-1} + 
+ z_t \circ \tanh(W_hX_t + U_h(r_t \circ Y_{t-1} + b_h)) \label{s8e2}
+\end{eqnarray}
+where $\circ$ denotes the element-wise product, also called the Hadamard
+product of vectors. There are some differences between this composition
+rule and the one mentioned in the paper\cite{niu2019recurrent} by Niu and 
+others. We prefer these because the equations they are more general than
+the equations (22) and (23) of Niu's paper.
+
+We now introduce the functions
+\begin{eqnarray}
+\sigma_t^\prime(X) &=& r_t \circ X \label{s8e3} \\
+\sigma_t^{\prime\prime}(X) &=& z_t \circ \tanh(X). \label{s8e4}
+\end{eqnarray}
+The functions $\sigma^\prime$ and $\sigma^{\prime\prime}$ allow us to 
+write the composition rule of equation \eqref{s8e2} as
+\begin{equation}\label{s8e5}
+Y_t = (1 - z_t) \circ Y_{t-1} + \sigma_t^{\prime\prime}\left(
+	W_tY_{t-1} + U_h(\sigma_t^\prime(Y_{t-1}) + b_h)\right).
+\end{equation}
+If $x$ and $y$ are vectors then we can always express their Hadamard 
+product as a matrix operation
+\begin{equation}\label{s8e6}
+x \circ y = D[x]y,
+\end{equation}
+where $D[x]$ is a diagonal matrix whose diagonal entries as same as $x$.
+Using this transformation, we observe that equation \eqref{s8e5} has the
+same structure as \eqref{s7e3}. Further, there are two hidden layers, 
+one each for $r_t$ and $z_t$. This makes the GRU of equations \eqref{s8e1}
+and \eqref{s8e2} a $(2, 1)$-ODERNN.
+
+\section{Stability analysis}\label{s9}
+RNNs frequently have a problem of `exploding gradients'
+\cite{gereon2018hands}. In the context of ODEs this is called an 
+instability. Because of a correspondence between and RNN and an ODE, we 
+can study the problem of exploding gradients in the former as the 
+instability in the latter. In this section we will review certain notions
+of stability of ODE.
+
+Consider the initial value problem of equation \eqref{s3e1}. The general
+$k$-step method to get its approximate numerical solution is defined by
+the formula
+\begin{equation}\label{s9e1}
+\sum_{i=0}^k \alpha_i x_{n+i} = h\sum_{i=0}^k \beta_i f_{n+i},
+\end{equation}
+where $\alpha_i, \beta_i$ are real constants.
+\begin{defn}\label{s9d1}
+The $k$-step method defined above is said to be A-stable
+\cite{dahlquist1963special} if all solutions of \eqref{s9e1} tend to zero 
+as $n \rightarrow \infty$ when the method is applied to the equation
+\[
+    \frac{dy}{dx} = qx
+\]
+where $q \in \mathbb{C}$ with $\Re(q) < 0$ and a fixed $h$ in equation
+\eqref{s9d1}.
+\end{defn}
+
+In order to introduce the idea of B-stability and BN-stability, we need
+the definition of contractive solutions\cite{lambert1991numerical}.
+\begin{defn}\label{s9d2}
+Let $y_1$ and $y_2$ be any two solutions of \eqref{s3e1} satisfying the
+initial conditions $y_1(a) = \eta_1, y_2(a) = \eta_2, \eta_1 \ne \eta_2$.
+Then if $||y_1(x_2) - y_2(x_2)|| \le ||y_1(x_1) - y_2(x_1)||$ for all
+$a \le x_1 \le x_2 \le b$ then the solutions are said to be contractive
+in $[a, b]$.
+\end{defn}
+A contractive solutions get closer to each other as one gets away from
+the initial point.
+
+\begin{defn}\label{s9d3}
+An ODE of the form \eqref{s3e1} is said to be autonomous if the right hand
+side is independent of $x$.
+\end{defn}
+
+We are now in a position to define B and BN stability
+\cite{lambert1991numerical}.
+\begin{defn}\label{s9d4}
+If a Runge-Kutta method is applied to an autonomous system of ODE such that
+\[
+    \langle f(x, y_1) - f(x, y_2), y_1 - y_2\rangle \le 0
+\]
+generates contractive numerical solutions then the method is said to be
+B-stable. If the same is true for a non-autonomous system then the method
+is said to be $BN$-stable.
+\end{defn}
+\begin{rem}
+$\langle v_1, v_2 \rangle$ is just the inner product of the two vectors.
+\end{rem}
+
+It is also mentioned in Lambert's book \cite{lambert1991numerical} that
+\begin{thm}\label{s9t1}
+Runge-Kutta method is $BN$-stable if the matrices $\beta_n$ (equation
+\eqref{s7e3}) and the Burrage-Butcher tensor are positive semi-definite.
+\end{thm}
+
+The GRU described in section \ref{s8} has $\alpha_{i, j} = 0$ because there
+is only a single hidden layer. The Burrage-Butcher tensor is thus $-\beta_1
+\beta_1^T$, which is \emph{not} positive semidefinite unless $\beta_1 = 0$.
+Thus the GRU is not a stable algorithm, an observation also corroborated by
+elsewhere\cite{kanai2017preventing}.
+\bibliographystyle{plain}
+\bibliography{stability_rnn}
+\end{document}

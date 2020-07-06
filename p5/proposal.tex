@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{bm}
+\begin{document}
+\title{Verifying research using ODEs in NLP}
+\maketitle
+The difference equation to be examined is
+\begin{equation}\label{e1}
+h_t = (1 - z_{t-1})\odot h_{t-1} + z_t \odot \hat{h}_t,
+\end{equation}
+where
+\begin{eqnarray}
+\hat{h}_t &=& \tanh(W \odot (r_t \odot h_{t - 1} + x_t) \label{e2} \\
+r_t &=& \sigma\left(w^l x_t + U^l h_{t - 1}\right) \label{e3} \\
+z_t &=& \sigma\left(w^z x_t + U^z h_{t - 1}\right) \label{e4}
+\end{eqnarray}
+Now suppose I want to investigate equation \eqref{e1} and I start writing a
+program to do so. It is clear that I need the following:
+\begin{enumerate}
+\item $h_0$, the initial value. Now thankfully, this difference equation
+is a discrete version of a differential equation. We hope that the ODE is
+stable and therefore where we start does not make a difference. (Actually
+it does make a difference when $h$ has more than one dimension. But for
+the moment, let's gloss it over.) Let us choose $h_0 = 0$.
+\item $z_0$. We cannot use equation \eqref{e4} to proceed because it will
+then demand $h_{-1}$ from us and there is no $h$ before `initial time'. Let
+us make another assumption $z_0 = 0$ to permit us to proceed.
+\item $x_t$, there is nothing that tells us what this is.
+\item $w^l, w^z, U^l, U^z, W$, we need to know what these objects are before
+we proceed.
+\end{enumerate}
+You now see that we have $5$ unknowns $w^l, w^z, U^l, U^z, W$. We do not 
+even know whether they are vectors or matrices, constants or variables. 
+More seriously, we do not know that $x_t$ is. We need it for all $t \ge 0$.
+
+I think we are not in a stage where we can conduct a mathematical analysis
+of difference equations. We must define our objects precisely before we
+proceed.
+
+\end{document}
