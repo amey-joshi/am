@@ -16,8 +16,9 @@ differential equations. It is well known that training neural networks is
 rife with vanishing and exploding gradients\cite{gereon2018hands}. This
 phenomenon is closely related to the behaviour of the numerical algorithms
 to solve ordinary differential equations, a topic that has been studied
-intensively for several decades. We use this analogy to derive criteria for
-the stability of recurrent neural networks.
+intensively for several decades. We use this analogy to bank upon the 
+vast research about ordinary differential equations to derive criteria 
+for the stability of recurrent neural networks.
 
 \section{Notation}\label{s2}
 We follow the contemporary mathematical practice of not using separate
@@ -48,7 +49,9 @@ we can approximate the value of $y$ at a neighbouring point $x_0 + h$ as
 \begin{equation}\label{s3e2}
 y(x_0 + h) = y(x_0) + h\left[\frac{dy}{dx}\right]_{x_0}.
 \end{equation}
-But the value of the derivative of $y$ with respect to $x$ is given by
+The square bracket around the derivative and the subscript $x_0$ to the
+right bracket indicates that the derivative is to be evaluated at $x = x_0$.
+The value of the derivative of $y$ with respect to $x$ is given by
 the differential equation itself. Thus,
 \begin{equation}\label{s3e3}
 y(x_0 + h) = y(x_0) + h f(x_0, y(x_0)).
@@ -77,7 +80,7 @@ y_{n+1} &\rightarrow& y(x_n + h) \\
 y_{n} &\rightarrow& y(x_n) \\
 \sigma(w_x x_n + w_y y_n) &\rightarrow& y(x_n) + hf(x_n, y(x_n))
 \end{eqnarray}
-then we can spot a striking resemblance between Euler's algorithm and an
+then we can spot a resemblance between Euler's algorithm and an
 RNN. The idea that an RNN corresponds to an ODE and therefore the stability
 of an RNN can be studied using the stability of the underlying ODE is the
 topic of this article.
@@ -343,7 +346,7 @@ as $n \rightarrow \infty$ when the method is applied to the equation
     \frac{dy}{dx} = qx
 \]
 where $q \in \mathbb{C}$ with $\Re(q) < 0$ and a fixed $h$ in equation
-\eqref{s9d1}.
+\eqref{s9d1}. Here $n$ is the number of steps in the numerical algorithm.
 \end{defn}
 
 In order to introduce the idea of B-stability and BN-stability, we need
@@ -389,6 +392,47 @@ hidden layers are not connected to each other. The Burrage-Butcher tensor
 is thus $-\beta_1 \beta_1^T$, which is \emph{not} positive semidefinite 
 unless $\beta_1 = 0$.  Thus the GRU is not a stable algorithm, an 
 observation also corroborated by elsewhere\cite{kanai2017preventing}.
+
+\section{GRU with an Attention Layer}\label{s10}
+We will now analyze GRU with attention layer. We assume that the 
+architecture of the network is same as shown in figure 4 of the paper
+\cite{ran2019lstm} by Xiangdong and others, except that the LTSM is 
+replaced with a GRU. There are $n$ such GRU's, each with an output
+$h^i_l \in \mathbb{R}^s$. The combined output of all of them is the $s
+\times n$ matrix $Y_l$ defined by
+\begin{equation}\label{s10e1}
+H_l = [h^1_l, \ldots, h^n_l].
+\end{equation}
+The matrix $H_l$ is scaled with an $n \times 1$  weight matrix $W_H$. 
+Similarly, if $A$ is an $s \times n$ embedding matrix and $W_v$ is the
+corresponding weight matrix, then
+\begin{equation}\label{s10e2}
+M_l = \tanh\begin{pmatrix} H_lW_H \\ AW_v \end{pmatrix}
+\end{equation}
+is a member of $\mathbb{R}^{2s}$. If $W= [w_1, \ldots, w_n]$ is a $(2s) 
+\times n$ weight matrix then
+\begin{equation}\label{s10e3}
+a_i = \frac{\exp(w_i^T M_l)}{\sum_{j=1}^n \exp(w_j^T M_l)}
+\end{equation}
+are the $n$ components of the vector $a = (a_1, \ldots, a_n)
+\in \mathbb{R}^n$. Finally, the product
+\begin{equation}\label{s10e4}
+Y_l = H_l a
+\end{equation}
+is a member of $\mathbb{R}^s$. Note that the output of the individual
+GRUs is also an $s$-dimensional vector.
+
+Equations \eqref{s10e1} to \eqref{s10e4} where $Y_l$ is gived by 
+equations \eqref{s8e1} to \eqref{s8e5} defined GRU with an attention layer.
+We will analyse the stability of this architecture in this section.
+
+Equation \eqref{s10e4} tells that $Y_l$ depends $H_l$ but not the $H_{l-1}$.
+Thus, it is not a recurrence relation. $Y_l$ is not computed from the
+`present' $H_l$, not a `previous' one. Therefore, this attention layer 
+does not play a role in determining the stability of the network in the
+architecture shown in figure 4 of the paper \cite{ran2019lstm} by 
+Xiangdong and others.
+
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
 \end{document}
