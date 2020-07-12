@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, amsfonts, amsthm}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\smax}{softmax}
 \numberwithin{equation}{section}
 \newtheorem{thm}{Theorem}
 \newtheorem{defn}{Definition}
@@ -254,7 +256,7 @@ The number of hidden layers is $n$. The RNN thus has $n + 2$ layers.
 \begin{defn}\label{s7d2}
 The Burrage-Butcher tensor corresponding to the $(n,t)$-ODERNN of 
 definition \ref{s7d1} is
-\begin{equation}\label{x}
+\begin{equation}\label{s7e4}
 Q_{i, j} = \beta_i\alpha_{i, j} + \beta_j\alpha_{j, i} - \beta_i\beta_j^T.
 \end{equation}
 \end{defn}
@@ -394,11 +396,14 @@ unless $\beta_1 = 0$.  Thus the GRU is not a stable algorithm, an
 observation also corroborated by elsewhere\cite{kanai2017preventing}.
 
 \section{GRU with an Attention Layer}\label{s10}
-We will now analyze GRU with attention layer. We assume that the 
-architecture of the network is same as shown in figure 4 of the paper
-\cite{ran2019lstm} by Xiangdong and others, except that the LTSM is 
-replaced with a GRU. There are $n$ such GRU's, each with an output
-$h^i_l \in \mathbb{R}^s$. The combined output of all of them is the $s
+We will now analyze GRU with attention layer used in three separate
+architectures. 
+\subsection{Architecture proposed Ran and others} 
+We assume that the architecture of the network is same as shown in figure 4 
+of the paper \cite{ran2019lstm} by Ran and others, except that the 
+Long Short-Term Model (LTSM) is replaced with a GRU. There are $n$ such 
+GRU's, each with an output $h^i_l \in \mathbb{R}^s$. The combined output 
+of all of them is the $s
 \times n$ matrix $Y_l$ defined by
 \begin{equation}\label{s10e1}
 H_l = [h^1_l, \ldots, h^n_l].
@@ -431,7 +436,118 @@ Thus, it is not a recurrence relation. $Y_l$ is not computed from the
 `present' $H_l$, not a `previous' one. Therefore, this attention layer 
 does not play a role in determining the stability of the network in the
 architecture shown in figure 4 of the paper \cite{ran2019lstm} by 
-Xiangdong and others.
+Ran and others.
+
+\subsection{Architecture proposed by Zang and others}
+We now consider the model proposed by Zang and others\cite{zhang2017gru}.
+The model is described by equations (11) to (17) in their paper. We
+reproduce them for an easy reference.
+\begin{eqnarray}
+z^\prime_t &=& \sigma(W_{yz}Ey_{t-1}+U_{sz}s_{t-1}+C_{cz}c_t)\label{s10e5}\\
+r^\prime_t &=& \sigma(W_{yr}Ey_{t-1}+U_{sr}s_{t-1}+C_{cr}c_t)\label{s10e6}\\
+\tilde{s}_t &=& \tanh\left(W_{ys}Ey_{t-1} + U_{rs}(r^\prime_t \circ
+	    s_{t-1} + C_{cs}c_t\right) \label{s10e7} \\
+s_t &=& (1 - z^\prime_t)\circ s_{t-1} + z^\prime_t \circ \tilde{s}_t
+    \label{s10e8} \\
+e_{ti} &=& \nu^T_{\text{att}}\tanh(W_{\text{att}}s_{t-1} +
+    U_\text{att}a_i \label{s10e9} \\
+\alpha_{ti} &=& 
+    \frac{\exp(e_{ti})}{\sum_{k=1}^L\exp(e_{tk})}\label{s10e10}\\
+c_t &=& \sum_{i=1}^L \alpha_{ti}a_i. \label{s10e11}
+\end{eqnarray}
+In these equations the lower case symbols are either vectors or scalars;
+the upper case symbols are matrices. In particular:
+\begin{itemize}
+\item $y_i \in \mathbb{R}^K$;
+\item $a_i \in \mathbb{R}^D$;
+\item $s_i, \tilde{s}_i, z_i, r_t \in \mathbb{R}^n$;
+\item $W_{yz}, W_{yr}, W_{ys}, U_{sz}, U_{sr}, U_{rs}, C_{cz}, C_{cr}, 
+C_{cs}$ are weight matrices of appropriate dimensions. $E$ is an embedding
+matrix;
+\item If $n^\prime$ is the attention dimension then $\nu_{\text{att}}^{n
+^\prime}$, $W_\text{att}$ is an $n \times n^\prime$ matrix and $U_a$ is an 
+$n^\prime \times D$ matrix.
+\end{itemize}
+The attention layer determines the vector $c_t$, which is analogous to
+the bias vectors $b_q$, $q = 1, \ldots, n + 1$ in equations \eqref{s7e1}
+to \eqref{s7e3} in definition \ref{s7d1}. The bias vectors \emph{do not}
+contribute to the Burrage-Butcher tensor defined in \eqref{s7e4}. Therefore,
+we conclude that the attention layer has no influence on the stability of
+the underlying network.
+
+\subsection{Architecture proposed by Liu and others}
+In this section we consider the neural network used in table-to-text
+generation by Liu and others \cite{liu2018table}. The goal of their
+network is to generate a sequence
+\begin{equation}\label{s10e12}
+w^\ast_{1:p} = \argmax_{w_{1:p}}\prod_{t=1}^p\mathrm{P}(w_t | w_{0:t-1}, 
+	R_{1:n}),
+\end{equation}
+where $w_i$ are generated tokens and $R_n$ are field value records in a
+table. The probability on the right hand side is defined by
+\begin{equation}\label{s10e13}
+\mathrm{P}(w_t| w_{0:t-1}, R_{1:n}) = \smax(W_s \circ g_t),
+\end{equation}
+where $W_s$ is a weight matrix and
+\begin{equation}\label{s10e14}
+g_t = \tanh(W_t[s_t, a_t])
+\end{equation}
+$s_t$ being the output of an LTSM neural network and $a_t$ being the 
+attention vector. It is built as
+\begin{equation}\label{s10e15}
+a_t = \sum_{i=1}^L \alpha_{t_i}h_i,
+\end{equation}
+where
+\begin{equation}\label{s10e16}
+\alpha_{t_i} = \frac{\exp(g(s_t, h_i))}{\sum_{j=1}^N\exp(g(s_t, h_j))},
+\end{equation}
+and
+\begin{equation}\label{s10e17}
+g(s_t, h_i) = \tanh(W_p h_i) \circ \tanh(W_q s_t).
+\end{equation}
+Here $s_t$ is the output of the LTSM at time $t - 1$ and 
+\begin{equation}\label{s10e18}
+h_i = o_t \circ \tanh(c_t).
+\end{equation}
+The variables in this equation are boolean vectors of size $n$. They 
+are defined as
+\begin{equation}\label{s10e19}
+\begin{pmatrix}i_t \\ f_t \\ o_t \\ \hat{c}_t \end{pmatrix} = 
+\begin{pmatrix}\sigma \\ \sigma \\ \sigma \\ \tanh\end{pmatrix}
+W_{4n, 2n}^c\begin{pmatrix}d_t \\ h_{t-1} \end{pmatrix}
+\end{equation}
+and
+\begin{equation}\label{s10e20}
+c_t = f_t \circ c_{t-1} + i_t \circ \hat{c}_t.
+\end{equation}
+Analogous to the case of the architecture proposed by \cite{ran2019lstm}
+the attention layer $a_t$ is used solely that the final stage. It is not
+fed back to the input and therefore it has no influence on the stability
+of the LTSM.
+
+\subsection{Remarks on stability}
+Recall theorem \ref{s9t1} that the stability of the Runge-Kutta method 
+depends on the whether or not the matrices $\beta_n$ \emph{and} the 
+Burrage-Butcher tensor are positive semi-definite. An attention layer will
+influence the stability of an algorithm if it influences either $\beta_i$
+of $\alpha_{i,j}$ which together form the matrices that determine the
+stability. The architectures of Ran et al. and Liu et al. use the 
+attention layer only at the last stage. They do not feed the attention
+later at time $t$ to get the output at time $t + 1$. On the other hand, 
+the architecture of Zang et al. uses the attention layer in bias vectors
+which do not determine the matrices that decide the stability of the
+algorithm.
+
+The stability of Runge-Kutta methods depends on their ability to generate
+contractive solutions in an interval. If a method is not stable it does not
+mean that it cannot generate \emph{any} contractive pair of solutions. All
+it means is that \emph{not all} pairs are contractive in the sense of 
+definition \ref{s9d2}. Existence of one, or a few, solutions to the 
+algorithm is not a contradiction to it being unstable. Instability means
+that \emph{not all} solutions are stable, and stability means that
+\emph{all} solutions are stable. An existence of a few coverging solutions
+does not tell us anything about the stability of the algorithm. However, 
+an existence of a single unstable solution renders an algorithm unstable.
 
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
