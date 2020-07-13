@@ -403,8 +403,7 @@ We assume that the architecture of the network is same as shown in figure 4
 of the paper \cite{ran2019lstm} by Ran and others, except that the 
 Long Short-Term Model (LTSM) is replaced with a GRU. There are $n$ such 
 GRU's, each with an output $h^i_l \in \mathbb{R}^s$. The combined output 
-of all of them is the $s
-\times n$ matrix $Y_l$ defined by
+of all of them is the $s \times n$ matrix $H_l$ defined by
 \begin{equation}\label{s10e1}
 H_l = [h^1_l, \ldots, h^n_l].
 \end{equation}
@@ -427,16 +426,24 @@ Y_l = H_l a
 is a member of $\mathbb{R}^s$. Note that the output of the individual
 GRUs is also an $s$-dimensional vector.
 
-Equations \eqref{s10e1} to \eqref{s10e4} where $Y_l$ is gived by 
-equations \eqref{s8e1} to \eqref{s8e5} defined GRU with an attention layer.
-We will analyse the stability of this architecture in this section.
+Equations \eqref{s10e1} to \eqref{s10e4}, where the columns of $H_l$ can be
+constructed from equations \eqref{s8e1} to \eqref{s8e5}, define GRU with 
+an attention layer.  (Note that equations \eqref{s8e1} to \eqref{s8e5} use 
+$Y_t$. To use them here replace $Y$ with $H$. We want to reserve $Y$ for 
+the final output and we want to treat the intermediate results as hidden 
+layers, denoted by $H$.)
 
-Equation \eqref{s10e4} tells that $Y_l$ depends $H_l$ but not the $H_{l-1}$.
-Thus, it is not a recurrence relation. $Y_l$ is not computed from the
-`present' $H_l$, not a `previous' one. Therefore, this attention layer 
-does not play a role in determining the stability of the network in the
-architecture shown in figure 4 of the paper \cite{ran2019lstm} by 
-Ran and others.
+In order to analyse the stability of this architecture note that in equation
+\eqref{s10e4} $Y_l$ depends on $H_l$, but not $H_{l-1}$, and $a$. Further,
+$a$ is computed from the variables pertaining to step $l$ alone.
+Thus, it is not a recurrence relation. $Y_l$ is computed from the
+`present' $H_l$ and the `present' attention layer $a$, not the `previous' 
+ones. Therefore, this attention layer does not play a role in determining 
+the stability of the network in the architecture shown in figure 4 of the 
+paper \cite{ran2019lstm} by Ran and others. In mathematical terms, the
+attention layer does not get into any of the terms forming the 
+Burrage-Butcher tensor and therefore it does not influence the network's 
+stability.
 
 \subsection{Architecture proposed by Zang and others}
 We now consider the model proposed by Zang and others\cite{zhang2017gru}.
@@ -446,11 +453,11 @@ reproduce them for an easy reference.
 z^\prime_t &=& \sigma(W_{yz}Ey_{t-1}+U_{sz}s_{t-1}+C_{cz}c_t)\label{s10e5}\\
 r^\prime_t &=& \sigma(W_{yr}Ey_{t-1}+U_{sr}s_{t-1}+C_{cr}c_t)\label{s10e6}\\
 \tilde{s}_t &=& \tanh\left(W_{ys}Ey_{t-1} + U_{rs}(r^\prime_t \circ
-	    s_{t-1} + C_{cs}c_t\right) \label{s10e7} \\
+	    s_{t-1} + C_{cs}c_t)\right) \label{s10e7} \\
 s_t &=& (1 - z^\prime_t)\circ s_{t-1} + z^\prime_t \circ \tilde{s}_t
     \label{s10e8} \\
 e_{ti} &=& \nu^T_{\text{att}}\tanh(W_{\text{att}}s_{t-1} +
-    U_\text{att}a_i \label{s10e9} \\
+    U_\text{att}a_i)\label{s10e9} \\
 \alpha_{ti} &=& 
     \frac{\exp(e_{ti})}{\sum_{k=1}^L\exp(e_{tk})}\label{s10e10}\\
 c_t &=& \sum_{i=1}^L \alpha_{ti}a_i. \label{s10e11}
@@ -483,7 +490,7 @@ network is to generate a sequence
 w^\ast_{1:p} = \argmax_{w_{1:p}}\prod_{t=1}^p\mathrm{P}(w_t | w_{0:t-1}, 
 	R_{1:n}),
 \end{equation}
-where $w_i$ are generated tokens and $R_n$ are field value records in a
+where $w_i$ are the generated tokens and $R_n$ are field-value records in a
 table. The probability on the right hand side is defined by
 \begin{equation}\label{s10e13}
 \mathrm{P}(w_t| w_{0:t-1}, R_{1:n}) = \smax(W_s \circ g_t),
@@ -505,7 +512,7 @@ and
 \begin{equation}\label{s10e17}
 g(s_t, h_i) = \tanh(W_p h_i) \circ \tanh(W_q s_t).
 \end{equation}
-Here $s_t$ is the output of the LTSM at time $t - 1$ and 
+Here $s_t$ is the output of the LTSM at time $t$ and 
 \begin{equation}\label{s10e18}
 h_i = o_t \circ \tanh(c_t).
 \end{equation}
@@ -525,12 +532,18 @@ the attention layer $a_t$ is used solely that the final stage. It is not
 fed back to the input and therefore it has no influence on the stability
 of the LTSM.
 
+The paper also defines a dual attention layer $a_t^\prime$. However it
+does not give a mathematical expression telling how it is used to compute
+the final output. Nevertheless, we can refer to figure 3 of the paper
+\cite{liu2018table} to confirm that it is not fed back to the network 
+and conclude that it will not affect its stability.
+
 \subsection{Remarks on stability}
 Recall theorem \ref{s9t1} that the stability of the Runge-Kutta method 
 depends on the whether or not the matrices $\beta_n$ \emph{and} the 
 Burrage-Butcher tensor are positive semi-definite. An attention layer will
-influence the stability of an algorithm if it influences either $\beta_i$
-of $\alpha_{i,j}$ which together form the matrices that determine the
+influence the stability of an algorithm if it determines either $\beta_i$
+or $\alpha_{i,j}$, which together form the matrices that decide the
 stability. The architectures of Ran et al. and Liu et al. use the 
 attention layer only at the last stage. They do not feed the attention
 later at time $t$ to get the output at time $t + 1$. On the other hand, 
@@ -538,16 +551,20 @@ the architecture of Zang et al. uses the attention layer in bias vectors
 which do not determine the matrices that decide the stability of the
 algorithm.
 
-The stability of Runge-Kutta methods depends on their ability to generate
+The stability of Runge-Kutta methods refers to their ability to generate
 contractive solutions in an interval. If a method is not stable it does not
-mean that it cannot generate \emph{any} contractive pair of solutions. All
+imply that it cannot generate \emph{any} contractive pair of solutions. All
 it means is that \emph{not all} pairs are contractive in the sense of 
-definition \ref{s9d2}. Existence of one, or a few, solutions to the 
-algorithm is not a contradiction to it being unstable. Instability means
-that \emph{not all} solutions are stable, and stability means that
-\emph{all} solutions are stable. An existence of a few coverging solutions
-does not tell us anything about the stability of the algorithm. However, 
-an existence of a single unstable solution renders an algorithm unstable.
+definition \ref{s9d2}. Existence of one, or a few, convergent solutions to 
+the algorithm is not a contradiction to it being unstable. An instability 
+means that \emph{not all} solutions are stable. On the other hand stability 
+means that \emph{all} solutions are stable. An existence of a few coverging 
+solutions does not guarantee the stability of the algorithm. However, an 
+existence of a single unstable solution renders an algorithm unstable.
+
+Translating this argument to the world of neural networks, adding an 
+attention layer might improve the performance of a stable solution but it
+will not make an unstable solution stable.
 
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
