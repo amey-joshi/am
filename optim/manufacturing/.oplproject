@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="manufacturing.mod" type="model">
+			</ref>
+			<ref name="manufacturing.ops" type="setting">
+			</ref>
+			<ref name="manufacturing.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

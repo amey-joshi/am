@@ -45,7 +45,8 @@ production cost, meeting the demand, and satisfying the resource constraints.
  dvar float+ Outside[Products];
  
  // The objective functions is:
- minimize(sum (p in Products) (InsideCost[p]*Inside[p] + OutsideCost[p]*Outside[p]));
+ dexpr float cost = sum (p in Products) (InsideCost[p]*Inside[p] + OutsideCost[p]*Outside[p]);
+ minimize(cost);
  
  // The constraints are:
  subject to {
@@ -58,4 +59,14 @@ production cost, meeting the demand, and satisfying the resource constraints.
 	  ctDemand: Inside[p] + Outside[p] >= Demand[p];
 } 
 
-// Run the model. Its solution will appear in the 'Solution' tab below.
+// Run the model. Its solution will appear at the bottom of the Problem
+// tab. The Problem tab is the one that appears on bottom-left of the screen.
+ 
+tuple R {float i; float o;};
+{R} Result = {<Inside[p], Outside[p]> | p in Products};
+
+execute {
+  writeln("Minimal cost = ", cost);
+  writeln("Results = ", Result); 
+}  
+

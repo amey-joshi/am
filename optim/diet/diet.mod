@@ -8,6 +8,8 @@
  The diet problem is the 'hello world' of optimization. To make it relevant
  to the modern times we seek to minimize the calories while still ensuring
  that our food supplies the nutrients needed to be healthy.
+
+ This problem comes from Howard Karloff's monograph 'Linear Programming'.
  */
  
  // The data is:
@@ -26,9 +28,8 @@
  dvar int+ consumption[Foods];
  
  // The objective function is:
- minimize (
- 	sum(f in Foods) consumption[f] * Calories[f]
- );
+ dexpr float caloriesEaten = sum(f in Foods) consumption[f] * Calories[f];
+ minimize (caloriesEaten);
  
  // The constraints are
  subject to {

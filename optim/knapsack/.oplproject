@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>The multi-knapsack problem.</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="knapsack.mod" type="model">
+			</ref>
+			<ref name="knapsack.ops" type="setting">
+			</ref>
+			<ref name="knapsack.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
