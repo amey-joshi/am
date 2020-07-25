@@ -1,0 +1,11 @@
+/*********************************************
+ * OPL 12.10.0.0 Data
+ * Author: ameyjoshi
+ * Creation Date: Jul 25, 2020 at 1:40:23 PM
+ *********************************************/
+
+ Foods = {"Trout", "CB Sandwich", "Burrito", "Hamburger"};
+ Nutrients = {"Vitamin A", "Vitamin C", "Vitamin D"};
+ Calories = [600, 350, 250, 500];
+ Nutrition = [[203, 92, 100], [90, 84, 230], [270, 80, 512], [500, 90, 210]];
+ Needs = [2000, 300, 430];
