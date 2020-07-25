@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>A simple MILP</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="blending.mod" type="model">
+			</ref>
+			<ref name="blending.ops" type="setting">
+			</ref>
+			<ref name="blending.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>

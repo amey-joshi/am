@@ -1,0 +1,23 @@
+/*********************************************
+ * OPL 12.10.0.0 Data
+ * Author: ameyjoshi
+ * Creation Date: Jul 25, 2020 at 6:15:06 PM
+ *********************************************/
+nMetals = 3;
+nRaw = 2;
+nScrap = 2;
+nIngot = 1;
+
+costOfMetals = [22, 10, 13];
+costOfRaw = [6, 5];
+costOfScrap = [7, 8];
+costOfIngots = [9];
+
+lowerBound = [0.05, 0.30, 0.60];
+upperBound = [0.10, 0.40, 0.80];
+
+percentRaw = [ [ 0.20, 0.01 ], [ 0.05, 0 ], [ 0.05, 0.30 ] ];
+percentScrap = [ [ 0 , 0.01 ], [ 0.60, 0 ], [ 0.40, 0.70 ] ];
+percentIngot = [ [ 0.10 ], [ 0.45 ], [ 0.45 ] ];
+
+amtOfAlloy = 71;
