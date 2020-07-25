@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>Demonstration of the pack function</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="pack.mod" type="model">
+			</ref>
+			<ref name="pack.ops" type="setting">
+			</ref>
+			<ref name="pack.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
