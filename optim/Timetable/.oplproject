@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>Scheduling timetable for a school</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="Timetable.mod" type="model">
+			</ref>
+			<ref name="Timetable.ops" type="setting">
+			</ref>
+			<ref name="Timetable.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
