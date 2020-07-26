@@ -4,10 +4,10 @@
  * Creation Date: Jul 26, 2020 at 11:11:39 AM
  *********************************************/
 MainSubjects       = {"Phy", "Che", "Bio", "Mat", "Eng"};
-Labs               = {"Plab", "Clab", "Blab"};
-OtherSubjects      = {"SUPW"};
-NonTeacherSubjects = {"PEdu"};
+Labs               = {"Plb", "Clb", "Blb"};
+OtherSubjects      = {"SUP", "Comb"};
+
 Years    = {"11", "12"};
 Days     = {"Mon", "Tue", "Wed", "Thu", "Fri"};
 FirstPart  = {1, 2, 3, 4, 5};
-SecondPart = {6, 7, 8};            
+SecondPart = {6};            
