@@ -32,6 +32,11 @@ a single block. This tremendously eases the solution.
 	    
 (4) The blocks created in the previous point are resolved into periods while
 printing the timetable. 
+
+(5) This edition of IBM ILOG CPLEX Optimization Studio can be downloaded free of
+charge from the URL https://www.ibm.com/in-en/products/ilog-cplex-optimization-studio 
+after creating an IBM id.
+
 */ 
 
 using CP;
