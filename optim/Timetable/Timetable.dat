@@ -10,4 +10,4 @@ OtherSubjects      = {"SUP", "Comb"};
 Years    = {"11", "12"};
 Days     = {"Mon", "Tue", "Wed", "Thu", "Fri"};
 FirstPart  = {1, 2, 3, 4, 5};
-SecondPart = {6};            
+SecondPart = {6}; // Recall that we have combined three periods in a single block.      
