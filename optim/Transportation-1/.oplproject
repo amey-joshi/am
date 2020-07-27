@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<description>A basic transportation problem</description>
+	<configs>
+		<config default="true" name="Configuration1" category="opl">
+			<ref name="Transportation-1.mod" type="model">
+			</ref>
+			<ref name="Transportation-1.ops" type="setting">
+			</ref>
+			<ref name="Transportation-1.dat" type="data">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
