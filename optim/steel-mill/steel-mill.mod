@@ -46,6 +46,9 @@ subject to {
   // Use a slab for at most 'maxColors' coils.
   forall (s in 1..maxSlabs) {    
     ct2:
+    // The term (o in orders: o.color == c) yields all orders with color c.
+    // For each of these orders one checks if the we have used the slab s. If we
+    // have, we increment the count.
     sum(c in allColors)(or(o in orders: o.color == c)(usedSlab[o] == s)) <= maxColors;
   }
 }  
