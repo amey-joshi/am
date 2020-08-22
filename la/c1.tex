@@ -1,0 +1,82 @@
+\chapter{Spaces}\label{c1}
+\section{Fields}\label{c1s1}
+\begin{defn}\label{c1s1d1}
+A set $F$ with binary operations $+$ and $\cdot$ defined on it is a
+field is
+\begin{enumerate}
+\item (A) Properties of the operation `$+$':
+\begin{enumerate}
+\item For every $\alpha, \beta \in F$, $\alpha + \beta \in F$,
+\item For every $\alpha, \beta \in F$, $\alpha + \beta = \beta +
+\alpha$,
+\item For all $\alpha, \beta, \gamma \in F$, $\alpha + (\beta + 
+\gamma) = (\alpha + \beta) + \gamma$,
+\item There exists a member $0$ such that $\alpha + 0 = \alpha$ for
+all $\alpha \in F$,
+\item For every $\alpha \in F$, there exists a member $-\alpha$
+such that $\alpha + (-\alpha) = 0$.
+\end{enumerate}
+\item (B) Properties of the operation `$\cdot$':
+\begin{enumerate}
+\item For every $\alpha, \beta \in F$, $\alpha \cdot \beta \in F$,
+\item For every $\alpha, \beta \in F$, $\alpha \cdot \beta = \beta 
+\cdot \alpha$,
+\item For all $\alpha, \beta, \gamma \in F$, $\alpha \cdot (\beta 
+\cdot \gamma) = (\alpha \cdot \beta) \cdot \gamma$,
+\item There exists a member $0$ such that $\alpha \cdot 1 = \alpha$ for
+all $\alpha \in F$,
+\item For every $\alpha \ne 0 \in F$, there exists a member 
+$\alpha^{-1}$ such that $\alpha \cdot \alpha^{-1} = 1$.
+\end{enumerate}
+\item The operation $\cdot$ is distributive over $+$. That is $\alpha
+\cdot (\beta + \gamma) = \alpha \cdot \beta + \alpha \cdot \gamma$
+for all $\alpha, \beta, \gamma \in F$.
+\end{enumerate}
+\end{defn}
+
+\begin{rem}
+Members of a field are called scalars.
+\end{rem}
+
+\subsection{Exercises}
+\begin{enumerate}
+\item We will prove the following assertions.
+\begin{enumerate}
+\item $0 + \alpha$ by commutativity of `+' is the same as $\alpha + 0
+= \alpha$.
+\item $\alpha + \beta = \alpha + \gamma \Rightarrow -\alpha + (\alpha
++ \beta) = -\alpha + (\alpha + \gamma) \Rightarrow (-\alpha + \alpha)
++ \beta = (-\alpha + \alpha) + \gamma$. Now, by commutativity of `+',
+$\alpha + (-\alpha) = 0 \Rightarrow -\alpha + \alpha = 0$. Therefore,
+$0 + \beta = 0 + \gamma \Rightarrow \beta = \gamma$.
+\item $\alpha + (\beta - \alpha) = \alpha + (-\alpha + \beta) = 
+\alpha + (-\alpha) + \beta = 0 + \beta = \beta$.
+\item Since $0$ is an additive identity, $0 + 0 = 0 \Rightarrow
+\alpha\cdot(0 + 0) = \alpha\cdot 0 \Rightarrow \alpha\cdot 0 + 
+\alpha\cdot 0 = \alpha\cdot 0$. Since $\alpha\cdot 0$ is a member of
+$F$, it has an additive inverse $-\alpha\cdot 0$. Thus,
+$-\alpha\cdot 0 + (\alpha\cdot 0 + \alpha\cdot 0) = 
+-\alpha\cdot 0 + \alpha\cdot 0 \Rightarrow
+(-\alpha\cdot 0 + \alpha\cdot 0) + \alpha\cdot 0 = 0 \Rightarrow
+0 + \alpha\cdot 0 = 0 \Rightarrow \alpha\cdot 0 = 0.$
+The claim $0\cdot\alpha = 0$ follows from commutativity of $\cdot$.
+\item We observe that $(-1)\alpha + \alpha = \alpha(-1) + \alpha(1)
+= \alpha(-1 + 1) = \alpha 0 = 0$. Thus, $(-1)\alpha$ is the additive
+inverse of $\alpha$. $(-1)\alpha = -\alpha$ follows from the
+uniqueness of the additive inverse.
+\item $(-\alpha)(-\beta) + (-\alpha)(\beta) = -\alpha(-\beta + \beta)
+= -\alpha \cdot 0 = 0$. Thus, $(-\alpha)(-\beta)$ is the additive 
+inverse of $(-\alpha)(\beta)$. We also observe that $\alpha\beta + 
+(-\alpha)\beta = (\alpha - \alpha)\beta = 0\cdot\beta = 0$. Thus,
+$\alpha\beta$ is also an additive inverse of $(-\alpha)(\beta)$. The
+claim follows from the uniqueness of additive inverse. 
+
+This claim used the fact that $(\alpha + \beta)\gamma = \alpha\gamma
++ \beta\gamma$. It follows from commutativity of the two operations.
+
+\item Let $\alpha\beta = 0$. If $\alpha \ne 0$ then $\alpha^{-1}$
+exists. Multiply both sides of the equation by $\alpha^{-1}$ to get
+$\beta = 0$. Similarly, $\beta \ne 0$ gives $\alpha = 0$. The equality
+is also true when both $\alpha$ and $\beta$ are zero.
+\end{enumerate}
+\end{enumerate}
