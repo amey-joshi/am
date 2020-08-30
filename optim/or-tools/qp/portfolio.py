@@ -1,5 +1,8 @@
 #!/bin/python
 
+# Example from http://cvxopt.org/examples/book/portfolio.html.
+# Refer to 'Convex Optimization' by Boyd and Vandenberghe
+
 from cvxopt import matrix
 from cvxopt.blas import dot
 from cvxopt.solvers import qp, options
