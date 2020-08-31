@@ -10,8 +10,7 @@ y = solver.NumVar(0, solver.infinity(), 'y')
 z = solver.NumVar(0, solver.infinity(), 'z')
 
 # The constraint x + y + z = 1
-solver.Add(x + y + z >= 1)
-solver.Add(x + y + z <= 1)
+solver.Add(x + y + z == 1)
 
 # The objective function x + 2y - z.
 solver.Minimize(x + 2*y - z)
