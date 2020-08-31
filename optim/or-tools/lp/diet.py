@@ -35,7 +35,7 @@ constraints = []
 for i in range(0, len(Nutrition)):
     cn = solver.Constraint(Nutrition[i], solver.infinity())
     for j in range(0, len(FoodData)):
-        cn.SetCoefficient(consumption[j], FoodData[i][2 + i])
+        cn.SetCoefficient(consumption[j], FoodData[j][2 + i])
 
     constraints.append(cn)
 
@@ -46,10 +46,9 @@ for i in range(0, len(FoodData)):
     constraints.append(cn)
 
 # Minimal calories must be eaten.
+cn = solver.Constraint(MinimumCalories, solver.infinity())
 for i in range(0, len(FoodData)):
-    cn = solver.Constraint(MinimumCalories, solver.infinity())
-    for j in range(0, len(FoodData)):
-        cn.SetCoefficient(consumption[j], FoodData[i][1])
+    cn.SetCoefficient(consumption[i], FoodData[i][1])
 
 # Solve the problem
 status = solver.Solve()
