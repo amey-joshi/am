@@ -15,19 +15,19 @@ def main(size):
 
     # We now add the diagonal constraints.
     for i in range(size):
-        d1 = [] # One diagonal.
-        d2 = [] # Another diagonal.
+        d1 = [] # Diagonal rising from bottom left to top right.
+        d2 = [] # Diagonal falling from top left to bottom right.
 
         for j in range(size):
-            # Decision variables for queens on ascending diagonal.
+            # Decision variables for queens on rising diagonal.
             q1 = model.NewIntVar(0, 2*size, f'd1_{i}')
             d1.append(q1)
-            model.Add(q1 == queens[j] + j) # Recall, ascending diagonal
+            model.Add(q1 == queens[j] + j) # Recall, rising diagonal
 
-            # Decision variables for queens on descending diagonal.
+            # Decision variables for queens on falling diagonal.
             q2 = model.NewIntVar(-size, size, f'd1_{i}')
             d2.append(q2)
-            model.Add(q2 == queens[j] - j) # Recall, descending diagonal
+            model.Add(q2 == queens[j] - j) # Recall, falling diagonal
 
         model.AddAllDifferent(d1)
         model.AddAllDifferent(d2)
