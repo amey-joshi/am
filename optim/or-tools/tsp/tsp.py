@@ -34,7 +34,7 @@ def city(mgr, curr, codes):
     """ Get's city from its index. """
     return codes[mgr.IndexToNode(curr)]
 
-def print_solution(mgr, routing, solution, codes):
+def build_route(mgr, routing, solution, codes):
     """ Prints the route. """
     print(f'Distance covered: {solution.ObjectiveValue()} miles.')
     curr = routing.Start(0)
@@ -49,10 +49,16 @@ def print_solution(mgr, routing, solution, codes):
         route_distance += routing.GetArcCostForVehicle(prev, curr, 0)
 
     cities.append(city(mgr, curr, codes))
+
+    return {"route": cities, "distance": route_distance}
+
+def print_route(results):
+    cities = results["route"]
+    route_distance = results["distance"]
     print('Route:')
     print(' -> '.join([c for c in cities]))
     print(f'Route distance: {route_distance} miles')
-
+    
 def main():
     data = create_data_model()
 
@@ -83,7 +89,8 @@ def main():
     solution = routing.SolveWithParameters(params)
 
     if solution:
-        print_solution(manager, routing, solution, data['codes'])
+        results = build_route(manager, routing, solution, data['codes'])
+        print_route(results)
 
 if __name__ == '__main__':
     main()
