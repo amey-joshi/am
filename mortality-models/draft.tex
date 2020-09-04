@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+\DeclareMathOperator{\pr}{P}
+
+\title{A Review of Mortality Models}
+\author{To be filled}
+\date{Sep-2020}
+\begin{document}
+\maketitle
+\section{Introduction}\label{s0}
+Although it is very difficult to predict the behaviour of a member of a 
+population one can often make statistical statements with much greater 
+confidence. For example, it is impossible to predict when a particular 
+radioactive atom will decay but one can make an accurate prediction of how 
+many atoms will decay in a long enough time interval. Likewise, it is not
+possible to predict the time of death of an individual although one reliably
+predict how many people from a large enough group will survive past a certain
+date in future. Actuaries knew this statistical fact long before the 
+mathematical foundations of the theory of probability were laid. The 
+mathematical models they to describe how deaths occur in a given society are
+called `mortality models'.
+
+The death of an individual in a population or the decay of a radioactive atom
+is an event happening to a member of the population. Likewise, the failure of
+a machine, an occurrence of an event, the duration of a certain phase in an
+economy are all different manifestations of the same phenomenon in which 
+something happens that significantly alters the future of the member of the
+population. Death terminates an individual's existence, radioactive decay
+changes the atom, failure renders a machine unusable and economies change 
+after occurrences of certain cataclysmic events. Mortality of an individual
+is akin to reliability of a machine. Life of an individual is similar to
+the duration of a certain phase of business cycle. As a result, the 
+theoretical tools used to study these phenomena are similar to each other. 
+Mortality analysis in actuarial science is called survival analysis is 
+statistics, reliability theory in engineering, duration analysis in economics 
+and event history analysis in sociology.
+
+In this article we shall review the development mathematical models to study
+mortality in large enough populations of people.
+
+\section{de Moivre's law}\label{s1}
+An annuity is a lifelong payment made to an individual by a company. The 
+company would want to estimate how much annuity its customers will consume
+before they cease to exist. In order to estimate its yearly obligations, the
+company would need to know what proportion of its customers will survive
+past various points in the future. It to this problem that de Moivre 
+\cite{de1731annuities} addresses his treatise. In order to estimate the value
+of annuities one must consider the interest earned by the company's assets and
+the probability of survival of its customers. In de Moivre's days the interest
+rates were controlled by law. Therefore, he focused on estimating the 
+probability of survival of the company's customers.
+
+Developed in the 18th century, de Moivre's model was indeed quite simple. 
+He assumed that there is a certain age, $\omega$ beyond which no human 
+survives. Further, as time goes by the probability of a person's survival
+decreases. The probability that a new born person will survive at least
+$x$ years was proposed to be
+\begin{equation}\label{s1e1}
+s(x) = 1 - \frac{x}{\omega}, 
+\end{equation}
+where $0 \le x \le \omega$. The function $s$, called the survival function,
+has the following characteristics
+\begin{enumerate}
+\item It is a decreasing function of $x$.
+\item $s(x = 0) = 1$ and $s(x = \omega) = 0$. In between these age limits, it
+is a linear function of $x$.
+\end{enumerate}
+de Moivre proposed the use of different $\omega$'s for different age groups, 
+making his model piece-wise linear. We will examine a few immediate 
+consequences of de Moivre's model and while doing so we will introduce the
+notation common in actuarial literature \cite{jordan1967society}. The symbol
+$(x)$ denotes life aged $x$. If $k$ is an estimate of the size of a population
+born together then the number of people alive at age $x$ is $l_x = ks(x)$.
+The number of people who will die in the interval $x$ to $x + 1$ is $d_x = l_x
+- l_{x+1}$. The probability that $x$ will survive for another $n$ years is
+\begin{equation}\label{s1e2}
+{}_np_x = \frac{l_{x+n}}{l_x} = \frac{s(x+n)}{s(x)}.
+\end{equation}
+The probability that a person will die within next $n$ years of $x$ is
+\begin{equation}\label{s1e3}
+{}_nq_x = 1 - {}_np_x.
+\end{equation}
+It is common to denote ${}_1p_x$ as $p_x$ and ${}_nq_x$ as $q_x$. The `force
+of mortality' is defined as
+\begin{equation}\label{s1e4}
+\mu(x) = -\frac{s^\prime(x)}{s(x)}, 
+\end{equation}
+where a $s^\prime$ denotes the derivative of $s$ with respect to $x$. The 
+force of mortality is also called the hazard function in the statistical
+literature. For de Moivre's law of mortality, it is easy to confirm that
+\begin{eqnarray}
+{}_np_x &=& \frac{\omega - (x + n)}{\omega - x} \label{s1e5} \\
+{}_nq_x &=& \frac{n}{\omega - x} \label{s1e6} \\
+\mu(x) &=& \frac{1}{\omega - x} \label{s1e7}
+\end{eqnarray}
+de Moivre himself did not consider his law to be an accurate description of
+human mortality. He emphasized in his treatise that it was an approximation
+useful to calculate the annuities. His piecewise linear approximation was a
+valuable device to carry out practical computations in the eighteenth century.
+
+\bibliography{draft}
+\bibliographystyle{plain}
+\end{document}
+
