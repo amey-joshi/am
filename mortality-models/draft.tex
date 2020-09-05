@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
-
+\numberwithin{equation}{section}
 \DeclareMathOperator{\pr}{P}
 
 \title{A Review of Mortality Models}
@@ -88,17 +88,90 @@ of mortality' is defined as
 \end{equation}
 where a $s^\prime$ denotes the derivative of $s$ with respect to $x$. The 
 force of mortality is also called the hazard function in the statistical
-literature. For de Moivre's law of mortality, it is easy to confirm that
+literature. The hazard function or the `force of mortality' is an individual's
+susceptibility to die. Its reciprocal is the individual's resistance to death. 
+de Moivre's law proposes that a person's resistance to die varies linearly over
+time. That is,
+\begin{equation}\label{s1e5}
+\nu(x) = \frac{1}{\mu(x)} = \omega - x.
+\end{equation}
+If $x_0 = a, x_1 = a + d, x_2 = a + 2d, ..., x_n = a + nd$ then it is clear 
+that $\nu(x_n)$ form an algebraic progression. This point may seem to be just a 
+mathematical characteristic at this stage. We shall see in the next section that
+it marked a departure from de Moivre's model to a more realistic one. For de 
+Moivre's law of mortality, it is easy to confirm that
 \begin{eqnarray}
-{}_np_x &=& \frac{\omega - (x + n)}{\omega - x} \label{s1e5} \\
-{}_nq_x &=& \frac{n}{\omega - x} \label{s1e6} \\
-\mu(x) &=& \frac{1}{\omega - x} \label{s1e7}
+{}_np_x &=& \frac{\omega - (x + n)}{\omega - x} \label{s1e6} \\
+{}_nq_x &=& \frac{n}{\omega - x} \label{s1e7} \\
+\mu(x) &=& \frac{1}{\omega - x} \label{s1e8}
 \end{eqnarray}
 de Moivre himself did not consider his law to be an accurate description of
 human mortality. He emphasized in his treatise that it was an approximation
 useful to calculate the annuities. His piecewise linear approximation was a
 valuable device to carry out practical computations in the eighteenth century.
 
+\section{Gompertz's law}\label{s2}
+An immediate consequence of de Moivre's law is that an individual's resistance
+to death diminishes algebraically as time goes by. The English actuary 
+Benjamin Gompertz observed \cite{gompertz1825xxiv} that the resistance to 
+death decreases geometrically instead. If one considers small enough time 
+intervals then at the end of every interval a person's resistance to death 
+reduces by the same proportion. Expressed mathematically, it means that
+\begin{equation}\label{s2e1}
+\frac{d\nu}{dx} = -k\nu(x),
+\end{equation}
+where the function $\nu$ was defined in equation \eqref{s1e5}. It immediately
+follows that
+\begin{equation}\label{s2e2}
+\log\nu(x) = -kx + \log B,
+\end{equation}
+where $B$ is a constant of integration. The `force of mortality' or the
+hazard function is therefore
+\begin{equation}\label{s2e3}
+\mu(x) = Be^{kx}.
+\end{equation}
+The constant $B$ is called baseline mortality and $k$ is called the 
+senescent component.
+An individual's susceptibility to die thus increases exponentially with age.
+From equation \eqref{s1e4} and \eqref{s2e3}, the differential equation for
+the survival function is
+\begin{equation}\label{s2e4}
+\frac{s^\prime(x)}{s(x)} = Be^{kx}.
+\end{equation}
+The solution of this ordinary differential equation is
+\begin{equation}\label{s2e5}
+s(x) = C\exp\left(\frac{B}{k}\exp(kx)\right),
+\end{equation}
+where $C$ is another constant of integration. The constants $B$ and $C$ in
+equation \eqref{s2e5} are determined from the mortality data of the population
+under study. Gompertz suggested that his formula is applicable for the age
+group between $10-15$ years of age up to $55-60$. In order to extend it beyond
+the age of $60$, Gompertz recommended that a different set of constants $B$
+and $C$ be used.
+
+Gompertz was aware that death in a population has at least two factors. One
+of them is the deterioration in the individual's resistance to death. The 
+other one is chance alone. The first factor depends on the individual's age
+while the second factor is constant throughout. However, in the formulation
+of his law of mortality, Gompertz considered only the first factor.
+
+\section{Makeham's law}\label{s3}
+William Makeham, the English mathematician and actuary, added a term to
+Gompertz's law of resistance to death which the latter had acknowledged but
+not included. Makeham's modification \cite{makeham1867law} of equation 
+\eqref{s2e3} is
+\begin{equation}\label{s3e1}
+\mu(x) = A + Be^{kx},
+\end{equation}
+where $A$ is a constant independent of the person's age. Makeham's survival
+function is
+\begin{equation}\label{s3e2}
+s(x) = C\exp\left(Ax + \frac{B}{k}\exp(kx)\right).
+\end{equation}
+Makeham's survival function has three constants $A, B$ and $C$ and therefore
+can be fitted to emprically observed mortality data more effectively than
+Gompertz's model. Makeham's law was often applied to mortality tables in the
+age range beyond $20$ years to almost end of life\cite{jordan1967society}.
 \bibliography{draft}
 \bibliographystyle{plain}
 \end{document}
