@@ -155,7 +155,7 @@ other one is chance alone. The first factor depends on the individual's age
 while the second factor is constant throughout. However, in the formulation
 of his law of mortality, Gompertz considered only the first factor.
 
-\section{Makeham's law}\label{s3}
+\section{Makeham's law and its generalisations}\label{s3}
 William Makeham, the English mathematician and actuary, added a term to
 Gompertz's law of resistance to death which the latter had acknowledged but
 not included. Makeham's modification \cite{makeham1867law} of equation 
@@ -171,7 +171,103 @@ s(x) = C\exp\left(Ax + \frac{B}{k}\exp(kx)\right).
 Makeham's survival function has three constants $A, B$ and $C$ and therefore
 can be fitted to emprically observed mortality data more effectively than
 Gompertz's model. Makeham's law was often applied to mortality tables in the
-age range beyond $20$ years to almost end of life\cite{jordan1967society}.
+age range beyond $20$ years to almost end of life\cite{jordan1967society}. 
+In 1890\cite{makeham1890further}, Makeham proposed yet another modification to 
+his law by adding a linear term to the hazard function or the force of 
+mortality. Makeham thought that in addition to the two factors spotted by
+Gompertz there is another one that grows linearly with age. It was proposed to 
+be
+\begin{equation}\label{s3e3}
+\mu(x) = A_1 + A_2x + Be^{kx}.
+\end{equation}
+The resulting survival function is
+\begin{equation}\label{s3e4}
+s(x) = C\exp\left(A_1x + \frac{A_2}{2}x^2 + \frac{B}{k}\exp(kx)\right).
+\end{equation}
+Makeham's law, like its predecessor, Gompertz's law was used to construct
+mortality tables of adults. Their simplicity allowed them to be used 
+effectively up to as late as the 1940s. Gompertz law was used to construct
+the 1937 Standard Annuity Table and Makeham's law for 1940 Annuity table
+\cite{jordan1967society}. Both laws assumed that the force of mortality 
+increases monotonically with time. However, it is commonly observed that 
+infant mortality contradicts this assumption. In order to extend Makeham's
+law of 1860 to infantile ages, Wilhem Lazarus \cite{lazarus1867ueber} added
+an exponentially decreasing term. His law expressed the force of mortality
+as 
+\begin{equation}\label{s3e5}
+\mu(x) = B_1 e^{-k_1x} + A + B_2e^{k_2 x}.
+\end{equation}
+The constants $B_1$ and $B_2$ are positive numbers. The corresponding survival 
+function is
+\begin{equation}\label{s3e6}
+s(x) = 
+C\exp\left(-\frac{B_1}{k_1}e^{-k_1x} + Ax + \frac{B_2}{k_2}e^{k_2x}\right)
+\end{equation}
+
+The way infants' susceptibility to die of diseases upsets Gompertz's and 
+Makeham's assumption of monotonicity of the law of mortality, do does the 
+spike in the death rate of young adults. Wars were frequent in Europe of the 
+eighteenth century and the victims were disproportionately the young recruits.
+Even otherwise, young adults are more prone to death by accidents. In order
+to take into account this mortality hump in the young, Thiele 
+\cite{thiele1871mathematical} introduced a gaussian term to Lazarus' model.
+His law of mortality is
+\begin{equation}\label{s3e7}
+\mu(x) = B_1 e^{-k_1x} + Ae^{-a_1(x - a_2)^2} + B_2e^{k_2 x}.
+\end{equation}
+All the constants in this equation, namely $A, a_1, a_2, B_1, k_1, B_2$ and 
+$k_2$ are positive numbers. The presence of the gaussian term prevents us
+from writing a closed form expression of the survival function. However, the
+ordinary differential equation for the survival function can be readily 
+integrated numerically. Alternatively, if the initial conditions are available,
+one can write its solution in terms of the error function.
+
+We observe that all generalisations of Makeham's laws introduce additional
+constants to the force of mortality and the hazard function. These constants
+provide additional `degrees of freedom' to the functions used to fit the 
+mortality data, resulting in a better fit.
+
+Forfar, McCutcheon and Wilkie proposed a far wider generalisation of the
+Gompertz and Makeham's laws. They defined a class of models, called GM models
+after their inventors, with the mathematical form
+\begin{equation}\label{s3e8}
+\mu(x) = \sum_{i=0}^{r-1}\alpha_i x^i + 
+\exp\left(\sum_{i=1}^{s-1}\beta_i x^i\right).
+\end{equation}
+They also used the convention that if $r = 0$ then the polynomial terms are 
+absent and if $s = 0$ then the exponential terms do not appear. They called
+the law of force of mortality of equation \eqref{s3e8} as $\mathrm{GM}(r,s)$.
+It is easy to check that Gompertz's law is $\mathrm{GM}(0, 2)$, Makeham's
+first law is $\mathrm{GM}(1,2)$ and Makeham's second law is $\mathrm{GM}(2,2)$.
+The $\mathrm{GM}(0, 2)$, $\mathrm{GM}(2,2)$ and $\mathrm{GM}(1,3)$ are used
+by the Continuous Mortality Investigation Bureau\cite{pitacco2016high} in the 
+United Kingdom.
+
+\section{Other mortality laws prior to the 20th century}\label{s4}
+de Moivre's, Gompertz's and Makeham's laws of mortality were not the only
+ones in vogue in the nineteenth century and prior to it. In this section we
+mention a few notable ones without commenting on their merits. Lambert's
+survival function \cite{lambert1776dottrina} was
+\begin{equation}\label{s4e1}
+s(x) = \left(\frac{a - x}{x}\right)^2 - b\left(e^{-x/c} - e^{-x/d}\right).
+\end{equation}
+It had four degrees of freedom. Babbage\cite{babbage1823tables} proposed a 
+quadratic survival function
+\begin{equation}\label{s4e2}
+s(x) = c - bx - ax^2.
+\end{equation}
+Young proposed a polynomial of degree $40$ as the survival function in 
+\cite{adler1866memoir} 1826. von Littrow\cite{von1832lebensversicherungen}
+extended Babbage's model to polynomials of higher degree. Moser
+\cite{moser1839gesetze} proposed a polynomial survival function with 
+fractional powers of $x$. It has five degrees of freedom and had the form
+\begin{equation}\label{s4e3}
+s(x) = 1 - ax^{1/4} _ bx^{9/4} - cx^{17/4} - dx^{25/4} + ex^{33/4}.
+\end{equation}
+All these models were attempts to fit the mortality data with a continuous 
+function. They were not rooted in demographic observations like the models
+of Gompertz, Makeham, Lazarus or Thiele. As a result, they soon fell into
+disuse after Gompertz proposed his model and others improved upon it.
 \bibliography{draft}
 \bibliographystyle{plain}
 \end{document}
