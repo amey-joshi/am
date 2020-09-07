@@ -268,6 +268,57 @@ All these models were attempts to fit the mortality data with a continuous
 function. They were not rooted in demographic observations like the models
 of Gompertz, Makeham, Lazarus or Thiele. As a result, they soon fell into
 disuse after Gompertz proposed his model and others improved upon it.
+
+\section{Heligman-Pollard model}\label{s5}
+The term `odds' is a well-defined term in probability theory. When we are 
+dealing with an experiment with two outcomes - that something happens or 
+it does not - then it is common in certain fields to express the 
+probabilities in terms of odds.  For example, if $p$ is the probability 
+that an event will happen and $q = 1 - p$ is the probability that it will 
+not happen then the odds of the experiment is $p/q$. 
+
+Recall from equations \eqref{s1e2} and \eqref{s1e3} that $p_x$ is the 
+probability that life aged $x$ will survive for another year and $q_x$ is
+the probability of the complimentary event. Therefore, the odds of death in 
+this case are $q_x/p_x$.  Heligman and Pollard \cite{heligman1980age} proposed 
+a model that has the algebraic structure of Thiele's mortality law but 
+applied to odds of survival. Mathematically it is expressed as
+\begin{equation}\label{s5e1}
+\frac{q_x}{p_x} = A^{(x+B)^C}+
+D\exp\left(-E\log^2\left(\frac{x}{F}\right)\right) + GH^x.
+\end{equation}
+The model has eight parameters, $A, B, C, D, E, F, G$ and $H$. Of these, $A,
+B, C, D \in (0, 1)$, $E > 0$, $F \in (15, \omega)$, $G \in (0, 1)$ and $H
+> 0$. The constant $\omega$ is the hump maximum and it can be between $55$
+and $100$. The Heligman-Pollard model was first developed for the Australian
+population post the second world war. An advantage of Heligman-Pollard model 
+is in biological interpretation of each of the three terms on the right hand 
+side of equation \eqref{s5e1}.
+
+The first term on the right hand side of equation \eqref{s5e1} represent 
+infantile mortality. It is a fast declining exponential representing the 
+rapid fall in mortality during infancy. $A$ is approximately equal to $q_1$ 
+and is a measure of the mortality rate of a one year old child. $C$ is a 
+measure of how quickly the new-born adjusts to its surroundings and gains 
+immunity. A higher $C$ indicates the fast decline in infant mortality as the
+child passes through infancy. When $B = 0$, $q_0 = 0.5$ irrespective of the
+values taken by $A$ and $C$. The value of $q_0$ is closer to $q_1$ if $B$ is
+higher for a given value of $C$. $B$ is thus an indicator of the central 
+tendancy of infant mortality. 
+
+The second term is gaussian in the logarithm of age. It represent the accident
+mortality for young adults of both sexes and maternal mortality in young 
+females. It covers the `accident hump` observed in all demographic data. It
+is prominently observed between ages $10$ and $40$. The parameter $D$ controls 
+the severity of accident hump, $E$ determines the spread of the hump and $F$ 
+the location.  Using a statistical analogy, $E$ is a measure of spread and 
+$F$ that of the central tendency. 
+
+The third term traces its roots to the Gompertz model. It represents the
+exponential increase in the deterioration of the body. The parameter $G$ 
+represents the senescent mortality and $H$ the increase in the rate of that
+process.
+
 \bibliography{draft}
 \bibliographystyle{plain}
 \end{document}
