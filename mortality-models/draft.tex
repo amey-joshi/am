@@ -2,6 +2,7 @@
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
 \numberwithin{equation}{section}
 \DeclareMathOperator{\pr}{P}
+\renewcommand{\vec}[1]{\mathbf{#1}}
 
 \title{A Review of Mortality Models}
 \author{To be filled}
@@ -9,12 +10,13 @@
 \begin{document}
 \maketitle
 \section{Introduction}\label{s0}
-Although it is very difficult to predict the behaviour of a member of a 
-population one can often make statistical statements with much greater 
+Although it is very difficult to predict the behaviour of a member of a large
+population one can often make statistical statements about the same population 
+with much greater 
 confidence. For example, it is impossible to predict when a particular 
 radioactive atom will decay but one can make an accurate prediction of how 
 many atoms will decay in a long enough time interval. Likewise, it is not
-possible to predict the time of death of an individual although one reliably
+possible to predict the time of death of an individual although one can reliably
 predict how many people from a large enough group will survive past a certain
 date in future. Actuaries knew this statistical fact long before the 
 mathematical foundations of the theory of probability were laid. The 
@@ -27,17 +29,71 @@ a machine, an occurrence of an event, the duration of a certain phase in an
 economy are all different manifestations of the same phenomenon in which 
 something happens that significantly alters the future of the member of the
 population. Death terminates an individual's existence, radioactive decay
-changes the atom, failure renders a machine unusable and economies change 
+transforms the atom, failure renders a machine unusable and economies change 
 after occurrences of certain cataclysmic events. Mortality of an individual
 is akin to reliability of a machine. Life of an individual is similar to
 the duration of a certain phase of business cycle. As a result, the 
-theoretical tools used to study these phenomena are similar to each other. 
+theoretical tools used to study these outwardly different phenomena are similar 
+to each other. 
 Mortality analysis in actuarial science is called survival analysis is 
 statistics, reliability theory in engineering, duration analysis in economics 
 and event history analysis in sociology.
 
+John Graunt, an English haberdasher, was perhaps the world's first demographer
+and epidemiologist. In spite of the rudimentary mathematical tools available
+in the seventeenth century, he was able to publish the first life tables. They
+were based on the `Bills of Mortality' published in the parishes of London
+every Thursday. The data was not best suited for constructing life tables but
+that was the only one available in Graunt's time. Graunt admitted the 
+inadequacy of his approach. Edmund Halley, the man after whom a comet is 
+named, could get demographic data of a much better quality from the city of
+Wroclaw in Poland. It had the age and sex of the dead individuals. Halley
+used this data to build life tables of a greater accuracy than Graunt's. He
+also demonstrated how to use the life tables to compute annuities. Graunt's
+and Halley's work was entirely empirical, keeping with the times in which
+it was done. Using their life tables was also quite laborious. With the 
+invention of Calculus in the late seventeenth century and the development of 
+the rudimentary ideas of a mathematical function, it became possible to build
+theoretical models of human mortality.
+
+Traditionally, mortality models studied existing demographic data to produce
+mortality tables. They described mortality at a fixed point in time. The pace 
+of technology development was quite slow in the times when the first mortality
+models were proposed. Therefore, the mortality data and the models describing
+them appeared to be like a natural characteristic of the human species. They
+sufficed the needs of the fledgling insurance industry to compute projections
+of annuities.
+
+However, the advancement in health science since the early years of the 
+twentieth century, the relative peace in the western world since the second 
+world war and abundance of food in the rich world resulted in a change in
+historical mortality patterns. Pension funds started realizing that annuities
+were being drawn for longer than expected periods. As the population in the
+developed countries started greying the pension funds had the additional 
+problem of a higher annunity obligations and a lower contribution from newer
+workers. Pension funds now have a keen interest in understanding how mortality 
+rates will evolve in the future. They now want to forecast mortality than just
+produce models of the current mortality. 
+
+Demographic forecasting predates mortality forecasting. Economists like Thomas
+Malthus predicted that the human population will grow to such an extent that
+there will not be enough to feed everyone. This dire prediction meant that the
+politicians and the economists had a keen desire to predict how populations
+will grow and whether there will be enough food for everyone. As a result, many 
+statistical methods developed in Demography were readily available for mortality
+forecasting. This need for forecasting was also coeval with the developments
+in the modern theory of mathematical statistics and the foundations of
+probability. It is not a coincidence that the early mortality models were
+mathematical functions while the later ones are stochastic models.
+
+Mortality models, being mathematical functions, produce a single curve for
+a given set of its parameters. On the other hand, mortality forecasts are a
+collection of curves or a family of probablity distributions. Their output
+is accompanied with appropriate confidence intervals to indicate the 
+uncertainty in their reported values.
+
 In this article we shall review the development mathematical models to study
-mortality in large enough populations of people.
+and forecast mortality in large enough populations of people.
 
 \section{de Moivre's law}\label{s1}
 An annuity is a lifelong payment made to an individual by a company. The 
@@ -262,7 +318,7 @@ extended Babbage's model to polynomials of higher degree. Moser
 \cite{moser1839gesetze} proposed a polynomial survival function with 
 fractional powers of $x$. It has five degrees of freedom and had the form
 \begin{equation}\label{s4e3}
-s(x) = 1 - ax^{1/4} _ bx^{9/4} - cx^{17/4} - dx^{25/4} + ex^{33/4}.
+s(x) = 1 - ax^{1/4} + bx^{9/4} - cx^{17/4} - dx^{25/4} + ex^{33/4}.
 \end{equation}
 All these models were attempts to fit the mortality data with a continuous 
 function. They were not rooted in demographic observations like the models
@@ -319,6 +375,269 @@ exponential increase in the deterioration of the body. The parameter $G$
 represents the senescent mortality and $H$ the increase in the rate of that
 process.
 
+\section{Lee-Carter model}\label{s6}
+The problem of forecasting population changes and composition is of interest
+to both the demographers and the pension fund managers. Ronald Lee and 
+Lawrence Carter's motivation for developing a model to forecast mortality was
+the observation that the human life expectancy rose from $47$ years to $75$ 
+years in the United States in the $88$ years starting from the year $1900$.
+Should this trend continue unabated in the future, the human life expectancy
+will touch $100$ years by the year $2065$ upsetting the Social Security 
+Administration's calculations based on the long-term life expectancy of about
+$80.5$ years. The wide difference between Lee and Carter's 
+\cite{lee1992modeling} forecasts and the assumptions of the pension funds 
+made the actuaries turn their attention to forecasting than modelling alone.
+
+Unlike the previous models which tried to build formulae that mimicked the
+behaviour of human mortality in various stages of life, Lee and Carter used
+the statistical techniques of time series for their projection into the future.
+They excluded factors representing advancement in medicine or the behavioural
+and social changes on mortality. Their time series model extrapolated the 
+long-term trends seen in demographic data over several decades. They did not
+find it necessary to assume that the human life cannot extend beyond a certain
+limit. Nothing analogous to the $\omega$ in de Moivre's model would be found
+in Lee and Carter's.
+
+The mathematical form of Lee and Carter's model is
+\begin{equation}\label{s6e1}
+\log{M}(x, t) = {a}_x + {b}_x{k}_t + \epsilon_{x, t},
+\end{equation}
+where the coefficients ${a}_x$ and ${b}_x$ depend on the age, the
+`index' ${k}_t$ depends on time and ${M}(x, t)$ is the mean death
+rate for age $x$ in time $t$. Since
+\[
+\frac{d}{dt}{M}(x, t) = {b}_x\frac{dk_t}{dt},
+\]
+${b}_x$ captures the the changes in mortality rates due to changes in
+the index with time. A positive value of a component of ${b}_x$ indicates
+falling mortality while a negative value indicates the opposite. The term
+$\epsilon_{x, t}$ is an `error term' with mean $0$ and variance that depends
+on the age. It captures the factors that influence mortality but are not
+explicitly included in the model.
+
+The model of equation \eqref{s6e1} does not have a unique solution. If 
+${a}$, ${b}$ and ${k}$ form one solution then for any number $c$,
+the triple ${a} - c{b}, {b}, {k} + c$ is also a solution. In
+fact, even ${a}, c{b}, {k}/c$ is a solution if $c \ne 0$. This phenomenon is
+also called `identifiability problem'\cite{plat2009stochastic}.
+
+Fitting the Lee-Carter model consists in finding the parameters ${a}_x,
+{b}_x$ and ${k}_t$ for a given matrix of mortality rates ${M}(x, t)$.
+The model is solved using the singular value decomposition (SVD). The algorithm
+is described in appendix A to Lee and Carter's paper\cite{lee1992modeling} 
+introducing the model.
+
+Lee and Carter's forecast of life expectancy for the American population was 
+$86.05$ by the year $2065$. The Actuary of the Social Security Administration,
+on the other hand, forecast it as $80.5$. In $2020$ the observed value is 
+$78.87$, suggesting that Lee and Carter's forecast might be closer to the 
+reality in the year $2065$.
+
+The advantages of Lee-Carter model lie in its robustness, simplicity and 
+the fact that it fits well over wide ranges of age. It is also observed to be
+able to fit small non-linearities in the mortality curve quite well. Its 
+shortcomings are its lack of smoothness of age effects in small populations, 
+inability to work with cohorts, inability to cope with improvements varying 
+across times and a possible underestimation of uncertainty. It also has a 
+limited versatality owing to it being a one-factor model.
+
+\section{Age-Period-Cohort models}\label{s7}
+Demographic data is often analysed by taking into account the age, period 
+and the cohort of individuals. The analysis need not be for mortality alone.
+It could be for incidence of diseases or even economic consumption. Consumption
+patterns do depend on age of the individual. But when they are observed over
+a long enough duration they are also found to depend on the period and the 
+cohort. For instance, certain goods may not have been available or would have
+been expensive in a certain period and therefore we not consumed by many. It
+is also well-known that different age groups of people have different tastes.
+The age-period-cohort (APC) models are a class of additive models where the
+predictor is a sum of three time effects, age, period and cohort. APC models
+are thus able to take into account the impact of the changes in the society 
+and the available technology.
+
+Period analysis alone is quite useful to understanding the effect of wars,
+pandemics, revolutions or other upheavals on a population. However, they
+capture the effect of the times in which people are living. Behavioural
+changes in people are better captured by considering cohorts. The 
+characteristics of a cohort are an aggregate of the characteristics of its 
+members\cite{willekens1991age}. Modern APC models require longitudnal data
+to understand the life processes as they evolve. They do not consider just
+the event of the death of an individual but the process of dying whose 
+culmination is death. They take the view that the mortality risks in a 
+population are better determined by an understanding of morbidity in it
+\cite{van1990determinants}.
+
+The APC framework is used widely in the social sciences. In the context of
+mortality modelling and forecasting it started being used while answering the
+questions \cite{willekens1991age}:
+\begin{itemize}
+\item Does mortality show a greater regularity when viewed at the level of a
+cohort or for a particular period? The answer to this question is important
+for mortality forecasting.
+
+Although a full-fledged APC framework arose relatively recently, the importance
+of cohort analysis was not missed by early demographers and actuaries. Derrick
+\cite{derrick1927observations} observed in 1927 that the ratio of mortality
+for one cohort to that of another was constant for all ages above $10$ years.
+It suggested that it may be possible to forecast the mortality of an individual
+based on the cohort in which he falls. It was also observed that the mortality
+rates for the generation that was young during the years of the second world
+war were overestimated for obvious reasons. This once again indicates the 
+importance and the role of cohorts in modelling mortality. 
+
+\item Do events early in life affect the experiences later in life? This 
+question can be answered only in the context of a cohort analysis.
+
+While studing the death rates in England, Scotland and Sweden, Kermack
+\cite{kermack1934death} observed that the differences in mortality was mostly
+because of the environmental conditions experienced in the first fifteen years
+of life. It was not a result of the other influences in later life. The 
+study also uncovered the fact that an improvement in the conditions around
+child-birth boosted survival rates of new-borns. It proposed that the health
+of the mother has a positive impact on the health of the child and its chances
+to live longer. Preston and de Walle \cite{preston1978urban} came to similar
+conclusion for the French mortality data. This idea was further supported by 
+Caselli and Capocaccia's study\cite{caselli1989age} on Italian demographics 
+that infant mortality had a weakening effect on eventual mortality. However, 
+this observation is not universally accepted. Other studies indicate that a 
+high infantile mortality results in lower eventual mortality because the 
+`stronger' individuals stay long enough to live long enough 
+\cite{manton1981methods}. Lest one concludes that only childhood environment
+determines mortality rate later in life, Horiuchi reported 
+\cite{horiuchi1983long} that the malnutrition and physical privation during the
+second world war wreaked the health of those who lived through it and affected
+their mortality when they became old.
+\end{itemize}
+
+APC studies are plagued by what is called the `identification problem' common
+to all cohort analysis. It is the problem of assigning an individual to the
+right cohort when the a) the cohorts are adjacent in time, b) the individual 
+is on the border line of two adjacent cohorts and c) the characteristics of
+the cohorts are quite distinct. The problem can be mitigated by following
+the directions suggested in Willekens and Scherbov's \cite{willekens1991age}
+analysis.
+
+APC model can be expressed as a generalized linear model in which we predict
+the mortality rate from age, period and cohort as predictors. We usually use
+the variables in the data that are the most appropriate proxy for age, period
+and cohort. Once the model is build from the available data, we can use it to 
+forecast mortality for a newer set of predictors. It is assumed that the 
+mortality rate can be described as a Poisson process. This assumption is found 
+to be valid for societies with low death rates. It may not hold good when 
+the society is experiencing a war or a pandemic.
+
+
+\section{Cairns-Blake-Dowd model}\label{s8}
+Cairns, Blake and Dowd proposed a model \cite{cairns2006two} to study the
+evolution of mortality beyond sixty years of age and its impact on longevity
+risk. It was a two factor stochastic model. Of these, the first factor affects
+the mortality rate at all ages in an identical manner and the second one 
+affects the advanced years to a greater extent. Their mortality curve is
+defined in terms of forward survival probability $\pr(t, T_0, T_1, x)$. It is
+the probability measured at $t$ that an individual aged $x$ at time $0$,
+alive at $T_0$ will survive until time $T_1 > T_0$. The curve is represented
+by the equation
+\begin{equation}\label{s8e1}
+1 - p(t+1,t,t+1,x) = 
+\frac{e^{A_1(t+1)+A_2(t+1)(x+t)}}{1+e^{A_1(t+1)+A_2(t+1)(x+t)}},
+\end{equation}
+where $A_1(u)$ and $A_2(u)$ are stochastic processes. If $q(p, T_0, T_1, x)
+= 1 - p(t, T_0, T_1, x)$ then we can readily write equation \eqref{s8e1} in
+the form
+\begin{equation}\label{s8e2}
+\log\left(\frac{q(t,T_0,T_1,x)}{p(t,T_0,T_1,x)}\right) = 
+A_1(t+1) + A_2(t+1)(x+t).
+\end{equation}
+The log-odds of probability of death is thus a linear function of age and the
+coefficients of this relation vary with time. The model uses data from 
+different cohorts at a common point in time. Therefore, the coefficients 
+$A_1(t)$ and $A_2(t)$ are interpreted as factors. The original model of Cairns,
+Blake and Dowd used ordinary least square regression to estimate the factors.
+The authors plotted the trend of the factors for the period between $1961$ and
+$2002$. The factor $A_1(t)$ decreases with time indicating an improvement in
+the mortality. On the other hand, $A_2(t)$ is observed to increase with time.
+This suggests that the improvements in mortality are felt to a lesser extent 
+for older people. In order to forecast the factors at times in future, the 
+authors model $A(t) = (A_1(t), A_2(t))^T$ as a random walk with a drift. That
+is,
+\begin{equation}\label{s8e3}
+A(t+1) - A(t) = \mu + CZ(t+1),
+\end{equation}
+where $\mu$ is a constant vector representing the mean increment, $C$ is a 
+constant $2 \times 2$ upper triangular matrix and $Z(t)$ is a standardised
+two dimensional gaussian random variable. The authors also propose a criterion
+for a good model of this kind. They introduce the idea of `biological 
+reasonability'. In general, a biologically reasonable model will have the 
+first component of $\mu$ negative and the second component positive. Further,
+the mortality rates for older cohorts should normally be greater than the 
+younger cohorts.
+
+Practitioners favour Cairns-Blake-Dowd model for its robustness and the ease
+with which it allows inclusion of parameter uncertainty. It is also more 
+versatile than the Lee-Carter model because it has an additional factor. 
+However, like the Lee-Carter model it does not allow analysis of cohort effects.
+Although it models a wide range of advanced years, it does not fit the 
+mortality data as well as Lee-Carter model.
+
+\section{Stochastic cohort models}\label{s9}
+The stochastic models of Lee-Carter and Cairns-Blake-Dowd were unable to
+incorporate cohort effects. To remedy this shortcoming, Renshaw and Haberman
+\cite{renshaw2006cohort} proposed a modification of the Lee-Carter model that 
+includes cohorts. It can be expressed mathematically as
+\begin{equation}\label{s9e1}
+\log{M}(x, t) = {a}_x + {b}_x{k}_t + {c}_x\gamma_{t-x},
+\end{equation}
+where the symbols have the same meaning as in Lee-Carter model. In the new
+term, third on the right hand side, $\gamma_{t-x}$ captures the cohort effect.
+It is a function of $t - x$, the (approximate) year of birth and ${c}_x$
+is just the regression coefficient of this term. Although the model fitted the
+male mortality data in England and Wales quite well it turned to not as 
+robust as other models. The lack of robustness is believed to be related to
+the shape of the likelihood function. It has more than one local maximum.
+Therefore, when we change the age or the year range the optimizer ends up
+settling on a different maximum each time\cite{cairns2008modelling}. Currie
+simplified the Renshaw-Haberman model to
+\begin{equation}\label{s9e2}
+\log{M}(x, t) = {a}_x + {k}_t + \gamma_{t-x}.
+\end{equation}
+The simplification solved the problem of robustness but made the fit poorer
+\cite{plat2009stochastic}. Plat introduced a model to address the deficiencies
+of all the previous models while retaining their benefits 
+\cite{plat2009stochastic}. Its mathematical structure is
+\begin{equation}\label{s9e3}
+\log M(x,t) = a_x + \kappa^1_t + \kappa^2_t(\bar{x} - x) + 
+\kappa^3_t(\bar{x} - x)^+ + \gamma_{t-x},
+\end{equation}
+where $(\bar{x} - x)^+ = \max(\bar{x} - x, 0)$ and $\bar{x}$ is the mean age
+in the sample range. The term $a_x$ plays a 
+similar role as it did in Lee-Carter model. It controls the general shape
+of the mortality curvve. Of the four stochastic factors, $\kappa_t^1$
+represents the change in the level of mortality across all ages, $\kappa_t^2$
+represents the change in the level of mortality between ages, $\kappa_t^3$
+captures the differences in mortality behaviour in the early adulthood stage
+and $\gamma_{t-x}$ captures the cohort effect. If one is interested in 
+modelling only the advanced ages then one need not worry about the `accident
+hump' of young adulthood and use the simplified model,
+\begin{equation}\label{s9e4}
+\log M(x,t) = a_x + \kappa^1_t + \kappa^2_t(\bar{x} - x) + \gamma_{t-x},
+\end{equation}
+Like the Lee-Carter model, this one too suffers from the `identifiability
+problem'. For constants $c_1, c_2, d$, the set of parameters
+\begin{eqnarray*}
+\bar{\gamma}_{t-x} &=& \gamma_{t-x} + c_1 + c_2(t - x) \\
+\bar{\kappa}_t^1 &=& \kappa^1_t + c_1 - d\bar{x}c_2 \\
+\bar{\kappa}_t^2 &=& \kappa^2_t + dc_2 \\
+\bar{a}_x &=& a_x + (1 - d)c_2
+\end{eqnarray*}
+also lead the the same values for $\log M(x, t)$. The problem is mitigated 
+by requiring that 
+\begin{eqnarray*}
+\sum_{i=x_0}^{x_1} \gamma_i &=& 0 \\
+\sum_{i=x_0}^{x_1} i\gamma_i &=& 0 \\
+\sum_t\kappa_t^3 &=& 0,
+\end{eqnarray*}
+where $x_0$ and $x_1$ are the earliest and the latest years of birth to which
+the cohort effect is fitted. 
 \bibliography{draft}
 \bibliographystyle{plain}
 \end{document}
