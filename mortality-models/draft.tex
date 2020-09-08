@@ -2,8 +2,7 @@
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
 \numberwithin{equation}{section}
 \DeclareMathOperator{\pr}{P}
-\renewcommand{\vec}[1]{\mathbf{#1}}
-
+\linespread{1.3}
 \title{A Review of Mortality Models}
 \author{To be filled}
 \date{Sep-2020}
@@ -92,8 +91,48 @@ collection of curves or a family of probablity distributions. Their output
 is accompanied with appropriate confidence intervals to indicate the 
 uncertainty in their reported values.
 
-In this article we shall review the development mathematical models to study
-and forecast mortality in large enough populations of people.
+Before we start reviewing the deterministic and stochastic mortality models
+let us describe certain characteristic features of human mortality. Although
+the life expectancy at birth has significantly improved in the post second
+world war years the maximum life span seems to be pretty constant throughout 
+history. A new born child faces a great risk of dying as it adjusts itself
+to its new environment, warding off pathogens and fighting diseases. As time 
+goes by the child starts developing immunity against many germs and its
+chances of dying begin to drop. This drop continues until early adulthood 
+when there is a sudden jump in mortality. It happens because of aggressive
+behaviour in the late teens in both sexes and because of maternal mortality
+in females. The spike in mortality eventually dwindles into a monotonic
+increase in mortality as senescence catches up. We will see that there is 
+a rich collection of mathematical models describing these characteristics
+of human mortality. The basic structure of the mortality behaviour also
+suggests that it might be profitable to fit a different model for different
+stages of human life. The earliest models indeed did not cover childhood or
+take into account the spike in mortality starting late teens. They were 
+simple mathematical functions that fit a portion of the mortality curve that
+was of most relevance to the insurance companies. Later models continued to
+be deterministic in nature but had more number of parameters that could be
+fitted for a given empirical data. However, it was not always possible to 
+ascribe an unambiguous biological meaning to all parameters. Further, their
+complexity was also controlled by the limitations of the computing technology
+of their period.
+
+We will sketch the historical development of mortality model, both 
+deterministic and stochastic, starting from de Moivre's model in the next
+section. We also define basic terms commonly used in actuarial science and 
+demonstrate how to evaluate their expressions in simple cases. In section 3
+we describe the Gompertz's model, the first realistic mortality model that 
+was used for a very long time in the industry. The success of Gompertz model
+lay in the number of successors it produced. Of these, we cover Makekam's 
+model and its generalisations in section 4. In section 5 we mention a few
+other mortality models used in European countries but whose significance today
+lies mostly in their historical value. The $8$-parameter Heligman-Pollard model
+was the first one that could be fitted to the entire mortality curve, starting
+from infancy to very advanced years. We describe it in section 6. Starting
+section 7 we turn our attention to stochastic models, starting with the
+celebrated Lee-Carter model. An interesting class of models used across social
+sciences is the Age-Period-Cohort models. We review a few of them relevant
+to mortality in section 8. In section 9 we consider the Cairns-Blake-Dowd model
+and finally we consider stochastic models with cohort effects in section 10.
 
 \section{de Moivre's law}\label{s1}
 An annuity is a lifelong payment made to an individual by a company. The 
