@@ -9,7 +9,7 @@
 \begin{document}
 \maketitle
 \section{Introduction}\label{s0}
-Although it is very difficult to predict the behaviour of a member of a large
+Although it is very difficult to predict the behavior of a member of a large
 population one can often make statistical statements about the same population 
 with much greater 
 confidence. For example, it is impossible to predict when a particular 
@@ -68,8 +68,8 @@ twentieth century, the relative peace in the western world since the second
 world war and abundance of food in the rich world resulted in a change in
 historical mortality patterns. Pension funds started realizing that annuities
 were being drawn for longer than expected periods. As the population in the
-developed countries started greying the pension funds had the additional 
-problem of a higher annunity obligations and a lower contribution from newer
+developed countries started graying the pension funds had the additional 
+problem of a higher annuity obligations and a lower contribution from newer
 workers. Pension funds now have a keen interest in understanding how mortality 
 rates will evolve in the future. They now want to forecast mortality than just
 produce models of the current mortality. 
@@ -87,7 +87,7 @@ mathematical functions while the later ones are stochastic models.
 
 Mortality models, being mathematical functions, produce a single curve for
 a given set of its parameters. On the other hand, mortality forecasts are a
-collection of curves or a family of probablity distributions. Their output
+collection of curves or a family of probability distributions. Their output
 is accompanied with appropriate confidence intervals to indicate the 
 uncertainty in their reported values.
 
@@ -100,11 +100,11 @@ to its new environment, warding off pathogens and fighting diseases. As time
 goes by the child starts developing immunity against many germs and its
 chances of dying begin to drop. This drop continues until early adulthood 
 when there is a sudden jump in mortality. It happens because of aggressive
-behaviour in the late teens in both sexes and because of maternal mortality
+behavior in the late teens in both sexes and because of maternal mortality
 in females. The spike in mortality eventually dwindles into a monotonic
 increase in mortality as senescence catches up. We will see that there is 
 a rich collection of mathematical models describing these characteristics
-of human mortality. The basic structure of the mortality behaviour also
+of human mortality. The basic structure of the mortality behavior also
 suggests that it might be profitable to fit a different model for different
 stages of human life. The earliest models indeed did not cover childhood or
 take into account the spike in mortality starting late teens. They were 
@@ -123,7 +123,7 @@ demonstrate how to evaluate their expressions in simple cases. In section 3
 we describe the Gompertz's model, the first realistic mortality model that 
 was used for a very long time in the industry. The success of Gompertz model
 lay in the number of successors it produced. Of these, we cover Makekam's 
-model and its generalisations in section 4. In section 5 we mention a few
+model and its generalizations in section 4. In section 5 we mention a few
 other mortality models used in European countries but whose significance today
 lies mostly in their historical value. The $8$-parameter Heligman-Pollard model
 was the first one that could be fitted to the entire mortality curve, starting
@@ -139,8 +139,8 @@ An annuity is a lifelong payment made to an individual by a company. The
 company would want to estimate how much annuity its customers will consume
 before they cease to exist. In order to estimate its yearly obligations, the
 company would need to know what proportion of its customers will survive
-past various points in the future. It to this problem that de Moivre 
-\cite{de1731annuities} addresses his treatise. In order to estimate the value
+past various points in time in the future. It to this problem that de Moivre 
+\cite{de1731annuities} addressed his treatise. In order to estimate the value
 of annuities one must consider the interest earned by the company's assets and
 the probability of survival of its customers. In de Moivre's days the interest
 rates were controlled by law. Therefore, he focused on estimating the 
@@ -202,7 +202,7 @@ Moivre's law of mortality, it is easy to confirm that
 \end{eqnarray}
 de Moivre himself did not consider his law to be an accurate description of
 human mortality. He emphasized in his treatise that it was an approximation
-useful to calculate the annuities. His piecewise linear approximation was a
+useful to calculate the annuities. His piece-wise linear approximation was a
 valuable device to carry out practical computations in the eighteenth century.
 
 \section{Gompertz's law}\label{s2}
@@ -239,7 +239,12 @@ s(x) = C\exp\left(\frac{B}{k}\exp(kx)\right),
 \end{equation}
 where $C$ is another constant of integration. The constants $B$ and $C$ in
 equation \eqref{s2e5} are determined from the mortality data of the population
-under study. Gompertz suggested that his formula is applicable for the age
+under study. It is common to introduce a constant $c = e^k$ and write equation
+\eqref{s2e5} as
+\begin{equation}\label{s2e6}
+s(x) = C\exp\left(\frac{B}{k}c^x\right),
+\end{equation}
+Gompertz suggested that his formula is applicable for the age
 group between $10-15$ years of age up to $55-60$. In order to extend it beyond
 the age of $60$, Gompertz recommended that a different set of constants $B$
 and $C$ be used.
@@ -248,9 +253,22 @@ Gompertz was aware that death in a population has at least two factors. One
 of them is the deterioration in the individual's resistance to death. The 
 other one is chance alone. The first factor depends on the individual's age
 while the second factor is constant throughout. However, in the formulation
-of his law of mortality, Gompertz considered only the first factor.
+of his law of mortality, Gompertz considered only the first factor. Gompertz
+could have fitted simpler polynomial functions to the mortality data available
+in his times. However, instead of trying to fit a function to the data he
+developed his model based on an observation root in biology that organisms
+deteriorate with age in a geometric proportion. Gompertz model was not only a
+better fit to data than de Moivre's but it also started the tradition of
+finding a biological explanation for every term in a mortality model. It is
+important to note that Gompertz considered death as just a biological 
+phenomenon. His law is best applicable to populations well protected from 
+wars or pestilence. It is, therefore, an upper limit to longevity in a
+population. In that sense, it served to be a useful estimate of the insurance
+companies' liabilities. The success of Gompertz's law in practical calculations
+ensured that for several decades newer mortality laws were only an improvement
+over it. In the next section, we shall consider a few of them.
 
-\section{Makeham's law and its generalisations}\label{s3}
+\section{Makeham's law and its generalizations}\label{s3}
 William Makeham, the English mathematician and actuary, added a term to
 Gompertz's law of resistance to death which the latter had acknowledged but
 not included. Makeham's modification \cite{makeham1867law} of equation 
@@ -264,8 +282,13 @@ function is
 s(x) = C\exp\left(Ax + \frac{B}{k}\exp(kx)\right).
 \end{equation}
 Makeham's survival function has three constants $A, B$ and $C$ and therefore
-can be fitted to emprically observed mortality data more effectively than
-Gompertz's model. Makeham's law was often applied to mortality tables in the
+can be fitted to empirically observed mortality data more effectively than
+Gompertz's model. If we write $c = e^k$ then we can write equation \eqref{s3e2}
+in its customary form
+\[
+s(x) = C\exp\left(Ax + \frac{B}{k}c^x\right).
+\]
+Makeham's law was often applied to mortality tables in the
 age range beyond $20$ years to almost end of life\cite{jordan1967society}. 
 In 1890\cite{makeham1890further}, Makeham proposed yet another modification to 
 his law by adding a linear term to the hazard function or the force of 
@@ -285,10 +308,13 @@ effectively up to as late as the 1940s. Gompertz law was used to construct
 the 1937 Standard Annuity Table and Makeham's law for 1940 Annuity table
 \cite{jordan1967society}. Both laws assumed that the force of mortality 
 increases monotonically with time. However, it is commonly observed that 
-infant mortality contradicts this assumption. In order to extend Makeham's
-law of 1860 to infantile ages, Wilhem Lazarus \cite{lazarus1867ueber} added
-an exponentially decreasing term. His law expressed the force of mortality
-as 
+infant mortality contradicts this assumption. This is the reason why Gompertz's
+and Makeham's laws were applied only to populations over $20$ years of age. 
+
+Mortality decreases from the birth of the child until the onset of adulthood. 
+In order to extend Makeham's law of 1860 to infantile ages, Wilhelm Lazarus 
+\cite{lazarus1867ueber} added an exponentially decreasing term. His law 
+expressed the force of mortality as 
 \begin{equation}\label{s3e5}
 \mu(x) = B_1 e^{-k_1x} + A + B_2e^{k_2 x}.
 \end{equation}
@@ -300,31 +326,32 @@ C\exp\left(-\frac{B_1}{k_1}e^{-k_1x} + Ax + \frac{B_2}{k_2}e^{k_2x}\right)
 \end{equation}
 
 The way infants' susceptibility to die of diseases upsets Gompertz's and 
-Makeham's assumption of monotonicity of the law of mortality, do does the 
+Makeham's assumption of monotonicity of the law of mortality, so does the 
 spike in the death rate of young adults. Wars were frequent in Europe of the 
 eighteenth century and the victims were disproportionately the young recruits.
-Even otherwise, young adults are more prone to death by accidents. In order
+Even otherwise, young adults are more prone to death by accidents. Maternal
+mortality too was quite high in the eighteenth century. In order
 to take into account this mortality hump in the young, Thiele 
-\cite{thiele1871mathematical} introduced a gaussian term to Lazarus' model.
+\cite{thiele1871mathematical} introduced a Gaussian term to Lazarus' model.
 His law of mortality is
 \begin{equation}\label{s3e7}
 \mu(x) = B_1 e^{-k_1x} + Ae^{-a_1(x - a_2)^2} + B_2e^{k_2 x}.
 \end{equation}
 All the constants in this equation, namely $A, a_1, a_2, B_1, k_1, B_2$ and 
-$k_2$ are positive numbers. The presence of the gaussian term prevents us
+$k_2$ are positive numbers. The presence of the Gaussian term prevents us
 from writing a closed form expression of the survival function. However, the
 ordinary differential equation for the survival function can be readily 
 integrated numerically. Alternatively, if the initial conditions are available,
 one can write its solution in terms of the error function.
 
-We observe that all generalisations of Makeham's laws introduce additional
+We observe that all generalizations of Makeham's laws introduce additional
 constants to the force of mortality and the hazard function. These constants
 provide additional `degrees of freedom' to the functions used to fit the 
 mortality data, resulting in a better fit.
 
-Forfar, McCutcheon and Wilkie proposed a far wider generalisation of the
-Gompertz and Makeham's laws. They defined a class of models, called GM models
-after their inventors, with the mathematical form
+Forfar, McCutcheon and Wilkie \cite{forfar1988graduation} proposed a far wider 
+generalization of the Gompertz and Makeham's laws. They defined a class of 
+models, called GM models after their inventors, with the mathematical form
 \begin{equation}\label{s3e8}
 \mu(x) = \sum_{i=0}^{r-1}\alpha_i x^i + 
 \exp\left(\sum_{i=1}^{s-1}\beta_i x^i\right).
@@ -338,7 +365,13 @@ The $\mathrm{GM}(0, 2)$, $\mathrm{GM}(2,2)$ and $\mathrm{GM}(1,3)$ are used
 by the Continuous Mortality Investigation Bureau\cite{pitacco2016high} in the 
 United Kingdom.
 
-\section{Other mortality laws prior to the 20th century}\label{s4}
+Gompertz's model and its descendants considered in this section had simple
+algebraic forms, each term of which could be interpreted in biological
+terms. However, they were not always easy to fit on available mortality
+data. The presence of exponentials also made them numerically unstable. 
+Moreover, they covered only a limited number of sources of mortality.
+
+\section{Other deterministic mortality laws}\label{s4}
 de Moivre's, Gompertz's and Makeham's laws of mortality were not the only
 ones in vogue in the nineteenth century and prior to it. In this section we
 mention a few notable ones without commenting on their merits. Lambert's
@@ -359,18 +392,55 @@ fractional powers of $x$. It has five degrees of freedom and had the form
 \begin{equation}\label{s4e3}
 s(x) = 1 - ax^{1/4} + bx^{9/4} - cx^{17/4} - dx^{25/4} + ex^{33/4}.
 \end{equation}
+The original mortality laws of Gompertz and Makeham were applicable only
+for adults. Oppermann proposed \cite{oppermann1870graduation} a law for people 
+younger than $20$ years of age. It was
+\begin{equation}\label{s4e4}
+\mu(x) = \frac{a}{\sqrt{x}} + b + cx^{1/3},
+\end{equation}
+where $a, b, c$ are parameter selected to fit the data. Perks 
+\cite{perks1932some} proposed two models of the form
+\begin{eqnarray}
+\mu_1(x) &=& \frac{A + Bc^x}{1 + Dc^x} \label{s4e5} \\
+\mu_2(x) &=& \frac{A + Bc^x}{Kc^{-x} + 1 + Dc^x} \label{s4e6}
+\end{eqnarray}
+The denominators in these forms flatten the exponential increase in Gompertz
+form, especially at advanced age. The mortality law of equation \eqref{s4e5}
+was used to graduate table of annuitant lives in the United Kingdom. Beard
+\cite{beard1971some} wrote his law in terms of the probability that a life 
+aged $x$ will die in the next year. It was
+\begin{equation}\label{s4e7}
+q_x = A + \frac{Bc^x}{Ex^{-2x} + 1 + Dc^x},
+\end{equation}
+where $A, B, c, D, E$ are parameters selected to fit the mortality data.
+Barnett's formula appears on page 141 of \cite{joint1974considerations}. It
+fits data using four parameters and has the mathematical form
+\begin{equation}\label{s4e8}
+q_x = \frac{A - Hx - Bc^x}{1 + A - Hx + Bc^x}.
+\end{equation}
+Wilkie \cite{wilkie1976international} generalized this form to
+\begin{equation}\label{s4e9}
+q_x = \frac{f(x)}{1 + f(x)},
+\end{equation}
+where
+\begin{equation}\label{s4e10}
+f(x) = \exp\left(\sum_{i=1}^s\alpha_i x^{i-1}\right).
+\end{equation}
 All these models were attempts to fit the mortality data with a continuous 
-function. They were not rooted in demographic observations like the models
-of Gompertz, Makeham, Lazarus or Thiele. As a result, they soon fell into
-disuse after Gompertz proposed his model and others improved upon it.
+function. Many were increasingly complicated functions that were selected on
+the sole merit that they fitted the observed data well. They were not rooted in 
+demographic observations like the models of Gompertz, Makeham, Lazarus or 
+Thiele. As a result, they soon fell into disuse after stochastic models came on
+the scene.
 
 \section{Heligman-Pollard model}\label{s5}
 The term `odds' is a well-defined term in probability theory. When we are 
 dealing with an experiment with two outcomes - that something happens or 
-it does not - then it is common in certain fields to express the 
-probabilities in terms of odds.  For example, if $p$ is the probability 
-that an event will happen and $q = 1 - p$ is the probability that it will 
-not happen then the odds of the experiment is $p/q$. 
+it does not - then it is common to express the probabilities in terms of odds. 
+For example, if $p$ is the probability that an event will happen and $q = 1 - p$
+is the probability that it will not happen then the odds of the experiment is 
+$p/q$. The usage of odds instead of probabilities is very common in gambling or
+betting.
 
 Recall from equations \eqref{s1e2} and \eqref{s1e3} that $p_x$ is the 
 probability that life aged $x$ will survive for another year and $q_x$ is
@@ -399,9 +469,9 @@ immunity. A higher $C$ indicates the fast decline in infant mortality as the
 child passes through infancy. When $B = 0$, $q_0 = 0.5$ irrespective of the
 values taken by $A$ and $C$. The value of $q_0$ is closer to $q_1$ if $B$ is
 higher for a given value of $C$. $B$ is thus an indicator of the central 
-tendancy of infant mortality. 
+tendency of infant mortality. 
 
-The second term is gaussian in the logarithm of age. It represent the accident
+The second term is Gaussian in the logarithm of age. It represent the accident
 mortality for young adults of both sexes and maternal mortality in young 
 females. It covers the `accident hump` observed in all demographic data. It
 is prominently observed between ages $10$ and $40$. The parameter $D$ controls 
@@ -414,6 +484,34 @@ exponential increase in the deterioration of the body. The parameter $G$
 represents the senescent mortality and $H$ the increase in the rate of that
 process.
 
+It is possible to write Heligman-Pollard model in the form
+\begin{equation}\label{s5e2}
+q_x = \frac{f(x)}{1 + f(x)},
+\end{equation}
+where
+\begin{equation}\label{s5e3}
+f(x) = A^{(x+B)^C} + D\exp\left(-E\left(\log\frac{x}{F}\right)^2\right) + 
+GH^x.
+\end{equation}
+A variation of the function $f$ in to
+\begin{equation}\label{s5e4}
+f(x) = A^{(x+B)^C} + D\exp\left(-E\left(\log\frac{x}{F}\right)^2\right) + 
+\frac{GH^x}{1 + GH^x}
+\end{equation}
+leads to the second form of Heligman-Pollard model. The two functions defined
+in equations \eqref{s5e2} and \eqref{s5e3} are not too dissimilar for most
+part of human mortality values. Two more variations of the Heligman-Pollard
+model are available in literature\cite{heligman1980age}.
+
+The advantages of Heligman-Pollard model \cite{umar2019modeling} lie in its
+smoothness, interpolability, parsimony, analytic manipulability and in 
+easy comparison with other models. Like all deterministic models, it models
+mortality at a fixed point time for all ages. As a result it used to construct
+age-period tables. Its shortcomings are because of the numerical instability
+in the algorithms used to find the parameters. It also has a wide range of
+parameters all producing a similar fit.
+
+
 \section{Lee-Carter model}\label{s6}
 The problem of forecasting population changes and composition is of interest
 to both the demographers and the pension fund managers. Ronald Lee and 
@@ -423,14 +521,15 @@ years in the United States in the $88$ years starting from the year $1900$.
 Should this trend continue unabated in the future, the human life expectancy
 will touch $100$ years by the year $2065$ upsetting the Social Security 
 Administration's calculations based on the long-term life expectancy of about
-$80.5$ years. The wide difference between Lee and Carter's 
-\cite{lee1992modeling} forecasts and the assumptions of the pension funds 
-made the actuaries turn their attention to forecasting than modelling alone.
+$80.5$ years. The wide difference between the predictions of the linear 
+increase in life expectancy 
+\cite{lee1992modeling} and the assumptions of the pension funds 
+made the actuaries turn their attention to forecasting than modeling alone.
 
 Unlike the previous models which tried to build formulae that mimicked the
-behaviour of human mortality in various stages of life, Lee and Carter used
+behavior of human mortality in various stages of life, Lee and Carter used
 the statistical techniques of time series for their projection into the future.
-They excluded factors representing advancement in medicine or the behavioural
+They excluded factors representing advancement in medicine or the behavioral
 and social changes on mortality. Their time series model extrapolated the 
 long-term trends seen in demographic data over several decades. They did not
 find it necessary to assume that the human life cannot extend beyond a certain
@@ -478,10 +577,10 @@ able to fit small non-linearities in the mortality curve quite well. Its
 shortcomings are its lack of smoothness of age effects in small populations, 
 inability to work with cohorts, inability to cope with improvements varying 
 across times and a possible underestimation of uncertainty. It also has a 
-limited versatality owing to it being a one-factor model.
+limited versatility owing to it being a one-factor model.
 
 \section{Age-Period-Cohort models}\label{s7}
-Demographic data is often analysed by taking into account the age, period 
+Demographic data is often analyzed by taking into account the age, period 
 and the cohort of individuals. The analysis need not be for mortality alone.
 It could be for incidence of diseases or even economic consumption. Consumption
 patterns do depend on age of the individual. But when they are observed over
@@ -496,10 +595,10 @@ and the available technology.
 
 Period analysis alone is quite useful to understanding the effect of wars,
 pandemics, revolutions or other upheavals on a population. However, they
-capture the effect of the times in which people are living. Behavioural
+capture the effect of the times in which people are living. Behavioral
 changes in people are better captured by considering cohorts. The 
 characteristics of a cohort are an aggregate of the characteristics of its 
-members\cite{willekens1991age}. Modern APC models require longitudnal data
+members\cite{willekens1991age}. Modern APC models require longitudinal data
 to understand the life processes as they evolve. They do not consider just
 the event of the death of an individual but the process of dying whose 
 culmination is death. They take the view that the mortality risks in a 
@@ -507,7 +606,7 @@ population are better determined by an understanding of morbidity in it
 \cite{van1990determinants}.
 
 The APC framework is used widely in the social sciences. In the context of
-mortality modelling and forecasting it started being used while answering the
+mortality modeling and forecasting it started being used while answering the
 questions \cite{willekens1991age}:
 \begin{itemize}
 \item Does mortality show a greater regularity when viewed at the level of a
@@ -522,12 +621,12 @@ It suggested that it may be possible to forecast the mortality of an individual
 based on the cohort in which he falls. It was also observed that the mortality
 rates for the generation that was young during the years of the second world
 war were overestimated for obvious reasons. This once again indicates the 
-importance and the role of cohorts in modelling mortality. 
+importance and the role of cohorts in modeling mortality. 
 
 \item Do events early in life affect the experiences later in life? This 
 question can be answered only in the context of a cohort analysis.
 
-While studing the death rates in England, Scotland and Sweden, Kermack
+While studying the death rates in England, Scotland and Sweden, Kermack
 \cite{kermack1934death} observed that the differences in mortality was mostly
 because of the environmental conditions experienced in the first fifteen years
 of life. It was not a result of the other influences in later life. The 
@@ -603,15 +702,15 @@ is,
 A(t+1) - A(t) = \mu + CZ(t+1),
 \end{equation}
 where $\mu$ is a constant vector representing the mean increment, $C$ is a 
-constant $2 \times 2$ upper triangular matrix and $Z(t)$ is a standardised
-two dimensional gaussian random variable. The authors also propose a criterion
+constant $2 \times 2$ upper triangular matrix and $Z(t)$ is a standardized
+two dimensional Gaussian random variable. The authors also propose a criterion
 for a good model of this kind. They introduce the idea of `biological 
 reasonability'. In general, a biologically reasonable model will have the 
 first component of $\mu$ negative and the second component positive. Further,
 the mortality rates for older cohorts should normally be greater than the 
 younger cohorts.
 
-Practitioners favour Cairns-Blake-Dowd model for its robustness and the ease
+Practitioners favor Cairns-Blake-Dowd model for its robustness and the ease
 with which it allows inclusion of parameter uncertainty. It is also more 
 versatile than the Lee-Carter model because it has an additional factor. 
 However, like the Lee-Carter model it does not allow analysis of cohort effects.
@@ -650,12 +749,12 @@ of all the previous models while retaining their benefits
 where $(\bar{x} - x)^+ = \max(\bar{x} - x, 0)$ and $\bar{x}$ is the mean age
 in the sample range. The term $a_x$ plays a 
 similar role as it did in Lee-Carter model. It controls the general shape
-of the mortality curvve. Of the four stochastic factors, $\kappa_t^1$
+of the mortality curve. Of the four stochastic factors, $\kappa_t^1$
 represents the change in the level of mortality across all ages, $\kappa_t^2$
 represents the change in the level of mortality between ages, $\kappa_t^3$
-captures the differences in mortality behaviour in the early adulthood stage
+captures the differences in mortality behavior in the early adulthood stage
 and $\gamma_{t-x}$ captures the cohort effect. If one is interested in 
-modelling only the advanced ages then one need not worry about the `accident
+modeling only the advanced ages then one need not worry about the `accident
 hump' of young adulthood and use the simplified model,
 \begin{equation}\label{s9e4}
 \log M(x,t) = a_x + \kappa^1_t + \kappa^2_t(\bar{x} - x) + \gamma_{t-x},
@@ -677,6 +776,41 @@ by requiring that
 \end{eqnarray*}
 where $x_0$ and $x_1$ are the earliest and the latest years of birth to which
 the cohort effect is fitted. 
+
+\section{Conclusion}
+We traced the development of mortality models from the earliest attempts of
+Graunt and Halley in the seventeenth century to the latest stochastic models
+of the twentieth century. In the four centuries spanning these models, we
+saw how the models addressed the business needs of their times with the
+mathematical methods available to their inventors. The earliest models either
+predate or are coeval to the development of Calculus. They were built on the
+most rudimentary data. Although their form was crude, their aim was very clear.
+They aspired to predict the liabilities of insurance companies. As mathematical
+ideas started to get sophisticated, so did the mortality models. By the
+eighteenth century, the concept of function was understood my most 
+mathematicians at an intuitive level. The idea of probability was still not
+within the ambit of mainstream mathematics. As a result, mortality models of
+those days were written as functions of human age. The key characteristics
+of human mortality did not change drastically enough to warrant anything more
+than a more flexible functional form. However, from the closing decades of the
+nineteenth century, advances in health sciences and developments of vaccines 
+started to prevent many deaths. The developed world also saw a long lull in 
+large scale conflict after the second world war got over. The triumph of
+medical sciences became a cause of worry to the actuaries. They spotted the
+emergence of significant longevity risk to their businesses. They noticed the
+rapid rise in human life expectancy leading to more people drawing pensions
+for more years. This is when the need to forecast mortality arose. The 
+foundations of probability theory were laid in 1930s and stochastic processes
+were put on a firm mathematical footing by the 1950s. Actuaries and 
+statisticians took advantage of these developments to build stochastic models
+to forecast the future course of mortality curves. Their results were not
+in the form of a deterministic curve but a probability distribution with
+well-defined confidence intervals. The availability of cheap computing also
+spurred a growth in this area. Stochastic models began to include cohort 
+analysis. With the advent of newer forms of finance and sophisticated
+financial engineering, mortality models began to be coupled with design of
+financial instruments to hedge risks. This is indeed a very long way since the
+publication of 'Bills of Mortality' every Thursday in the parishes of London.
 \bibliography{draft}
 \bibliographystyle{plain}
 \end{document}
