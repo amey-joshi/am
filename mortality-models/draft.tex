@@ -1,7 +1,9 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
+\usepackage{url}
 \numberwithin{equation}{section}
 \DeclareMathOperator{\pr}{P}
+\DeclareMathOperator{\E}{E}
 \linespread{1.3}
 \title{A Review of Mortality Models}
 \author{To be filled}
@@ -733,7 +735,7 @@ male mortality data in England and Wales quite well it turned to not as
 robust as other models. The lack of robustness is believed to be related to
 the shape of the likelihood function. It has more than one local maximum.
 Therefore, when we change the age or the year range the optimizer ends up
-settling on a different maximum each time\cite{cairns2008modelling}. Currie
+settling on a different extremum each time\cite{cairns2008modelling}. Currie
 simplified the Renshaw-Haberman model to
 \begin{equation}\label{s9e2}
 \log{M}(x, t) = {a}_x + {k}_t + \gamma_{t-x}.
@@ -776,6 +778,194 @@ by requiring that
 \end{eqnarray*}
 where $x_0$ and $x_1$ are the earliest and the latest years of birth to which
 the cohort effect is fitted. 
+
+The Plat model is a synthesis of several stochastic mortality models aimed to
+retain their advantages and eliminating their shortcomings. Its four stochastic
+factors ensure that model is not trivial and yet it is not too complex. It
+retains the correlation structure between age groups, making it a valuable
+tool for solvency calculations. The model is applicable over the full range of 
+human mortality. It captures the cohort effect and has a robust numerical 
+behavior. Another valuable feature of the model is that one can develop its
+risk-neutral version to price longevity derivatives.
+
+\section{Cause-of-Death models}\label{s11}
+All mortality models considered so far have considered only the occurrence of
+death without examining the reason. Unlike most of the animal world, death in
+humans is not solely due to natural causes. The cause-of-death models split the
+aggregate mortality data into a number of causes and model mortality for each
+cause separately. It as important to understand the key drivers of human 
+mortality as the aggregate mortality rate. It has been observed that deaths
+due to cardiovascular diseases have reduced in past few decades. Death rate
+due to neoplasm have also begun to drop. However, deaths due to dementia in 
+advanced ages and drug-abuse in the younger ages have risen. Features like this
+do not emerge by modeling the aggregate death rate. Boumezoued and others
+\cite{alexandre2019modeling} used Human Mortality Database and Human Cause-of-
+death database to construct a cause-of-death mortality model for the American
+population. They define $\mu_{x,t,i}$, the death rate for an age group $x$ due
+to cause $i$ in year $t$ as
+\begin{equation}\label{s11e1}
+\mu_{x,t,i} = \frac{D_{x,t,i}}{E_{x,t}},
+\end{equation}
+where $D_{x,t,i}$ is the number of deaths by cause $i$ in year $t$ of an 
+individual aged $x$ last birthday. $E_{x,t}$ is the total life duration in the
+year $t$ of individuals ages $x$ last birthday. It is also called the 
+`exposure-to-risk'. Note that the exposure is not indexed by $i$ and is an
+aggregate metric. The authors use the competing risks framework according to
+which every cause of death has a cause-specific lifetime associated with  it.
+Thus if $\tau^A$ is the lifetime under cause $A$ and $\tau^B$ is the lifetime
+under all causes except $A$ then the survival function at age $a$ is defined
+as the probability that lifetimes under all clauses will be higher than $a$,
+Thus,
+\begin{equation}\label{s11e2}
+S(a) = \pr(\tau > a) = \pr(\tau^A>a,\tau^B>a) = 
+\exp\left(-\int_0^a\mu(y)dt\right),
+\end{equation}
+where
+\begin{equation}\label{s11e3}
+\tau = \min(\tau^A, \tau^B)
+\end{equation}
+If the lifetimes under cause $A$ is independent of the lifetime under all causes
+then one can write the survival function as
+\begin{equation}\label{s11e4}
+S(a) = \pr(\tau^A>a)\pr(\tau^B>a)=
+\exp\left(-\int_0^a\mu_A(y)dt\right)\exp\left(-\int_0^a\mu_B(y)dt\right),
+\end{equation}
+In equations \eqref{s11e2} and \eqref{s11e4}, $\mu$ is the aggregate mortality
+rate and $\mu_A$ and $\mu_B$ are cause-specific mortality rates. There are 
+several ways to build cause of death forecasts. One can associate a link
+between the causes and a number of clinical factors and use the latter for
+forecasting. However, doing so needs a deep expertise in several medical fields
+and the model needs a large amount of medical data. Another way is to use
+the multivariate Lee-Carter framework to get the join distribution of cause-
+specific death rates. The model is defined by the equation
+\begin{equation}\label{s11e5}
+\log\mu_{x,t,i} = \alpha_{x,i} + \beta_{x,i}\kappa_{t,i},
+\end{equation}
+where $\alpha_{x,i}$ is the static, cause-specific age structure, $\kappa_{t,i}$
+is the cause-specific mortality and $\beta_{x,i}$ is the sensitivity of the
+age class $x$ to the cause $i$. 
+
+Cause-of-death models help us understand the interaction and joint-dynamics
+of the causes of death. They allow us to understand the severity of death-
+related pathologies. Further, if certain causes of death are prevented by
+improvements in healthcare or better policies then one can take that into 
+account while building aggregate mortality.
+
+\section{Generalized linear models}\label{s12}
+The ordinary least square linear regression assumes that the residuals are
+normally distributed. The expected value of the response is a linear
+combination of the predictors. Therefore a constant change in the predictor
+results in a proportional change in the respose, a characteristic of a linear
+relationship. However, often times this is not true. A generalized linear 
+model expresses a certain function of the response as a linear model. That is,
+instead of fitting a linear model between a response $y$ and the predictors $X$,
+we git a linear model between a function $g(y)$ of the response and the
+predictors. The function $g$ is called the link function. This method,
+developed by Nelder and Wedderburn \cite{nelder1972generalized} proposes a 
+general structure for several types of regression including the traditional
+ordinary-least-squares, the logistic and the Poisson regressions. 
+
+If the probablity mass or density function of a random variable $Y$ can be
+written as
+\begin{equation}\label{s12e1}
+f_Y(y, \theta; \phi) = 
+\exp\left(\frac{y(\theta) - b(\theta)}{\alpha(\phi)} + c(y, \phi)\right)
+\end{equation}
+where $a, b, c$ are functions of their arguments and $\theta, \phi$ are
+parameters then $Y$ is said to belong to an exponential family of distributions.The normal, binomial, Poisson, exponential and gamma distributions are all
+members of the exponential family. A generalized linear model assumes that
+the responses $Y_1, \ldots, Y_n$ are independent and identically distributed
+with the distribution from the exponential family. 
+
+A generalized linear model consists of 1) a distribution from the exponential
+family, 2) a linear predictor $\eta = X\beta$ and 3) a link function $g$
+such that $\E(Y|X) = g^{-1}(\eta)$.
+
+If we write $B = e^{k_1}$ in equation \eqref{s3e3} describing the force of
+mortality of Gompertz' law then we can take logarithm of both sides to get
+\begin{equation}\label{e12e2}
+\log\mu(x) = k_1 + kx.
+\end{equation}
+The right hand side of this equation is a linear function in $x$ while the left
+hand side is a logarithm. This is precisely the form of generalized linear
+model with logarithmic link function and a Poisson distrubution. If the errors
+in Gompertz's law are modeled in terms of a binomial distribution then the
+link function is a complimentary log-log function \cite{currie2013fitting} 
+defined as
+\begin{equation}\label{e12e3}
+f(x) = \log(-\log(1 - x)),
+\end{equation}
+where $0 < x < 1$. Mortality laws expressed as sigmoid functions of the form
+\begin{equation}\label{e12e4}
+q_x = \frac{e^{\theta_0 + \theta_1 x}}{1 + e^{\theta_0 + \theta_1 x}},
+\end{equation}
+can be easily transformed to the form
+\begin{equation}\label{e12e5}
+\frac{q_x}{1 - q_x} = e^{\theta_0 + \theta_1 x}
+\end{equation}
+or, taking logarithm of both sides,
+\begin{equation}\label{e12e6}
+\log\frac{q_x}{1 - q_x} = \theta_0 + \theta_1 x.
+\end{equation}
+Once again we observe that the right hand side is a linear function of the
+predictor. The function on the left hand is called a logit function and it is
+a legitimate link function for a generalized linear model. In fact, this link
+function is used to implement the standard logistic regression in applied
+statistics. It is possible to show that the Age-Period-Cohort models and the
+Cairns-Blake-Dowd models can also be expressed as generalized linear models. 
+The algebra involved to demonstrate this fact is a bit involved and we refer
+to the paper by Currie \cite{currie2013fitting} for the details.
+
+Generalized linear model gives the theoretical structure to several mortality
+models and also suggests a practical implementation. It is important to note
+that generalized linear models were not developed to build newer mortality
+forecasting models. Rather, deterministic mortality models were cast as 
+generalized linear models and that permitted practitioners to use a standard
+algorithm to fit their data. Unlike ordinary least squares regression which
+has an exact analytical solution, none exists for the generalized linear models.
+They must be solved numerically using an optimizer. The optimizer is guaranteed
+to find a global minimum if its objective function is convex. When it is not
+it is not uncommon for the optimizer to settle on a local minimum. We mentioned
+this problem in the case of the Renshaw-Haberman model in section \ref{s9}.
+
+\section{Spline models}\label{s13}
+The Lee-Carter model of equation \eqref{s6e1} and the Renshaw-Haberman model
+of equation \eqref{s9e1} contain multiplicative terms of predictors. It is 
+not possible to cast them as generalized linear models. However, it is possible
+to express them as generalized nonlinear models with a link function. Both
+these models can be expressed in terms of Poisson distribution and a logarithmic
+link function. Like their linear counterparts, generalized non-linear models
+do not have an exact analytical solution. Their numerical solution needs an
+optimizer. However, it is not always possible to find an optimal solution.
+Currie reports that \cite{currie2013fitting} among the $25$ simulations he
+tried to fit these models on UK data, in six cases the model did not converge
+and in five other cases the optimizer was unable to fit the model. 
+
+Splines were used to draw a smooth curve passing through a set of points. They
+were initially used by draftsmen who represented the points by heavy leads and
+the splines by flexible wooden strips. This idea was borrowed into numerical
+analysis by I. J. Shoenberg \cite{schoenberg1969cardinal} in the late sixties
+of the twentieth century. A set of polynomials were used to approximate a
+non-linear function where each polynomial fitted a portion of the function
+being approximated. It was possible to show that under certian conditions
+\cite{schoenberg1969cardinal} a non-linear function could be expressed as a 
+piecewise polynomial function. The polynomials were required to blend into each
+other that the boundaries in a smooth way. That is, not only were their values
+required to match but also their derivatives.
+
+Splines can be implemented using the Cox-de Boor recurrence relation
+\cite{de1978practical}
+\begin{equation}\label{s13e1}
+B_{i,0}(x) = \begin{cases}
+1 & \text{ if } x \in [t_i, t_{i+1}] \\
+0 & \text{ otherwise}
+\end{cases}
+\end{equation}
+and
+\begin{equation}\label{s13e2}
+B_{i,j}(x) = \frac{x - t_i}{t_{i+j} - t_i}B_{i,j-1}(x) + 
+\frac{t_{i+j+1}-x}{t_{i+j+1}-t_{i+1}}B_{i+1,j-1}(x).
+\end{equation}
 
 \section{Conclusion}
 We traced the development of mortality models from the earliest attempts of
