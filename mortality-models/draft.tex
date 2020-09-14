@@ -40,23 +40,6 @@ Mortality analysis in actuarial science is called survival analysis is
 statistics, reliability theory in engineering, duration analysis in economics 
 and event history analysis in sociology.
 
-John Graunt, an English haberdasher, was perhaps the world's first demographer
-and epidemiologist. In spite of the rudimentary mathematical tools available
-in the seventeenth century, he was able to publish the first life tables. They
-were based on the `Bills of Mortality' published in the parishes of London
-every Thursday. The data was not best suited for constructing life tables but
-that was the only one available in Graunt's time. Graunt admitted the 
-inadequacy of his approach. Edmund Halley, the man after whom a comet is 
-named, could get demographic data of a much better quality from the city of
-Wroclaw in Poland. It had the age and sex of the dead individuals. Halley
-used this data to build life tables of a greater accuracy than Graunt's. He
-also demonstrated how to use the life tables to compute annuities. Graunt's
-and Halley's work was entirely empirical, keeping with the times in which
-it was done. Using their life tables was also quite laborious. With the 
-invention of Calculus in the late seventeenth century and the development of 
-the rudimentary ideas of a mathematical function, it became possible to build
-theoretical models of human mortality.
-
 Traditionally, mortality models studied existing demographic data to produce
 mortality tables. They described mortality at a fixed point in time. The pace 
 of technology development was quite slow in the times when the first mortality
@@ -134,7 +117,20 @@ section 7 we turn our attention to stochastic models, starting with the
 celebrated Lee-Carter model. An interesting class of models used across social
 sciences is the Age-Period-Cohort models. We review a few of them relevant
 to mortality in section 8. In section 9 we consider the Cairns-Blake-Dowd model
-and finally we consider stochastic models with cohort effects in section 10.
+and finally we consider stochastic models with cohort effects in section 10. 
+The models considered so far have looked at mortality irrespective of the
+cause of death. However, in recent years, death rate due to certain causes
+is falling while those due to others is rising. One can, therefore, forecast
+death rates by cause and aggregate the results. This is the approach taken by
+the cause-of-death models in section \ref{s11}. Several mortality models can
+be written in the form $f(\mu) = L(\theta)$ where $L$ is a linear function of
+the parameters $\theta$ of the model and $f$ is some function of the force
+of mortality that permits us to have the right hand side as $L(\theta)$. The
+statistically rigorous method to fit such models to mortality data is called
+the generalized linear models. Section \ref{s12} discusses them. Not all
+models can be brought in this format. Important examples being Lee-Carter and
+Renshaw-Haberman. One has to take recourse to spline regression in these
+cases. They are the topic of section \ref{s13}.
 
 \section{de Moivre's law}\label{s1}
 An annuity is a lifelong payment made to an individual by a company. The 
@@ -945,7 +941,7 @@ Splines were used to draw a smooth curve passing through a set of points. They
 were initially used by draftsmen who represented the points by heavy leads and
 the splines by flexible wooden strips. This idea was borrowed into numerical
 analysis by I. J. Shoenberg \cite{schoenberg1969cardinal} in the late sixties
-of the twentieth century. A set of polynomials were used to approximate a
+of the twentieth century. A set of polynomials was used to approximate a
 non-linear function where each polynomial fitted a portion of the function
 being approximated. It was possible to show that under certian conditions
 \cite{schoenberg1969cardinal} a non-linear function could be expressed as a 
@@ -966,6 +962,54 @@ and
 B_{i,j}(x) = \frac{x - t_i}{t_{i+j} - t_i}B_{i,j-1}(x) + 
 \frac{t_{i+j+1}-x}{t_{i+j+1}-t_{i+1}}B_{i+1,j-1}(x).
 \end{equation}
+These splines are then joined at the knot points $\{t_i: i = 1, \ldots, n\}$.
+Once the knots are given it is easy to find the splines. However, there is
+little guidance on the number of knots. Too few of them lead to under-fitting
+and too many of them lead to over-fitting. O'Sullivan \cite{o1986statistical}
+suggested that one should use a relatively large number of knots and prevent
+over-fitting by levying a penalty on the second derivatives of the splines.
+Eilers and Marx \cite{eilers1996flexible} simplify O'Sullivan's suggestion
+and apply it to regression on B-splines. They applied the penalty to the
+difference between the coefficients of the adjacent splines. The optimal amount
+of smoothing is determined by cross-validation and the Akaike Information 
+Criterion (AIC). Eilers and Marx call splines with penalties as P-splines.
+They demonstrate that P-splines are an extension of the generalized linear
+models. P-spline transforms conserve statistical moments of the data and have
+polynomial curve fits as limits. Currie and others \cite{currie2004smoothing}
+show how to use P-splines to fit mortality forecasting models. If $x_a = (
+x_{a,1},\ldots,x_{a,n_a})^T$ and $x_y=(x_{y,1},\ldots,x_{y,n_y})^T$ are the
+vectors with ages and years, $\mathcal{B}_a = \{B_{a,1}, \ldots, B_{a, c_a}\}$
+and $\mathcal{B}_y = \{B_{y,1},\ldots,B_{y, c_y}\}$ are the cubic B-slines of
+dimensions $c_a$ and $c_y$ then
+\begin{equation}\label{c14e1}
+X = B_y \otimes B_a
+\end{equation}
+is the regression matrix for the P-spline model
+\begin{equation}\label{c14e2}
+M(x,t) = \sum_{i,j}\theta_{i,j}B_{i,j}^{ay}(x, t).
+\end{equation}
+Here $B_a =(B_{a,j}(x_{a,i}))$ is an $n_a \times c_a$ matrix and $B_y = 
+(B_{y,j}(x_{y,i}))$ is an $n_y \times c_y$ matrix. The penalty matrix is given
+as
+\begin{equation}\label{c14e3}
+P = \lambda_aI_{c_y} \otimes D_a^TD_a + \lambda_y D_y^TD_y\otimes I_{c_a},
+\end{equation}
+where $D_a$ is the difference matrix of the rows of M, $D_y$ is the difference
+matrix on the columns of M, and the two $\lambda$s are the smoothing parameters.
+The regression problem is then minimizing the likelihood function
+\begin{equation}\label{c14e4}
+\ell_p = \ell - \frac{1}{2} m^TPm,
+\end{equation}
+where $\ell$ is the default log likelihood function and $m$ is the vector of
+the elements of $M$.
+
+The greatest benefit of splines over polynomial regression is that the former is
+a more stable numerical method, especially when used for forecasting. The
+reason for this stability is the local non-zero support for splines. 
+Polynomials, on the other hand, have a global support. The P-spline regression
+not only fits the mortality data smoothly, it also produces confidence intervals
+to its forecasts enabling us to compute bounds for financial parameters 
+depending on mortality.
 
 \section{Conclusion}
 We traced the development of mortality models from the earliest attempts of
