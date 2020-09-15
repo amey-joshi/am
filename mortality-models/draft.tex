@@ -21,12 +21,12 @@ possible to predict the time of death of an individual although one can reliably
 predict how many people from a large enough group will survive past a certain
 date in future. Actuaries knew this statistical fact long before the 
 mathematical foundations of the theory of probability were laid. The 
-mathematical models they to describe how deaths occur in a given society are
+mathematical models they use to describe how deaths occur in a given society are
 called `mortality models'.
 
 The death of an individual in a population or the decay of a radioactive atom
 is an event happening to a member of the population. Likewise, the failure of
-a machine, an occurrence of an event, the duration of a certain phase in an
+a machine, the extinction of a species, the duration of a certain phase in an
 economy are all different manifestations of the same phenomenon in which 
 something happens that significantly alters the future of the member of the
 population. Death terminates an individual's existence, radioactive decay
@@ -51,7 +51,8 @@ of annuities.
 However, the advancement in health science since the early years of the 
 twentieth century, the relative peace in the western world since the second 
 world war and abundance of food in the rich world resulted in a change in
-historical mortality patterns. Pension funds started realizing that annuities
+historical mortality patterns. Healthcare systems began to come under stress.
+Pension funds started realizing that annuities
 were being drawn for longer than expected periods. As the population in the
 developed countries started graying the pension funds had the additional 
 problem of a higher annuity obligations and a lower contribution from newer
@@ -74,7 +75,10 @@ Mortality models, being mathematical functions, produce a single curve for
 a given set of its parameters. On the other hand, mortality forecasts are a
 collection of curves or a family of probability distributions. Their output
 is accompanied with appropriate confidence intervals to indicate the 
-uncertainty in their reported values.
+uncertainty in their reported values. Mortality models describe the mortality
+behavior at a fixed time. They do not predict the changes in mortality over
+long enough durations of the pension funds' interest. Mortality forecasts
+allow us to extrapolate the mortality curves several decades into the future.
 
 Before we start reviewing the deterministic and stochastic mortality models
 let us describe certain characteristic features of human mortality. Although
@@ -108,16 +112,18 @@ demonstrate how to evaluate their expressions in simple cases. In section 3
 we describe the Gompertz's model, the first realistic mortality model that 
 was used for a very long time in the industry. The success of Gompertz model
 lay in the number of successors it produced. Of these, we cover Makekam's 
-model and its generalizations in section 4. In section 5 we mention a few
+model and its generalizations in section \ref{s3}. In section \ref{s4} we 
+mention a few
 other mortality models used in European countries but whose significance today
 lies mostly in their historical value. The $8$-parameter Heligman-Pollard model
 was the first one that could be fitted to the entire mortality curve, starting
-from infancy to very advanced years. We describe it in section 6. Starting
-section 7 we turn our attention to stochastic models, starting with the
-celebrated Lee-Carter model. An interesting class of models used across social
-sciences is the Age-Period-Cohort models. We review a few of them relevant
-to mortality in section 8. In section 9 we consider the Cairns-Blake-Dowd model
-and finally we consider stochastic models with cohort effects in section 10. 
+from infancy to very advanced years. We describe it in section \ref{s5}. 
+Starting section \ref{s6} we turn our attention to stochastic models, starting 
+with the celebrated Lee-Carter model. An interesting class of models used 
+across social sciences is the Age-Period-Cohort models. We review a few of them 
+relevant to mortality in section \ref{s7}. In section \ref{s8} we consider the 
+Cairns-Blake-Dowd model and we consider stochastic models with cohort effects in
+ section \ref{s9}. 
 The models considered so far have looked at mortality irrespective of the
 cause of death. However, in recent years, death rate due to certain causes
 is falling while those due to others is rising. One can, therefore, forecast
@@ -130,7 +136,8 @@ statistically rigorous method to fit such models to mortality data is called
 the generalized linear models. Section \ref{s12} discusses them. Not all
 models can be brought in this format. Important examples being Lee-Carter and
 Renshaw-Haberman. One has to take recourse to spline regression in these
-cases. They are the topic of section \ref{s13}.
+cases. They are the topic of section \ref{s13}. We conclude our review in the
+final section.
 
 \section{de Moivre's law}\label{s1}
 An annuity is a lifelong payment made to an individual by a company. The 
@@ -366,7 +373,7 @@ United Kingdom.
 Gompertz's model and its descendants considered in this section had simple
 algebraic forms, each term of which could be interpreted in biological
 terms. However, they were not always easy to fit on available mortality
-data. The presence of exponentials also made them numerically unstable. 
+data. The presence of exponential also made them numerically unstable. 
 Moreover, they covered only a limited number of sources of mortality.
 
 \section{Other deterministic mortality laws}\label{s4}
@@ -851,7 +858,7 @@ account while building aggregate mortality.
 The ordinary least square linear regression assumes that the residuals are
 normally distributed. The expected value of the response is a linear
 combination of the predictors. Therefore a constant change in the predictor
-results in a proportional change in the respose, a characteristic of a linear
+results in a proportional change in the response, a characteristic of a linear
 relationship. However, often times this is not true. A generalized linear 
 model expresses a certain function of the response as a linear model. That is,
 instead of fitting a linear model between a response $y$ and the predictors $X$,
@@ -861,7 +868,7 @@ developed by Nelder and Wedderburn \cite{nelder1972generalized} proposes a
 general structure for several types of regression including the traditional
 ordinary-least-squares, the logistic and the Poisson regressions. 
 
-If the probablity mass or density function of a random variable $Y$ can be
+If the probability mass or density function of a random variable $Y$ can be
 written as
 \begin{equation}\label{s12e1}
 f_Y(y, \theta; \phi) = 
@@ -884,7 +891,7 @@ mortality of Gompertz' law then we can take logarithm of both sides to get
 \end{equation}
 The right hand side of this equation is a linear function in $x$ while the left
 hand side is a logarithm. This is precisely the form of generalized linear
-model with logarithmic link function and a Poisson distrubution. If the errors
+model with logarithmic link function and a Poisson distribution. If the errors
 in Gompertz's law are modeled in terms of a binomial distribution then the
 link function is a complimentary log-log function \cite{currie2013fitting} 
 defined as
@@ -943,9 +950,9 @@ the splines by flexible wooden strips. This idea was borrowed into numerical
 analysis by I. J. Shoenberg \cite{schoenberg1969cardinal} in the late sixties
 of the twentieth century. A set of polynomials was used to approximate a
 non-linear function where each polynomial fitted a portion of the function
-being approximated. It was possible to show that under certian conditions
+being approximated. It was possible to show that under certain conditions
 \cite{schoenberg1969cardinal} a non-linear function could be expressed as a 
-piecewise polynomial function. The polynomials were required to blend into each
+Pierce's polynomial function. The polynomials were required to blend into each
 other that the boundaries in a smooth way. That is, not only were their values
 required to match but also their derivatives.
 
@@ -979,7 +986,7 @@ polynomial curve fits as limits. Currie and others \cite{currie2004smoothing}
 show how to use P-splines to fit mortality forecasting models. If $x_a = (
 x_{a,1},\ldots,x_{a,n_a})^T$ and $x_y=(x_{y,1},\ldots,x_{y,n_y})^T$ are the
 vectors with ages and years, $\mathcal{B}_a = \{B_{a,1}, \ldots, B_{a, c_a}\}$
-and $\mathcal{B}_y = \{B_{y,1},\ldots,B_{y, c_y}\}$ are the cubic B-slines of
+and $\mathcal{B}_y = \{B_{y,1},\ldots,B_{y, c_y}\}$ are the cubic B-splines of
 dimensions $c_a$ and $c_y$ then
 \begin{equation}\label{c14e1}
 X = B_y \otimes B_a
