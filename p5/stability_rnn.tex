@@ -566,6 +566,55 @@ Translating this argument to the world of neural networks, adding an
 attention layer might improve the performance of a stable solution but it
 will not make an unstable solution stable.
 
+\section{GRU's as Dynamical Systems}\label{s11}
+The most distinctive characteristic of a recurrent neural network is that it
+allows previous outputs to be used as inputs. Mathematically, one can express
+them as
+\begin{equation}\label{s11e1}
+h_{t+1} = f_1(h_t, x_t),
+\end{equation}
+where $x_t$ is the input and $h_t$ is the hidden state at `time' $t$. The
+function $f$ is usually non-linear. Equation \eqref{s11e1} is the general form
+of a non-linear difference equation. In the absence of any input, the hidden
+state evolves as
+\begin{equation}\label{s11e2}
+h_{t+1} = f_1(h_t, 0) = f(h_t).
+\end{equation}
+This is an example of an autonomous dynamical system. The evolution of the
+hidden states of recurrent neural networks can thus be considered to be
+trajectories of dynamical systems. One can then use the rich theory of 
+dynamical systems to study the stability of recurrent neural networks.
+
+A gated recurrent unit with the structure
+\begin{eqnarray}
+z_t &=& \sigma(W_zx_t + U_zh_{t-1} + b_z) \label{s11e3} \\
+r_t &=& \sigma(W_rx_t + U_rh_{t-1} + b_r) \label{s11e4} \\
+h_t &=& (1 - z_t)\circ\tanh(W_hx_t + U_h(r_t\circ h_{t-1} + b_h)) + 
+        z_t \circ h_{t-1} \label{s11e5}
+\end{eqnarray}
+where $W_z, W_r, W_h \in \mathbb{R}^{d \times p}$, $U_z, U_r, U_h \in 
+\mathbb{R}^{d \times d}$ are parameter matrices and  $b_z, b_r, b_h \in
+\mathbb{R}^d$ are bias vectors. In the absence of an input the above
+equations become
+\begin{eqnarray}
+z_t &=& \sigma(U_zh_{t-1} + b_z) \label{s11e6} \\
+r_t &=& \sigma(U_rh_{t-1} + b_r) \label{s11e7} \\
+h_t &=& (1 - z_t)\circ\tanh(U_h(r_t\circ h_{t-1} + b_h)) + 
+        z_t \circ h_{t-1} \label{s11e8}
+\end{eqnarray}
+One can consider equations \eqref{s11e6} to \eqref{s11e8} to be discrete
+forms of the system of ODEs \cite{jordan2019gated}
+\begin{eqnarray}
+z(t) &=& \sigma(U_zh(t) + b_z) \label{s11e9} \\
+r(t) &=& \sigma(U_rh(t) + b_r) \label{s11e10} \\
+\dot{h}(t) &=& (1 - z(t))\circ
+	\left(-h(t)+\tanh(U_h(r(t)\circ h(t)) + b_h)\right) \label{s11e11},
+\end{eqnarray}
+where the dot over $h$ denotes its time derivative. We consider a special case
+of these equations with the following values of parameters, (first row of 
+table I in \cite{jordan2019gated},
+\begin{eqnarray}
+U_r &=&
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
 \end{document}
