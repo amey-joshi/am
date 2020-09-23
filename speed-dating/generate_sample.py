@@ -3,7 +3,7 @@
 import random
 import pandas as pd
 
-sample_size = 30
+sample_size = 5
 self_choices = [1, 2, 3] # The choice 4 is added to the UI but it is same as 3.
 seek_choices = [1, 2, 3]
 
