@@ -8,12 +8,11 @@
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/max_cardinality_matching.hpp>
+#include <Participant.hpp>
 
 using namespace boost;
 typedef adjacency_list<vecS, vecS, bidirectionalS> Graph;
 typedef std::pair<int, int> Edge;
-
-#include <Participant.hpp>
 
 std::vector<Edge> get_edges(const std::vector<Participant>& ps);
 void show_edges(const Graph& g);
@@ -47,7 +46,7 @@ int main(int argc, char* argv[], char* envp[])
 			fields[j++] = std::atoi(ci->c_str());
 		}
 		ps.push_back(Participant(fields[0], fields[1], fields[2],
-   										   fields[3], fields[4]));
+                                 fields[3], fields[4]));
 	}
 
 	f.close();
@@ -66,21 +65,17 @@ int main(int argc, char* argv[], char* envp[])
 	std::vector<graph_traits<Graph>::vertex_descriptor> mate(ps.size());
 	edmonds_maximum_cardinality_matching(g, &mate[0]);
 
-	if (true) {
-		std::cout << "Found matching of size " << matching_size(g, &mate[0])
-				  << std::endl;
-		std::cout << "The matching is: " << std::endl;
-		graph_traits<Graph>::vertex_iterator vi, vi_end;
-		for(tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi) {
-			if (mate[*vi] != graph_traits<Graph>::null_vertex() &&
-			    *vi < mate[*vi]) {
-				std::cout << "{" << *vi << "," << mate[*vi] << "}" << std::endl;
-			}
+	std::cout << "Found matching of size " << matching_size(g, &mate[0])
+		  << std::endl;
+	std::cout << "The matching is: " << std::endl;
+	graph_traits<Graph>::vertex_iterator vi, vi_end;
+	for(tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi) {
+		if (mate[*vi] != graph_traits<Graph>::null_vertex() &&
+			*vi < mate[*vi]) {
+			std::cout << "{" << *vi << "," << mate[*vi] << "}" << std::endl;
 		}
-		std::cout << std::endl;
-	} else {
-		std::cerr << "Failed to find a matching." << std::endl;
-	}
+	}	
+	std::cout << std::endl;
 
 	return 0;
 }
