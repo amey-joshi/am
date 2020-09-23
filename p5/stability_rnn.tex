@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{graphicx}
 \DeclareMathOperator*{\argmax}{argmax}
 \DeclareMathOperator*{\smax}{softmax}
 \numberwithin{equation}{section}
@@ -611,10 +612,102 @@ r(t) &=& \sigma(U_rh(t) + b_r) \label{s11e10} \\
 	\left(-h(t)+\tanh(U_h(r(t)\circ h(t)) + b_h)\right) \label{s11e11},
 \end{eqnarray}
 where the dot over $h$ denotes its time derivative. We consider a special case
-of these equations with the following values of parameters, (first row of 
-table I in \cite{jordan2019gated},
+of these equations in the subsections to follow.
+
+\subsection{Example 1}
+We choose the following values of parameters, (first row of table I in 
+\cite{jordan2019gated}),
 \begin{eqnarray}
-U_r &=&
+U_h &=& 3I_2 \label{s11e12} \\
+U_r &=& 0 \label{s11e13} \\
+U_z &=& 0 \label{s11e14} \\
+b_h &=& 0 \label{s11e15} \\
+b_r &=& 0 \label{s11e16} \\
+b_z &=& 0 \label{s11e17} 
+\end{eqnarray}
+For these values $z(t) = r(t) = 1/2(1, 1)^T$ and
+\begin{equation}\label{s11e18}
+\dot{h}(t) = \frac{1}{2}\left(-h(t) + \tanh\left(\frac{3}{2}h(t)\right)\right)
+\end{equation}
+The stable fixed points of this equation are shown in figure \ref{f1}.
+\begin{figure}[h]
+\caption{Stable points}\label{f1}
+\includegraphics[scale=0.5]{Ex1_Stable_points.png}
+\centering
+\end{figure}
+The coloured dots indicate the start of the trajectory while the blue square
+indicates its end. Trajectories seem to converge on the stable points. The
+phase portrait also indicates that the arrows point toward the stable points.
+
+This equation also has an unable point at the origin. The phase portrait has
+arrows diverging from the origin. The trajectories follow these directions.
+\begin{figure}[h]
+\caption{Unstable points}\label{f2}
+\includegraphics[scale=0.5]{Ex1_Unstable_point.png}
+\centering
+\end{figure}
+We will now examine the behaviour of this unstable point for a collection of
+five such GRUs starting their trajectory in the vicinity of the origin.
+In each of these figures the trajectory of the GRUs with attention layer
+is shown as a dashed line ending with a red square. The trajectories of the
+individual GRUs are shown as solid lines ending at the blue square. The
+initial conditions of the GRUs were chosen randomly from a set of $16$ points
+on a square centred at the origin and of side $0.1$. Figure \ref{f3} shows
+the first set of $6$ samples and figure \ref{f4} shows the remaining $6$
+samples.
+
+In each of these samples, the trajectory of the GRUs with attention layer
+never goes farther than the individual GRUs. It does veer away from the 
+origin but at a slower rate. This observation confirms the theoretical analysis
+of the previous sections that an attention layer does not eliminate an 
+instability. However, they indicate that the attention layer mitigates it to
+a certain extent.
+
+\begin{figure}[h]
+\caption{Unstable point with attention layer - set 1}\label{f3}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_0}&
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_1}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_2}&
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_3}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_4}&
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_5}
+\end{array}$
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\caption{Unstable point with attention layer - set 2}\label{f4}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_6}&
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_7}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_8}&
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_9}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_10}&
+\includegraphics[scale=0.4]{Ex1_Unstable_Point_Sample_9}
+\end{array}$
+\end{center}
+\end{figure}
+
+\subsection{Example 2}
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
 \end{document}
