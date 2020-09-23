@@ -25,7 +25,7 @@ for the stability of recurrent neural networks.
 
 \section{Notation}\label{s2}
 We follow the contemporary mathematical practice of not using separate
-notation for vectors and scalars. Instead, we define every symbol. Whenver
+notation for vectors and scalars. Instead, we define every symbol. Whenever
 a symbol stands for a vector, it denotes a column vector. $\mathbb{R}$ is 
 the set of real numbers. $\mathbb{Z}$ is the set of integers. If $z$ is
 a complex number then $\Re(z)$ denotes its real part and $\Im(z)$ its
@@ -43,7 +43,7 @@ $y$. It called a first order ODE because the highest order derivative
 of the unknown function $y$ with respect to $x$ is of the first order.
 This equation is usually accompanied with the initial value of $y$ at a 
 certain $x$, say $x = x_0$. Equation \eqref{s3e1} and $y(x_0) = y_0$ is
-called an \emph{inital value problem}.
+called an \emph{initial value problem}.
 
 The oldest method to solve equation \eqref{s3e1} numerically was devised 
 by Euler in the eighteenth century. It follows straight from the definition
@@ -156,7 +156,7 @@ commonly used among them, called the `RK4' method. If $y: \mathbb{R}
 \begin{equation}\label{s6e1}
 \frac{dy}{dt} = f(t, y), y(t_0) = y_0
 \end{equation}
-then one can get the value oy $y$ at $t_n + h$ using the formula
+then one can get the value of $y$ at $t_n + h$ using the formula
 \begin{equation}\label{s6e2}
 y(t_n + h) = y(t_n) + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4).
 \end{equation}
@@ -392,7 +392,7 @@ Runge-Kutta method is $BN$-stable if the matrices $\beta_n$ (equation
 
 The GRU described in section \ref{s8} has $\alpha_{i, j} = 0$ because the
 hidden layers are not connected to each other. The Burrage-Butcher tensor 
-is thus $-\beta_1 \beta_1^T$, which is \emph{not} positive semidefinite 
+is thus $-\beta_1 \beta_1^T$, which is \emph{not} positive semi-definite 
 unless $\beta_1 = 0$.  Thus the GRU is not a stable algorithm, an 
 observation also corroborated by elsewhere\cite{kanai2017preventing}.
 
@@ -559,7 +559,7 @@ it means is that \emph{not all} pairs are contractive in the sense of
 definition \ref{s9d2}. Existence of one, or a few, convergent solutions to 
 the algorithm is not a contradiction to it being unstable. An instability 
 means that \emph{not all} solutions are stable. On the other hand stability 
-means that \emph{all} solutions are stable. An existence of a few coverging 
+means that \emph{all} solutions are stable. An existence of a few converging 
 solutions does not guarantee the stability of the algorithm. However, an 
 existence of a single unstable solution renders an algorithm unstable.
 
@@ -630,7 +630,7 @@ For these values $z(t) = r(t) = 1/2(1, 1)^T$ and
 \dot{h}(t) = \frac{1}{2}\left(-h(t) + \tanh\left(\frac{3}{2}h(t)\right)\right)
 \end{equation}
 The stable fixed points of this equation are shown in figure \ref{f1}.
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \caption{Stable points}\label{f1}
 \includegraphics[scale=0.5]{Ex1_Stable_points.png}
 \centering
@@ -639,9 +639,10 @@ The coloured dots indicate the start of the trajectory while the blue square
 indicates its end. Trajectories seem to converge on the stable points. The
 phase portrait also indicates that the arrows point toward the stable points.
 
-This equation also has an unable point at the origin. The phase portrait has
-arrows diverging from the origin. The trajectories follow these directions.
-\begin{figure}[h]
+This equation also has an unstable point at the origin. The phase portrait 
+has arrows diverging from the origin. The trajectories follow these 
+directions.
+\begin{figure}[!htbp]
 \caption{Unstable points}\label{f2}
 \includegraphics[scale=0.5]{Ex1_Unstable_point.png}
 \centering
@@ -649,7 +650,16 @@ arrows diverging from the origin. The trajectories follow these directions.
 We will now examine the behaviour of this unstable point for a collection of
 five such GRUs starting their trajectory in the vicinity of the origin.
 In each of these figures the trajectory of the GRUs with attention layer
-is shown as a dashed line ending with a red square. The trajectories of the
+is shown as a dashed line ending with a red square. The attention layer is 
+connected in the architecture proposed by Ran and others, described previously
+in the first subsection of section \ref{s10}. Equations \eqref{s10e1} to 
+\eqref{s10e4} were used to generate the final output. We used a randomly 
+generated weight matrix $W_H$. Since $W_v$ and $A$ are fixed we chose their
+product to be a fixed, but randomly generated, vector in $\mathbb{R}^2$. The
+weight matrix $W$, whose rows are used in equation \eqref{s10e3} too was 
+selected randomly. 
+
+The trajectories of the
 individual GRUs are shown as solid lines ending at the blue square. The
 initial conditions of the GRUs were chosen randomly from a set of $16$ points
 on a square centred at the origin and of side $0.1$. Figure \ref{f3} shows
@@ -663,7 +673,7 @@ of the previous sections that an attention layer does not eliminate an
 instability. However, they indicate that the attention layer mitigates it to
 a certain extent.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \caption{Unstable point with attention layer - set 1}\label{f3}
 \begin{center}$
 \begin{array}{cc}
@@ -685,7 +695,7 @@ a certain extent.
 \end{center}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \caption{Unstable point with attention layer - set 2}\label{f4}
 \begin{center}$
 \begin{array}{cc}
@@ -708,6 +718,108 @@ a certain extent.
 \end{figure}
 
 \subsection{Example 2}
+We now choose the parameters in the last row in table I of 
+\cite{jordan2019gated}. Thus,
+\begin{eqnarray}
+U_h &=& \begin{pmatrix}2.9665 & -0.4771 \\ 0.4771 & 2.9665\end{pmatrix}
+         \label{s11e19} \\
+U_r &=& 0 \label{s11e20} \\
+U_z &=& 0 \label{s11e21} \\
+b_h &=& 0 \label{s11e22} \\
+b_r &=& 0 \label{s11e23} \\
+b_z &=& 0 \label{s11e24} 
+\end{eqnarray}
+The ODE for these parameters is
+\begin{equation}\label{s11e25}
+\dot{h}(t) = \frac{1}{2}\left(-h(t) + \tanh\left(\frac{1}{2} 
+\begin{pmatrix}2.9665h_x-0.4471h_y \\0.4471h_x+2.9665h_y\end{pmatrix}\right)
+\right)
+\end{equation}
+The phase portrait of this equation is shown in figure \ref{f5}.
+\begin{figure}[!htbp]
+\caption{Unstable points}\label{f5}
+\includegraphics[scale=0.5]{Ex2_stable_points.png}
+\centering
+\end{figure}
+No fixed points are visible in the domain shown in the figure although the
+trajectories seem to be converging asymptotically toward a few lines. The
+phase portrait nevertheless shows the possibility of the origin being an
+unstable point. The derivative of the function seems to be diverging from the
+origin in all directions. We examine the nature of this differential equation
+in the neighbourhood of the origin in figure \ref{f6}.
+\begin{figure}[!htbp]
+\caption{Unstable points}\label{f6}
+\includegraphics[scale=0.5]{Ex2_Unstable_point.png}
+\centering
+\end{figure}
+The trajectories are indeed diverging away from the origin. Trajectories
+starting from initial conditions close to each other end up going very far
+from each other. This is indeed a signature of an instability.
+
+We repeat the experiment we did in the previous example in which we attach
+an attention layer to five GRUs with different initial conditions, all in the
+neighbourhood of the origin. Once again we observe that the trajectory of the
+GRU's with attention layer does not reach a point farther than the trajectories
+of the individual GRUs.
+
+\begin{figure}[!htbp]
+\caption{Unstable point with attention layer - set 1}\label{f7}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_0}&
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_1}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_2}&
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_3}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_4}&
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_5}
+\end{array}$
+\end{center}
+\end{figure}
+
+\begin{figure}[!htbp]
+\caption{Unstable point with attention layer - set 2}\label{f8}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_6}&
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_7}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_8}&
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_9}
+\end{array}$
+\end{center}
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_10}&
+\includegraphics[scale=0.4]{Ex2_Unstable_Point_Sample_9}
+\end{array}$
+\end{center}
+\end{figure}
+
+\subsection{Remarks on the experiments}
+Recall the idea of stability of an ODE. If $y_1$ and $y_2$ are two solutions
+of the ODE with initial conditions close to each other then if $y_1$ and $y_2$
+remain close to each other for ever then we say that the ODE is stable in a
+neighbourhood of the two initial conditions. On the other hand, if $y_1$ and 
+$y_2$ go very far from each other then it means that a slight change in the
+initial conditions pushes the solutions very far from each other. It is clear
+from figures \ref{f3}, \ref{f4}, \ref{f7} and \ref{f8} that the individual 
+solutions of the ODEs tend to diverge from each other. Coupling a few ODEs 
+(GRUs) to an attention layer does not eliminate this behaviour. The dashed 
+lines indeed go in a different direction in every figure. But their final 
+destinations, marked by a red square, are closer to each other than the
+final destinations of the bare GRUs.
+
 \bibliographystyle{plain}
 \bibliography{stability_rnn}
 \end{document}
