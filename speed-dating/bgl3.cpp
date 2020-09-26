@@ -1,5 +1,7 @@
+#include <chrono>
 #include <cstdlib>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -24,6 +26,7 @@ int main(int argc, char* argv[], char* envp[])
 		return -1;
 	}
 
+	auto start = std::chrono::high_resolution_clock::now();
 	std::string filename = argv[1];
 	std::fstream f(filename);
 	std::string line;
@@ -31,7 +34,13 @@ int main(int argc, char* argv[], char* envp[])
 
 	std::vector<Participant> ps;
 
+	bool first_line = true;
 	while (getline(f, line)) {
+		if (first_line) {
+			first_line = false;
+			break;
+		}
+
 		std::string token;
 		std::stringstream ss(line);
 		std::vector<std::string> tokens;
@@ -51,7 +60,9 @@ int main(int argc, char* argv[], char* envp[])
 
 	f.close();
 
+#ifdef _DEBUG_
 	std::cout << "Read " << ps.size() << " ps." << std::endl;
+#endif
 
 	Graph g(ps.size());
 	std::vector<Edge> edges = get_edges(ps);
@@ -59,8 +70,10 @@ int main(int argc, char* argv[], char* envp[])
 	for (int i = 0; i < edges.size(); ++i) {
 		add_edge(edges[i].first, edges[i].second, g);
 	}
+#ifdef _DEBUG_
 	std::cout << "Created the graph." << std::endl;
 	show_edges(g);
+#endif
 
 	std::vector<graph_traits<Graph>::vertex_descriptor> mate(ps.size());
 	edmonds_maximum_cardinality_matching(g, &mate[0]);
@@ -77,6 +90,11 @@ int main(int argc, char* argv[], char* envp[])
 	}	
 	std::cout << std::endl;
 
+	auto end = std::chrono::high_resolution_clock::now();
+	double diff = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() * 1e-9;
+
+	std::cout << "Time taken: " << std::fixed << diff << std::setprecision(9) 
+			  << " s for " << ps.size() << " participants." << std::endl;
 	return 0;
 }
 
@@ -103,8 +121,6 @@ std::vector<Edge> get_edges(const std::vector<Participant>& ps)
 		for (int j = i + 1; j < n_ps; ++j) {
 			if (ps[i].can_pair(ps[j]) && ps[j].can_pair(ps[i])) {
 				edges.push_back(Edge(ps[i].id, ps[j].id));
-				std::cout << "(" << ps[i].id << ", " 
-						  << ps[j].id << ")" << std::endl;
 			}
 		}
 	}
