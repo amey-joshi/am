@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{url, graphicx}
+
+\numberwithin{equation}{section}
+\linespread{1.3}
+\title{A Review of Neutron Imaging}
+\author{To be filled}
+\date{27-Sep-2020}
+\begin{document}
+\maketitle
+\section{Introduction}\label{s1}
+Nobody suspected the presence of a neutral particle in an atomic nucleus until
+the 1930s. When Heisenberg developed matrix mechanics in 1925 and 
+Schr\"{o}dinger wrote his celebrated equation, the nucleus was thought to be
+made up of positively charged protons and a few negatively charged `internal
+electron'. The latter were supposed to be in present in sufficient numbers to
+account for the mass and charge of the nucleus. However, this idea became
+increasingly untenable with the development of quantum statistical mechanics
+and an understanding of Fermions and Bosons. When Oscar Klein 
+\cite{klein1929reflexion} applied the newly discovered Dirac equation to the
+`internal electrons' in the nucleus he found that they should find it 
+extremely easy to escape the potential barrier of the proton's electric field.
+These difficulties were finally resolved when Chadwick reported 
+\cite{chadwick1932existence}, the existence of an electrically neutral particle, called the neutron, in the atomic nucleus. 
+
+\section{Physical properties of a neutron}\label{s2}
+The mass of a free neutron is $1.674927471 \times 10^{-27}$ kg
+\cite{taylor2007nist}. Its mean square radius is $0.8 \times 10^{-15}$ m
+\cite{bogdan2015particles}. It has no electric charge. However, it has
+an intrinsic spin of $1/2$ (in units of $\hslash$)
+\cite{basdevant2005fundamentals}. As a result, although it is unaffected by 
+an electric field, it does respond to a magnetic field. In fact, a neutron 
+responds to all four fundamental forces in Nature. Outside of
+the nucleus, the neutron is unstable. It decays into a proton, an electron and
+an electron neutrino with a half life of about $10$ minutes and $10$ seconds
+\cite{Nakamura_2010}. The energy of decay is $0.782$ MeV \cite{heyde2004basic}.
+A small fraction, about $0.001$, of free neutrons also produce gamma radiation 
+while decaying. An even smaller fraction, about $4$ per million, of neutrons
+produce electrons with an energy lesser than $13.6$ eV. As a result, they
+stay stay bound to the proton forming a hydrogen atom. The fact that neutrons
+decay cannot be ignored while using them for imaging. This feature of the
+neutrons distingushes them from the other probes used for imaging like optical
+photons, X-rays, gamma rays, infra-red radiation, sound waves and electrons. 
+The latter probes are not known to decay.
+
+\section{Sources of neutrons}\label{s3}
+A neutron imaging device must have a source of neutrons the way an X-ray
+imaging system has an X-ray tube to generate the X-rays. In this section we
+will review a few sources of neutrons. Nuclear fission reactors produce a large
+number of neutrons. A typical reactor has a fluence rate of the order of 
+$10^{15}$ neutrons per $\text{cm}^{-2}$ per second. However, their energies are 
+spread over a large range and the neutrons can be used only within the premises
+of the reactor. Instead of relying on nuclear fission reactors, one can look
+at nuclei that spontaneously decay to produce neutrons. A popular isotope of 
+half-life of $2.6$ years is ${}^{252}$Cf. A typical source of this kind 
+produces on an average of $10^{8}$ neutrons per second. Other examples of such
+nuclei are ${}^{254}$Cf, ${}^{244}$Cm, ${}^{242}$Cm, ${}^{238}$Pu and 
+${}^{232}$U.
+
+One can go back to
+Chadwick's experiment \cite{chadwick1932existence} to devise yet another source
+of neutrons. Chadwick bombarded a slab of Beryllium with alpha radiation 
+emitted from decaying Polonium nuclei. The nuclear reaction
+\begin{equation}\label{s3e1}
+{}_2^4\text{He} + {}_4^9\text{Be} \rightarrow {}_6^{12}\text{C}+{}_0^1\text{n}
+\end{equation}
+produced the first neutron detected in a laboratory. Some other reactions that 
+also yeild neutrons are\cite{turner2008atoms}
+\begin{eqnarray}
+{}^2_1\text{H} + {}^3_1\text{H}&\rightarrow&{}_2^{4}\text{He}+{}_0^1\text{n}
+\label{s3e2} \\
+{}^2_1\text{H} + {}^2_1\text{H}&\rightarrow&{}_2^{3}\text{He}+{}_0^1\text{n}
+\label{s3e3} \\
+{}^2_1\text{H} + {}_6^{12}\text{C}&\rightarrow&{}_7^{13}\text{N}+{}_0^1\text{n}
+\label{s3e4} \\
+{}^1_1\text{p} + {}_3^1\text{H}&\rightarrow&{}_2^{4}\text{He}+{}_0^1\text{n}
+\label{s3e5} \\
+{}_1^1\text{p} + {}_3^7\text{Li}&\rightarrow&{}_4^{7}\text{Be}+{}_0^1\text{n}
+ \label{s3e6} 
+\end{eqnarray}
+Each of these processes produce neutrons with a continuous energy spectrum. If
+we need neutrons with narrow energy spread then we have to consider nuclear
+reactions triggered by photons. Chadwick and Goldhaber 
+\cite{chadwick1934nuclear} bombarded Deuterium nuclei with gamma rays of energy
+exceeding $2.22$ MeV to trigger the reaction
+\begin{equation}\label{s3e7}
+{}^2_1\text{H} + \gamma \rightarrow {}^1_1 \text{H} + {}^1_0 n.
+\end{equation}
+Similarly, a photon of energy more than $1.67$ MeV can disintegrate Beryllium
+into two Helium nuclei and a neutron.
+\begin{equation}\label{s3e8}
+{}^9_4\text{Be} + \gamma \rightarrow 2 {}^4_2\text{He} + {}^1_0 n.
+\end{equation}
+The $\gamma$-rays themselves come from radioactive ${}^{124}_{51}$Sb which 
+spontaneously disintegrates as
+\begin{equation}\label{s3e9}
+{}^{124}_{51}\text{Sb} \rightarrow {}^{124}_{52}\text{Te} + e^{-1} + \gamma.
+\end{equation}
+Other commonly used isotopes to generate $\gamma$ radiation are ${}^{24}_{11}$
+Na, ${}^{116}_{49}$In, ${}^{140}_{57}$La and ${}^{226}_{88}$Ra. A recent method
+of generating neutrons involes spallation of heavy nuclei due to impact of 
+very high energy protons. The term spallation means ejection of fragments from
+a body due to extraordinarily large stress. In the case of nuclear spallation,
+$\text{H}^{-}$ ions are accelerated to energy up to $1$ GeV before passing
+them through a foil. The latter process strips the $\text{H}^{-}$ ion of its
+two electrons and leaves behind a bare proton. The protons so generated are
+made to pass at relativistic speeds into an accumulator ring. They are 
+ejected out of the ring at a $60$ Hz into a tank of liquid Hg where they
+trigger spallation of Hg nuclei. The greatest benefit of spallation is that
+the resulting neutrons do not trigger a chain reaction as they do in the case
+of nuclear fission reactors.
+
+Neutrons of energies up to $0.1$ MeV are called `slow' neutrons, `Fast'
+neutrons have energies in the range $10$ to $20$ MeV while those with even
+higher energies are called relativistic neutrons.
+
+\section{Interaction of neutrons with matter}\label{s4}
+\section{Detection of neutrons}\label{s5}
+\section{Neutron dosimetry and shielding}\label{s6}
+\section{Propagation of neutron beams}\label{s7}
+\section{Neutron diffraction by crystals}\label{s8}
+\section{2-d neutron imaging}\label{s9}
+\section{Neutron tomography}\label{s10}
+\section{Imaging of biologically important structures}\label{s11}
+\section{Larmor precession based imaging}\label{s12}
+\section{Polarization based imaging}\label{s13}
+\section{Conclusion}\label{s14}
+\bibliography{neutron}
+\bibliographystyle{plain}
+\end{document}
