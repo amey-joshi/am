@@ -38,7 +38,7 @@ int main(int argc, char* argv[], char* envp[])
 	while (getline(f, line)) {
 		if (first_line) {
 			first_line = false;
-			break;
+			continue;
 		}
 
 		std::string token;
@@ -60,9 +60,7 @@ int main(int argc, char* argv[], char* envp[])
 
 	f.close();
 
-#ifdef _DEBUG_
 	std::cout << "Read " << ps.size() << " ps." << std::endl;
-#endif
 
 	Graph g(ps.size());
 	std::vector<Edge> edges = get_edges(ps);
@@ -70,10 +68,8 @@ int main(int argc, char* argv[], char* envp[])
 	for (int i = 0; i < edges.size(); ++i) {
 		add_edge(edges[i].first, edges[i].second, g);
 	}
-#ifdef _DEBUG_
 	std::cout << "Created the graph." << std::endl;
 	show_edges(g);
-#endif
 
 	std::vector<graph_traits<Graph>::vertex_descriptor> mate(ps.size());
 	edmonds_maximum_cardinality_matching(g, &mate[0]);
