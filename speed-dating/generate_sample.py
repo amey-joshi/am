@@ -1,9 +1,10 @@
 #!/bin/python
 
+import sys
 import random
 import pandas as pd
 
-sample_size = 5
+sample_size = 500
 self_choices = [1, 2, 3] # The choice 4 is added to the UI but it is same as 3.
 seek_choices = [1, 2, 3]
 
@@ -39,14 +40,27 @@ def choice_3(seek1, seek2, p):
 
     return c
 
-self = random.choices(self_choices, k=sample_size)
-seek_1 = random.choices(seek_choices, k=sample_size)
-seek_2 = [choice_2(seek_1[i], 0.7) for i in range(sample_size)]
-seek_3 = [choice_3(seek_1[i], seek_2[i], 0.8) for i in range(sample_size)]
-ids  = [i for i in range(1, sample_size + 1)]
+def generate(sample_size):
+    self = random.choices(self_choices, k=sample_size)
+    seek_1 = random.choices(seek_choices, k=sample_size)
+    seek_2 = [choice_2(seek_1[i], 0.7) for i in range(sample_size)]
+    seek_3 = [choice_3(seek_1[i], seek_2[i], 0.8) for i in range(sample_size)]
+    ids  = [i for i in range(1, sample_size + 1)]
 
-df = pd.DataFrame(list(zip(ids, self, seek_1, seek_2, seek_3)), \
-                  columns=['id', 'self', 'seek_1', 'seek_2', 'seek_3'])
-filename = f'sample_{sample_size}.csv'
-df.to_csv(filename, index=False)
+    df = pd.DataFrame(list(zip(ids, self, seek_1, seek_2, seek_3)), \
+                      columns=['id', 'self', 'seek_1', 'seek_2', 'seek_3'])
+    filename = f'sample_{sample_size}.csv'
+    df.to_csv(filename, index=False, header=False)
+
+def main():
+    sample_size = 30
+
+    if len(sys.argv) > 1:
+        sample_size = int(sys.argv[1])
+
+    generate(sample_size)
+
+if __name__ == '__main__':
+    main()
+
 
