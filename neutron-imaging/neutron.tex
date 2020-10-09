@@ -14,7 +14,7 @@ Nobody suspected the presence of a neutral particle in an atomic nucleus until
 the 1930s. When Heisenberg developed matrix mechanics in 1925 and 
 Schr\"{o}dinger wrote his celebrated equation, the nucleus was thought to be
 made up of positively charged protons and a few negatively charged `internal
-electron'. The latter were supposed to be in present in sufficient numbers to
+electrons'. The latter were supposed to be in present in sufficient numbers to
 account for the mass and charge of the nucleus. However, this idea became
 increasingly untenable with the development of quantum statistical mechanics
 and an understanding of Fermions and Bosons. When Oscar Klein 
@@ -26,7 +26,14 @@ These difficulties were finally resolved when Chadwick reported
 
 \section{Physical properties of a neutron}\label{s2}
 The mass of a free neutron is $1.674927471 \times 10^{-27}$ kg
-\cite{taylor2007nist}. Its mean square radius is $0.8 \times 10^{-15}$ m
+\cite{taylor2007nist}. At non-relativistic speed $v$, its de Broglie wavelength
+is \cite{anderson2008neutron}
+\begin{equation}\label{s2e1}
+\lambda = \frac{395.6}{v} \text{nm}
+\end{equation}
+making it an ideal source to explore condensed matter at the atomic scale.
+
+Its mean square radius is $0.8 \times 10^{-15}$ m
 \cite{bogdan2015particles}. It has no electric charge. However, it has
 an intrinsic spin of $1/2$ (in units of $\hslash$)
 \cite{basdevant2005fundamentals}. As a result, although it is unaffected by 
@@ -163,6 +170,14 @@ $m = m_n$ and $Q = 1$. Light nuclei are thus far more effective in slowing
 neutrons than heavier ones. Elastic collisions of neutrons with heavy nuclei
 change the direction of motion of nuclei while absorbing only a small portion
 of their kinetic energy.
+
+The interaction of neutrons with matter are used to develop neutron imaging
+techniques. The elastic scattering gives information about the atomic 
+structure. Neutron diffraction techniques have been used to study solids. On
+the other hand, inelastic scattering reveals information about collective
+excitations. Interactions of both kinds give rise to contrast that is used
+for imaging.
+
 \section{Detection of neutrons}\label{s5}
 Neutrons are chargeless and their magnetic moment is too low to be used for
 reliably detecting their presence. They also have a small electric dipole 
@@ -201,7 +216,53 @@ is in an excited state. The other reactions are
 {}^3_2\text{He}+{}^1_0\text{n}&\rightarrow&{}^3_1\text{H} + {}^1_1\text{H} +
 0.765\text{ MeV} \label{s5e4} 
 \end{eqnarray}
+We mentioned previously that the collision between a proton and a neutron is
+always elastic. Further, since their masses are almost equal, it is possible
+for the neutron to transfer all its kinetic energy to the proton. The proton
+is then detected by scintillators. Organic compounds are usually rich in 
+protons and detectors based on this principle use them in crystalline, 
+amorphous or even liquid forms. 
+
+Bubble detectors are inexpensive and portable neutron detecting devices. They
+consist of a transparent polymer with a large number of tiny droplets of 
+a superheated liquid. The passage of a charged particle through such droplets
+results in a rapid phase change from liquid to vapor. The transparent droplets
+become visible bubbles which are counted either manually or electronically.
 \section{Neutron dosimetry and shielding}\label{s6}
+Radiation Dosimetry is the measurement of the `dose' of radiation absorbed by
+a biological sample. Dosimetry is important for the safety of people working
+with radiation. Biological materials are rich in protons. When they are
+exposed to neutrons, the elastic collision of the neutrons and the protons
+leads to a transfer of a substantial amount of energy to the protons resulting
+in breaking of chemical bonds. Neutrons damage biological samples more than
+a comparable dose of electrons or $\gamma$ rays. The amount of energy absorbed
+by $1$ kg of a material is called the `absorbed dose'. It is measured in grays,
+where $1$ gray is equal to $1$ Jkg${}^{-1}$. It is measured and specified at 
+every point of the exposed sample. Before getting into the details of neutron
+dosimetry, we introduce a few physical concepts.
+
+The restricted stopping power of a target is the the linear rate of energy of
+energy lost,  $(-dE/dx)_\Delta$, due to collisions alone and in which the
+energy transfer does not exceed $\Delta$. If $\mu$ is the probability per unit
+distance of travel that a neutron collides with a proton and if $W(Q)dQ$ is the 
+probability that a given collision will result in an energy loss between $Q$
+and $Q + dQ$ then
+\begin{equation}\label{s6e1}
+-\left(\frac{dE}{dx}\right)_\Delta = \mu\int_{Q_{\text{min}}}^\Delta QW(Q)dQ,
+\end{equation}
+where $Q_{\text{min}}$ is the minimum energy needed for excitation of the 
+target \cite{turner2008atoms}. The stopping power depends on both the 
+incident radiation and the absorbing sample. Radiation with high restricted
+stopping power is more dangerous than the one with low restricted stopping 
+power. The product of the absorbed dose $D$ and a quality factor $Q$ (not 
+related to the $Q$ in equation \eqref{s6e1} is called the `dose equivalent'
+$H$ of the sample. The absorbed dose is also a point function of the sample.
+That is, it can be specified at every point of the sample. The SI unit of 
+absorbed dose is sievert.
+
+Neutrons are best shielded by material rich in protons like Iron, water, 
+paraffin, concrete and graphite, in decreasing order of attenuation length
+\cite{turner2008atoms}.
 \section{Propagation of neutron beams}\label{s7}
 \section{Neutron diffraction by crystals}\label{s8}
 \section{2-d neutron imaging}\label{s9}
