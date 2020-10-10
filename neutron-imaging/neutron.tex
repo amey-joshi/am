@@ -263,7 +263,74 @@ absorbed dose is sievert.
 Neutrons are best shielded by material rich in protons like Iron, water, 
 paraffin, concrete and graphite, in decreasing order of attenuation length
 \cite{turner2008atoms}.
+
 \section{Propagation of neutron beams}\label{s7}
+Typical neutron sources have size of the order of $10$ cm in all directions.
+They are enclosed in moderators to produce a quasi-Maxwell distribution
+\cite{anderson2008neutron}. Their brightness is defined as the flux of neutrons
+per solid angle per unit wavelength. The flux itself is the number of neutrons
+crossing a unit area. One can treat the neutrons using the principles of
+geometrical optics. The phase space of analytical mechanics can be carried over
+to optics and is called etendue. Consider an infinitesimal surface element 
+$dS$ with normal $\hat{n}$ pointing in a medium of refractive index $n$. If
+the surface $dS$ is crossed by neutrons confined to a solid angle $d\Omega$
+then the etendue of neutron beam is
+\begin{equation}\label{s7e1}
+dG = n^2\hat{n}\cdot\hat{n}_b dSd\Omega,
+\end{equation}
+where $\hat{n_b}$ is the normal along the axis of the cone of $d\Omega$ 
+\cite{markvart2007thermodynamics}. The way the volume of the phase space is
+conserved, one can also conclude that the volume of an etendue is conserved. 
+The optical analogue of Liouville's theorem places a limit on the efficiency
+of a neutron source \cite{anderson2008neutron}, 
+\cite{markvart2007thermodynamics}. If one want to focus a neutron beam from
+a source of size $w_1$ on a spot of size $w_2 < w_1$ then one must allow the
+beam to diverge in directions normal to the line joining the source and the
+spot.
+
+Neutron beams can also be transported away from the source using wave guides.
+They are channels coated with Nickel which has a critical angle of $0.10^\circ$
+per $\AA$ neutron wavelength. Where higher critical angles than Nickel are 
+needed super-mirrors are used. Critical angles for super-mirrors can be $4$
+to $6$ times more than Nickel. Oftentimes it is beneficial to carry neutrons
+away from the source to prevent their contamination with fast neutrons which
+are also emitted from the source. Allowing the neutrons a longer flight time
+through wave guides also improves the resolution of pulsed-source instruments.
+The latter quantity is proportional to $\Delta t/t$, where $t$ is the total
+time of flight and $\Delta t$ is the time width of the pulse in the moderator.
+
+A neutron source produces neutrons with a wide range of wavelengths. A device
+that allows us to select one among them is called a monochromator. Crystal
+monochromators are based on Bragg's law
+\begin{equation}\label{s7e2}
+n\lambda = 2d\sin\theta,
+\end{equation}
+where $n$ is the `order' of diffraction, $\lambda$ is the wavelength of 
+neutrons, $d$ is the distance between the lattice planes and $\theta$ is the
+angle between the crystal and the incident beam. (The angle of incidence is
+$\pi/2 - \theta$.) Once a crystal is chosen, $d$ is fixed. One can select
+the wavelength of choice by changing $\theta$. The intensity of the diffracted
+beam reduces for higher order of diffractions. Therefore, monochromators us
+the first order beam.
+
+The direction of propagation of neutron beams can be changed by refraction.
+The refractive index of neutron beams is given by the Fermi thin-slab formula
+\cite{warner1985neutron}
+\begin{equation}\label{s7e3}
+n = 1 - \frac{2\pi\rho b}{k_0^2},
+\end{equation}
+where $b$ is the neutron scattering length, $\rho$ is the number density of
+the scattering nuclei and $k_0$ is the propagation constant in free space.
+A refractive index lesser than $1$ indicates that one must use a concave lens
+to focus a neutron beam. Although a neutron is electrically neutral, it does
+have spin. Therefore, it can be deflected using a magnetic field. If 
+$\vec{r}(t)$ is the trajectory of a neutron beam then its deflection in a
+magnetic field $\vec{B}$ is given by
+\begin{equation}\label{s7e4}
+\frac{d^2\vec{r}}{dt^2} = \pm\frac{\mu}{m}\nabla|\vec{B}|,
+\end{equation}
+where $\mu$ is the neutron's magnetic moment and $m$ is its mass.
+
 \section{Neutron diffraction by crystals}\label{s8}
 \section{2-d neutron imaging}\label{s9}
 \section{Neutron tomography}\label{s10}
