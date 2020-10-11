@@ -264,7 +264,7 @@ Neutrons are best shielded by material rich in protons like Iron, water,
 paraffin, concrete and graphite, in decreasing order of attenuation length
 \cite{turner2008atoms}.
 
-\section{Propagation of neutron beams}\label{s7}
+\section{Optics of neutron beams}\label{s7}
 Typical neutron sources have size of the order of $10$ cm in all directions.
 They are enclosed in moderators to produce a quasi-Maxwell distribution
 \cite{anderson2008neutron}. Their brightness is defined as the flux of neutrons
@@ -331,13 +331,140 @@ magnetic field $\vec{B}$ is given by
 \end{equation}
 where $\mu$ is the neutron's magnetic moment and $m$ is its mass.
 
-\section{Neutron diffraction by crystals}\label{s8}
-\section{2-d neutron imaging}\label{s9}
-\section{Neutron tomography}\label{s10}
-\section{Imaging of biologically important structures}\label{s11}
-\section{Larmor precession based imaging}\label{s12}
-\section{Polarization based imaging}\label{s13}
-\section{Conclusion}\label{s14}
+The existence of spin states of neutrons allows us to describe beams of 
+neutrons by their polarization states. Being a spin-half particle, a neutron
+can exist in one of $|+\rangle$ of $|-\rangle$ states. If a beam has $N_+$
+neutrons in $|+\rangle$ and $N_-$ neutrons in $|-\rangle$ states then its
+polarization is defined to be
+\begin{equation}\label{s7e5}
+P = \frac{N_+ - N-}{N_+ + N_-}.
+\end{equation}
+It is equally common to express beam polarization in terms of flipping ratio
+as
+\begin{equation}\label{s7e6}
+F = \frac{N_+}{N_-} = \frac{1 - P}{1 + P}.
+\end{equation}
+When the nuclear and the magnetic structure factors of a crystal are equal in
+magnitude, the total structure factor vanishes for one of the two spin states.
+As a result, the Bragg reflection from the crystal plance produces a beam with
+almost all neutrons in the remaining polarization states. The most commonly
+used crystal to achieve neutron polarization is the [111] reflection of 
+Heusler alloy \cite{anderson2008neutron}. This technique is most suitable for
+steady state source of neutrons \cite{williams1988polarized}. In the case of
+a pulsed beam of neutrons it is common to use resonance absorption filters.
+When an unpolarized neutron beam whose energy corresponds to a nuclear
+resonance is shone on a target of polarized nuclear spins, one of the 
+neutron spins is absorbed while the other one is transmitted 
+\cite{williams1988polarized}.
+
+In order to use a neutron beam for imaging the neutrons emerging from a source
+must be collimated into a stream of particles traveling mostly along a single
+direction. Being electrically neutral, they cannot be focused using an electric
+field. Their small magnetic moment requires a very large field gradient to 
+change their direction of propagation. A simpler way of achieving collimation
+is to collect neutrons in a tube lined with a material which is opaque to 
+neutrons. Collimators have a small entrance aperture and a larger exit allowing
+a large neutron flux.
+
+\section{2-d neutron imaging}\label{s8}
+2-d neutron imaging is similar to the more commonly known 2-d X-ray imaging.
+When X-rays are incident on a target and when then the intensity of the 
+transmitted beam is analyzed one observes that different portions of the
+latter have different intensities. This is because different portions of the
+transmitted beam have emerged from different parts of the target each one
+having their own attenuation properties. 2-d neutron imaging works in exactly
+the same manner. Attenuation of X-rays depends on the local electronic
+properties of the target while that of neutron depends on the local nuclear
+properties. That is why, the two imaging techniques are often considered to
+provide complementary information about the target. X-rays provide information
+about the bonding or structural properties while neutrons indicate the 
+elemental composition. The set up for 2-d neutron imaging is quite simple. It 
+has a source of neutrons surrounded by a moderator to thermalize them, a 
+collimator to coax the particles along a single direction and a detector to
+visualize the image.
+
+The intensity of the incident and the transmitted beams is given by equation
+\eqref{s4e2}. If $I_0$ and $I$ are the intensities of the incident and the
+transmitted beams then the degree of darkness of the film used to visualize
+the image is
+\begin{equation}\label{s8e1}
+D_e = \ln\frac{I_0}{I}.
+\end{equation}
+The film brightens most where the transmitted intensity is the highest. In the
+case of a digital receptor, the grey level value $G$ is
+\begin{equation}\label{s8e2}
+G = Cn + G_0,
+\end{equation}
+where $C$ is a constant, $n$ is the neutron density and $G_0$ is another 
+constant that indicates the gray level due to noise in the circuits. The 
+presence of $G_0$ suggests that $G \ne 0$ even in the absence of neutron flux.
+This method suffers from the disadvantage of catching signals not only from
+the transmitted neutrons but from other ambient radiation as well. As a result,
+the images often are blurred. Nevertheless, it is used in situation where the
+sharpness of the image is not critical. For example, in the non-destructive
+testing in materials, it sufficient to know if the material has contaminants,
+defects, lubrication etc. It is also used in the investigation of two-phase
+flows, flows through porous media \cite{anderson2008neutron}, detection of
+hydrgenous materials and moisture \cite{richards2004neutron}.
+
+\section{Neutron tomography}\label{s9}
+Tomography is an imaging technique in which the image of a target is constructed
+by combining the images of its slices. The most usage is in medical imaging
+in the form of CT (Computerized Tomography) scans. X-rays are used over a 
+large number of slices of the human body. The `image' produced by each slice
+is combined with others to get complete information of the portion of interest.
+The way 2-d neutron imaging is an adaptation of 2-d X-ray imaging, neutron
+tomography is applying the principles of X-ray tomography to neutron imaging. 
+Consider a target $T$ whose image we are are interested in. We place the origin
+of the cartesian coordinate system at a suitable point in $T$. We consider $T$
+to be composed of a large number of slices whose normal is along the $z$-axis.
+We know from equation \eqref{s4e2} that the attenuation of intensity of an
+incident neutron beams by a slice $S$ is described by the equation
+\begin{equation}\label{s9e1}
+I = I_0\exp\left(-\int_S\mu(x, y)ds\right).
+\end{equation}
+Since the target is not a homogenous object, we cannot consider it to have a
+uniform attenuation $\mu$ as we did in equation \eqref{s4e2}. The parameter
+$s$ is the coordinate along the direction of propagation of neutrons in the
+target. We can rearrange equation \eqref{s9e1} and define a function
+\begin{equation}\label{s9e2}
+p(t, \theta) = \ln\left(\frac{I}{I_0}\right) = -\int_S\mu(x, y)ds.
+\end{equation}
+The coordinate $t$ runs perpendicular to the coordinate $s$. One can write 
+this in terms of an integral that extends over all $s$ as
+\begin{equation}\label{s9e3}
+p(t, \theta) = 
+-\int_{-\infty}^\infty \mu(x, y)\delta(t - x\cos\theta - y\sin\theta)ds.
+\end{equation}
+The function $p(t, \theta)$ is called the Radon transform of the slice. It is
+taken along the line $t = x\cos\theta + y\sin\theta$, expressed in the 
+normal form \cite{gonzales1992digital}. It is the projection of the function
+$f$ on the line $t = x\cos\theta + y\sin\theta$. It can be shown using the
+Fourier Slice Theorem \cite{bracewell1956strip} that a Fourier transform of
+$p(t, \theta)$ is the same as the slice of the 2-d Fourier transform of the
+target. Thus, taking the 2-d inverse Fourier transform of the result of the
+first operation will give us the original function. The number of such
+projections is determined by Shannon's sampling theorem. 
+
+Neutron tomography has the same advantages over neutron radiography that CT
+scans has over X-ray images. Neutron radiography gives information about the
+total attenuation of a neutron beam along its path through the target. It 
+cannot give information about the actual distribution of materials across that
+path. One of the earliest use cases of neutron tomography was in finding 
+concentration of hydrogen in metal castings. The presence of hydrogen is an
+indicator of the loss of mechanical properties due to embrittlement. We know
+that the collision cross-section of neutron with hydrogen is very large and
+that neutron imaging is a powerful tool to investigate hydrogenous materials. 
+Neutron tomography techniques were able to give accurate information 
+about hydrogen concentration as low as $200$ ppm \cite{richards2004neutron}.
+Tomographic techniques are also suitable for investigating objects that do not
+have a substantial plane surface like the blade of a turbine or an aircraft 
+engine \cite{richards2004neutron}.
+
+\section{Imaging of biologically important structures}\label{s10}
+\section{Larmor precession based imaging}\label{s11}
+\section{Polarization based imaging}\label{s12}
+\section{Conclusion}\label{s13}
 \bibliography{neutron}
 \bibliographystyle{plain}
 \end{document}
