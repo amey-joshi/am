@@ -461,10 +461,52 @@ Tomographic techniques are also suitable for investigating objects that do not
 have a substantial plane surface like the blade of a turbine or an aircraft 
 engine \cite{richards2004neutron}.
 
-\section{Imaging of biologically important structures}\label{s10}
+\section{Phase-contrast imaging}\label{s10}
+When electromagnetic radiation passes from one medium to another it undergoes
+both refraction and attenuation. The phenomena can be described together 
+through the complex refractive index \cite{heald2012classical} where the
+real part describes the refraction and the imaginary part the attenuation. 
+The propagation of neutron beams through media too can be expressed by a 
+complex refractive index. The 2-d imaging and the tomographic techniques
+considered in the previous sections considered images acquired due to 
+attenuation. In this section we shall briefly considered imaging due to phase
+contrast. Equation \eqref{s7e3} indicated that the refractive index of neutrons
+is less than $1$. Therefore, it is customary to express the complex refractive
+index as
+\begin{equation}\label{s10e1}
+n(\vec{x}) = 1 - \delta(\vec{x}) + i\beta(\vec{x}),
+\end{equation}
+where the dependence on $\vec{x}$, the position in the medium, allows for the
+inhomogeneous nature of the real and imaginary parts of the refractive index.
+Aluminum and Silicon have very small values $\beta$. Therefore, they hardly
+attenuate a neutron beam and cannot produce a 2-d image or a tomogram of 
+sufficient contrast. On the other hand, their $\delta$ values are $5$ orders
+of magnitude larger and can yield excellent phase-contrast images 
+\cite{anderson2008neutron}. Titanium and Copper have very similar $\beta$
+values and therefore cannot be differentiated by their attenuation properties.
+Their $\delta$ values are of opposite signs. Titanium with $\delta=-5.0 \times
+10^{-6}$ makes neutron beams behave somewhat like electromagnetic radiation
+by making the real part of the refractive index slightly greater than one
+\cite{anderson2008neutron}.
+
+The phase differences caused by the real part of the refractive index are
+detected by interference \cite{zawisky2004neutron}. A monochromatic beam of
+neutrons is coherently split into a reference beam and an object beam. The 
+object beam is passed through the target and suffers a phase shift (and 
+attenuation). After it emerges from the target it is superposed with the 
+reference beam. The interference between the two is captured in a digital
+neutron camera.
+
+Phase differences can either be recorded as a 2-d image or a tomogram. In the
+latter case, the 3-d distribution of the refractive index of the target is 
+reconstructed. The phase differences can either be represented as the 
+differences in their values or the gradient of phase shift or the laplacian of
+the phase shift \cite{anderson2008neutron}.
+
 \section{Larmor precession based imaging}\label{s11}
 \section{Polarization based imaging}\label{s12}
-\section{Conclusion}\label{s13}
+\section{Imaging of biologically important structures}\label{s13}
+\section{Conclusion}\label{s14}
 \bibliography{neutron}
 \bibliographystyle{plain}
 \end{document}
