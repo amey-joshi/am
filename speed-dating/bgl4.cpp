@@ -153,6 +153,7 @@ void previous_matches(const std::string &filename,
 	std::string line;
 
 	while (getline(f, line)) {
+		if (line.size() == 0) break;
 		std::stringstream ss(line);
 		std::string s;
 		getline(ss, s, ',');
