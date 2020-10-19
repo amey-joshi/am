@@ -140,3 +140,18 @@ dmypy.json
 **.aux
 **.pdf
 
+# Miscellaneous
+**.png
+**.csv
+**.txt
+**.xlsx
+**.xlsm
+**.docx
+**.gnumeric
+**.odt
+**.abw
+**.zip
+**.bak
+**.dvi
+**.djvu
+
