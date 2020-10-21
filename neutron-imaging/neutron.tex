@@ -576,7 +576,68 @@ mobilities and constraints of motion \cite{monkenbusch2007high}, where the
 energy differences are of the order of $0.7 \mu$eV. Such small changes can be
 resolved only through neutron spin-echo imaging.
 
-\section{Imaging of biologically important structures}\label{s13}
+\section{Neutron imaging of materials}\label{s13}
+Neutrons are sensitive to lighter elements and sometimes they have a 
+significantly different collision cross section for neighboring elements 
+building a contrast between the portions in the images where they are present.
+Neutrons are the only probes that can distingush between isotopes. Their
+electrical neutrality permits them to penetrate deeply and their small magnetic
+moment allows them to interact magnetically with the target. All these
+properties make neutrons an attractive probe to investigate the static and
+dynamic properties of materials \cite{anderson2008neutron}.
+
+The lost foam casting process consists of molten metal replacing the polystyrene
+foam in a cast. Neutrons provide a sharp contrast between the hydrogen-rich
+polystyrene and the metal. It is possible to take frequent images of the 
+casting process to produce a video of how the molten metal displaces the foam
+and settles down in the cast to solidify. One can study the effect of foam
+thickness on the quality of casting. The video images also suggest a flow
+rate that will not trigger turbulence in the molten metal. They provide 
+details of the multiphase flow of the molten metal and the foam that no other
+imaging technique gives.
+
+The mechanical properties of materials depend on the local stress fields in
+them. Many solids have a non-zero local stress built up during its 
+solidification process. These stresses exist in absence of any traction or
+forces of constraints. Their presence can be detected from the strains 
+accompanying them. We mentioned previously that neutron diffraction is a 
+valuable tool to examine crystals. They measure the lattice parameters like
+the distance between lattice planes. If $d_0$ is the expected spacing between
+lattice plans and if $d$ is the observed value then it indicates the presence
+of a strain field of magnitude
+\[
+\varepsilon = \frac{d - d_0}{d_0}.
+\]
+The strain field is a tensor. A complete description of it requires one to
+measure all its components. Of the nine components, only six are independent.
+Once measures the strain at certain orientations $(\theta, \phi)$ and uses
+them to infer the six independent cartesian components of the strain tensor.
+The relationship between strain at an arbitray orientation $(\theta, \phi)$
+and the six cartesian components is
+\begin{eqnarray}
+\varepsilon(\theta, \phi) &=& \varepsilon_{xx}\cos^2\theta\sin^2\phi +
+\varepsilon_{xy}\sin(2\theta)\sin^2\phi \nonumber \\
+ & & + \varepsilon_{yy}\sin^2\theta\sin^2\phi+\varepsilon_{zz}\cos^2\phi 
+\nonumber \\
+ & & + \varepsilon_{xz}\cos\theta\sin(2\phi)+
+\varepsilon_{yz}\sin\theta\sin(2\phi) \label{s13e1}
+\end{eqnarray}
+If we have $\varepsilon(\theta,\phi)$ for six directions then we have six
+equations in six unknowns from which we can determine the entire strain field.
+Once we have the local strain field, we can compute the local stress field 
+using Hooke's law.
+
+The technique to measure local strain and stress described in the previous
+paragraph works well for materials that are largely homegeneous. In the case
+of granular and porous materials, the stress-strain relations are very 
+complicated. They depend on the instantaneous forces as well as past history
+of loading. Unlike the homogeneous materials porous and granular materials 
+have inhomogenous, anisotropic and non-linear stress-strain fields. Traditional
+probes like X-rays cannot penetrate deep inside the material to measure the
+fields. However neutron beams can easily reach depths that X-rays cannot making
+neutrons a valuable tool to measure stresses and strains in granular media.
+
+\section{Imaging of biologically important structures}\label{s14}
 Biological targets have an extremely rich mixture of molecules. A knowledge of
 the presence of certain trace elements in the targets reveals important 
 information about its functioning, health and pathology. Few imaging techniques
@@ -605,7 +666,7 @@ is used to generate contrast in the images. Either the entire molecule is
 imaged in a solution of D${}_2$O or a sub-unit of the molecule is marked with
 Deuterium to get the contrast \cite{anderson2008neutron}.
 
-\section{Conclusion}\label{s14}
+\section{Conclusion}\label{s15}
 In this article we reviewed the physics of neutrons from the perspective of its
 role in probing materials at various scales of resolution. We started by 
 mentioning the physical properties of neutrons, the way they can be produced,
@@ -632,7 +693,9 @@ context of nuclear magnetic resonance. Larmor precession based imaging can be
 used to study the magnetic properties of solids at the level of magnetic 
 domains. Neutron spin-echo is another technique borrowed from the world of 
 nuclear magnetic resonance. It is used to study the dynamic properties of 
-biologically important molecules. We closed the review with a section on the
+biologically important molecules. We then covered the use of neutron probes to 
+measure local stress-strain fields in homogeneous and granular materials. 
+We closed the review with a section on the
 unique ways in which neutron imaging is used to investigate macro-molecules
 and detect elements in biological targets.
 
