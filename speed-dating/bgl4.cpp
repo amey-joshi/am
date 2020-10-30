@@ -110,7 +110,7 @@ int main(int argc, char* argv[], char* envp[])
 
 	std::cout << "Time taken: " << std::fixed << diff << std::setprecision(9) 
 			  << " s for " << ps.size() << " participants." << std::endl;
-	return 0;
+	exit(0);
 }
 
 void show_edges(const Graph& g)
