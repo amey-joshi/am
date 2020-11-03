@@ -1,0 +1,175 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{physics, mathtools, graphicx}
+\numberwithin{equation}{section}
+\linespread{1.2}
+\title{Young's Experiment}
+\author{To be added}
+\begin{document}
+\maketitle
+\section{Introduction}
+Sir Isaac Newton proposed that light is a stream of tiny particles emitted
+from a luminous body. His influence on the world of physicists ensured that
+his corpuscular theory of light was favored over the rival wave theory for 
+almost two centuries. Thomas Young's double-slit experiment that the most
+convincing proof that light behaves like a wave. The experiment consists in
+passing light through two slits cut out in a screen and observing the 
+illumination on another distant screen. When the slits are wide they create
+two separate illuminated regions on the screen. When they are narrow, the
+two bright regions fade away and a pattern of alternating dark and bright
+fringes appears. Young reasoned that these fringes are a result of constructive
+and destructive interference of light waves. Light emerging from narrow slits
+diffracts into the geometrical shadow. The interference fringes are produced by
+the diffracted waves. Both diffraction and interference are phenomena associated
+with waves.
+
+Young's experiment showed that when the slits are wide enough, light indeed
+travels in a straight line like Newtonian particles described in Newton's first
+law. This is the realm of `geometrical optics'. In this realm, light casts
+sharp shadows. However, when the slits are narrow, the shadows are no longer
+sharp. A penumbra appears and as the slits narrow down further the penumbra 
+evolves into an interference pattern as shown in figure \ref{f1}.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{young}
+\caption{Young's experiment. Figure from reference \cite{wiki1}}\label{f1}
+\end{figure}
+
+Young explained his experiment by proposing that the two slits act as sources
+of `secondary waves' which interfere on the screen. The wavelength $\lambda$
+of the two sources is identical. When the path difference of the two waves
+at a point on the screen is an integral multiple of $\lambda$, the waves
+interfere constructively and result in a bright band. On the other hand, when
+the path difference is an odd multiple of $\lambda/2$, the waves interfere
+destructively, resulting in a dark band.
+
+Most common sources of light produce a range of wavelengths. As a result, the
+interference bands produced on the screen are not as sharp as one would expect
+were the light monochromatic. They also produce light waves whose phase 
+changes randomly at an extremely fast rate. Therefore, if we use two separate
+light sources illuminating the two slits, there is no fixed path difference
+at any point on the screen and therefore no interference pattern is observed.
+In order to overcome this problem, the two slits are always illuminated by 
+the same source of light. This ensures that irrespective of the random phase
+fluctuations at the source, the path difference is a function of the 
+experiment's geometry alone.
+
+If $d$ is the distance between the slits and $D$ is the separation between
+the screen that has the slits and the screen on which we observe the 
+interference pattern then the distance between two consecutive bright (or
+dark) fringes is given by \cite{jenkins1937fundamentals}
+\begin{equation}\label{s1e1}
+\delta y = \lambda \frac{D}{d},
+\end{equation}
+where $\lambda$ is the wavelength of light.
+
+Although Young's experiment demonstrated the wave nature of light in 1801, it 
+was not clear in at that time what exactly was oscillating. The answer to that
+question had to wait six decades until James Clerk Maxwell proposed his 
+equations governing the electric and magnetic phenomena. His genius lay in 
+adding a `displacement current' term to Ampere's law and realizing that the 
+other known laws like Gauss law, Faraday's law, the fact that there are
+no magnetic monopoles together can explain all electric and magnetic 
+phenomena. An immediate consequence of his equations was his wave equation
+which showed the existence of electromagnetic waves. Maxwell proposed that
+light is a form of an electromagnetic wave and that gave a theoretical
+explanation to Young's experiment.
+
+\section{Maxwell equations}
+Maxwell equations, in SI units, are
+\begin{eqnarray}
+\div\vb{D} &=& \rho_f \label{s2e1} \\
+\curl\vb{E} &=& -\pdv{\vb{B}}{t} \label{s2e2} \\
+\div\vb{B} &=& 0 \label{s2e3} \\
+\curl\vb{H} &=& \vb{J}_f + \pdv{\vb{D}}{t}, \label{s2e4}
+\end{eqnarray}
+where $\vb{E}$ is the electric field, $\vb{B}$ is the magnetic field,
+$\vb{D}$ is the electric displacement and $\vb{H}$ is the auxilary magnetic
+vector. $\rho_f$ is the density of free charges and $\vb{J}_f$ is the 
+density of free current. Equation \eqref{s2e1} is Gauss' law. Equation
+\eqref{s2e2} is Faraday's law. Equation \eqref{s2e3} is the mathematical
+expression of the fact that there are no magnetic monopoles. Equation
+\eqref{s2e4} is Ampere's law. The term $\partial\vb{D}/\partial t$ in equation
+\eqref{s2e4} is called the displacement current. Adding it to Ampere's law
+was Maxwell's correction to the law. We will show that this term is critical
+in getting the equation of electromagnetic waves.
+
+The electric displacement and the electric field
+are related by the relation
+\begin{equation}\label{s2e5}
+\vb{D} = \epsilon_0\vb{E} + \vb{P},
+\end{equation}
+where $\epsilon_0$ is the permittivity of free space and $\vb{P}$ is the
+polarization of the medium. It is the number of electric dipoles per unit
+volume of the material. The volume of the material is chosen to be small at
+a macroscopic scale but large enough at a microscopic scale so that it contains
+a very large number of molecules of the material. The magnetic field $\vb{B}$
+is related to the field $\vb{H}$ by the relation,
+\begin{equation}\label{s2e6}
+\vb{H} = \mu_0^{-1}(\vb{B} - \vb{M}),
+\end{equation}
+where $\mu_0$ is the permeability of free space and $\vb{M}$ is the 
+magnetization of the medium. It is the number of magnetic dipoles per unit
+volume of the material. The volume of the material is chosen in a manner 
+similar to the one used to define $\vb{P}$. 
+
+There are no electric or magnetic dipoles in vacuum so that equations
+\eqref{s2e5} and \eqref{s2e6} become
+\begin{eqnarray}
+\vb{D} &=& \epsilon_0\vb{E} \label{s2e7} \\
+\vb{H} &=& \mu_0^{-1}\vb{B} \label{s2e8}
+\end{eqnarray}
+It is also common to write equations \eqref{s2e5} and \eqref{s2e6} as
+\begin{eqnarray}
+\vb{D} &=& \epsilon\vb{E} \label{s2e9} \\
+\vb{H} &=& \mu^{-1}\vb{B}, \label{s2e10}
+\end{eqnarray}
+where $\epsilon$ and $\mu$ are permittivity and permeability of media. These
+equations are applicable to linear, isotropic media. A general form of these
+equations is
+\begin{eqnarray}
+D_i &=& \epsilon_{ij}E_j \label{s2e11} \\
+B_i &=& \mu_{ij}H_j \label{s2e12}
+\end{eqnarray}
+where $\epsilon_{ij}$ is the permittivity tensor and $\mu_{ij}$ is the
+permeability tensor of the medium. 
+
+In this article, we will consider electromagnetic waves in vacuum where there 
+are no free charges or currents. Therefore $\rho_f = 0$ and $\vb{J}_f= 0$.
+Maxwell equations, in this case, simplify to
+\begin{eqnarray}
+\div\vb{E} &=& 0 \label{s2e13} \\
+\curl\vb{E} &=& -\pdv{\vb{B}}{t} \label{s2e14} \\
+\div\vb{B} &=& 0 \label{s2e15} \\
+\curl\vb{B} &=& \mu_0\epsilon_0\pdv{\vb{E}}{t} \label{s2e16}
+\end{eqnarray}
+Taking the curl of equation \eqref{s2e14} and using equation \eqref{s2e16}
+in the result, we get
+\begin{equation}\label{s2e17}
+\laplacian\vb{E} = \mu_0\epsilon_0\pdv[2]{\vb{E}}{t}.
+\end{equation}
+This is the equation of an electromagnetic wave in vacuum. Its speed is
+\begin{equation}\label{s2e18}
+c_0 = \frac{1}{\sqrt{\epsilon_0\mu_0}}.
+\end{equation}
+If we take the curl of equation \eqref{s2e16} and use equation \eqref{s2e14},
+we get
+\begin{equation}\label{s2e19}
+\laplacian\vb{B} = \mu_0\epsilon_0\pdv[2]{\vb{B}}{t}.
+\end{equation}
+Thus, the magnetic field $\vb{B}$ satisfies an identical equation. The key
+physical idea governing the wave equations \eqref{s2e17} and \eqref{s2e19}
+is that a changing magnetic field produces an electric field (Faraday's law
+of equation \eqref{s2e14}) and a changing electric field produces a 
+magnetic field (Ampere's law with Maxwell's correction of equation 
+\eqref{s2e16}). These two laws together ensure that the electric and magnetic
+waves sustain each other and produce an electromagnetic wave.
+
+\section{Electromagnetic waves}\label{s3}
+\section{Finite Difference Time Domain Method}\label{s4}
+
+\bibliographystyle{plain}
+\bibliography{em}
+\end{document}
+
