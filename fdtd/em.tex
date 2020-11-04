@@ -2,6 +2,8 @@
 \usepackage{amsmath, amsfonts, amssymb, amsthm}
 \usepackage{physics, mathtools, graphicx}
 \numberwithin{equation}{section}
+
+\newcommand{\opr}{\prime}
 \linespread{1.2}
 \title{Young's Experiment}
 \author{To be added}
@@ -76,7 +78,7 @@ which showed the existence of electromagnetic waves. Maxwell proposed that
 light is a form of an electromagnetic wave and that gave a theoretical
 explanation to Young's experiment.
 
-\section{Maxwell equations}
+\section{Maxwell equations}\label{s2}
 Maxwell equations, in SI units, are
 \begin{eqnarray}
 \div\vb{D} &=& \rho_f \label{s2e1} \\
@@ -167,7 +169,200 @@ magnetic field (Ampere's law with Maxwell's correction of equation
 waves sustain each other and produce an electromagnetic wave.
 
 \section{Electromagnetic waves}\label{s3}
-\section{Finite Difference Time Domain Method}\label{s4}
+Electromagnetic waves in free space are transverse. If we express the solutions
+of equations \eqref{s2e17} and \eqref{s2e19} as
+\begin{eqnarray}
+\vb{E} &=& \vb{E}_0\exp(i(\vb{k}\cdot\vb{r} - \omega t)) \label{s3e1} \\
+\vb{B} &=& \vb{B}_0\exp(i(\vb{k}\cdot\vb{r} - \omega t)) \label{s3e2} 
+\end{eqnarray}
+then equations \eqref{s2e13} and \eqref{s2e15} give
+\begin{eqnarray}
+\vb{k}\cdot\vb{E}_0 &=& 0 \label{s3e3} \\
+\vb{k}\cdot\vb{B}_0 &=& 0. \label{s3e4}
+\end{eqnarray}
+from which we readily get $\vb{k}\cdot\vb{E} = 0$ and $\vb{k}\cdot\vb{B} = 0$.
+Thus, the electric and magnetic fields are perpendicular to the direction of
+propagation in free space. When electromagnetic waves are confined to wave
+guides this is not the case \cite{griffiths2005introduction}. A wave traveling
+through a hollow guide can have either the electric field transverse to the
+direction of propagation or the magnetic field transverse to direction of
+propagation, but not both. The former case is called `Transverse Electric' 
+(TE) mode and the latter case is called `transverse magnetic' (TM) mode. A 
+coaxial cable can support waves with both electric and magnetic fields 
+transverse to the direction of propagation. These modes of propagation are
+called `Transverse Electric (and) Magnetic' (TEM) modes.
+
+\section{Electromagnetic waves in matter}\label{s4}
+We can easily extend the treatment of section \ref{s2} to the case of 
+electromagnetic waves in matter for which the linear relationships of
+equations \eqref{s2e9} and \eqref{s2e10} hold good and which are devoid of 
+free charges and currents. If we use these relations instead of those given 
+by equations \eqref{s2e7} and \eqref{s2e8}, we get the wave equations of the 
+form
+\begin{eqnarray}
+\laplacian\vb{E} &=& \mu\epsilon\pdv[2]{\vb{E}}{t} \label{s4e1} \\
+\laplacian\vb{B} &=& \mu\epsilon\pdv[2]{\vb{B}}{t}. \label{s4e2}
+\end{eqnarray}
+The speed of electromagnetic waves is 
+\begin{equation}\label{s4e3}
+v = \frac{1}{\sqrt{\mu\epsilon}}.
+\end{equation}
+The ratio of the speed of electromagnetic waves in vacuum to that in materials
+is the refractive index
+\begin{equation}\label{s4e4}
+n = \sqrt{\frac{\epsilon}{\epsilon_0}}\sqrt{\frac{\mu}{\mu_0}}.
+\end{equation}
+The permittivity and permeability of materials depends on the frequency of
+electromagnetic fields. As a result, the refractive index is not a constant
+but a frequency dependent quantity. The dependence of $n$ on the frequency
+$\omega$ gives rise to dispersion of electromagnetic waves in media.
+
+Let us now extend our analysis of the propagation of electromagnetic waves
+in media which have free charges and which permit free currents. The current
+density in response to the electric field is
+\begin{equation}\label{s4e5}
+\vb{J}_f = \sigma\vb{E}.
+\end{equation}
+When we use this relation in the equation of continuity of charges,
+\begin{equation}\label{s4e6}
+\pdv{\rho_f}{t} + \div\vb{J}_f = 0,
+\end{equation}
+we get
+\begin{equation}\label{s4e7}
+\pdv{\rho_f}{t} + \frac{\sigma}{\epsilon}\rho_f = 0,
+\end{equation}
+whose solution is
+\begin{equation}\label{s4e8}
+\rho_f(t) = \rho_f(0)\exp\left(-\frac{\sigma}{\epsilon}t\right).
+\end{equation}
+Thus, the density of free charges decays exponentially, the rate of decay being
+faster for materials with higher conductivity. This behavior allows us to
+consider $\rho_f(t)$ to be like a transient and ignore it from our analysis.
+That is, we consider the steady state analysis when $\rho_f(t)$ is almost
+zero. Maxwell equations in the steady state, after using equation \eqref{s4e5}
+become
+\begin{eqnarray}
+\div\vb{E} &=& 0 \label{s4e9} \\
+\curl\vb{E} &=& -\pdv{\vb{B}}{t} \label{s4e10} \\
+\div\vb{B} &=& 0 \label{s4e11} \\
+\curl\vb{B} &=& \mu\sigma\vb{E} + \mu\epsilon\pdv{\vb{E}}{t}. \label{s4e12}
+\end{eqnarray}
+Carrying out the same manipulations as we did in the case of vacuum, we get
+the wave equations
+\begin{eqnarray}
+\laplacian\vb{E} &=& \mu\epsilon\pdv[2]{\vb{E}}{t} + \mu\sigma\pdv{\vb{E}}{t}
+\label{s4e13} \\
+\laplacian\vb{B} &=& \mu\epsilon\pdv[2]{\vb{B}}{t} + \mu\sigma\pdv{\vb{B}}{t}.
+\label{s4e14} 
+\end{eqnarray}
+These are inhomogeneous wave equations. They admit plane wave solutions of
+the form
+\begin{eqnarray}
+\vb{E}(\vb{r}, t) &=& \vb{E}_0\exp(i(\vb{k}\cdot\vb{r} - \omega t))
+\label{s4e15} \\
+\vb{B}(\vb{r}, t) &=& \vb{B}_0\exp(i(\vb{k}\cdot\vb{r} - \omega t)),
+\label{s4e16} 
+\end{eqnarray}
+where it is understood that only the real part of the quantities have a 
+physical significance. The wave number $k$ is also a complex quantity
+\begin{equation}\label{s4e17}
+k^2 = \mu\epsilon\omega^2 + i\mu\sigma\omega.
+\end{equation}
+One can write
+\begin{equation}\label{s4e18}
+k = k_+ + ik_-,
+\end{equation}
+where
+\begin{equation}\label{s4e19}
+k_\pm = \omega\frac{\epsilon\mu}{2}
+\left(\sqrt{1 + \frac{\sigma^2}{\epsilon^2\omega^2}} \pm 1\right)^{1/2}
+\end{equation}
+The imaginary part $k_-$ of the wave number leads to an attenuation of the
+electromagnetic waves in conducting media. The extent of attenuation is 
+measured by the skin depth
+\begin{equation}\label{s4e20}
+d = \frac{1}{k_-},
+\end{equation}
+It is the depth in the material at which the amplitude of an incident
+electromagnetic wave decays by a factor of $1/e$.
+
+\section{Finite Difference Time Domain Method}\label{s5}
+Finite difference methods are a way to solve differential equations numerically
+by writing them as difference equations. The derivative of a function $f$
+with respect to $x$ at a point $a$ can be approximated by
+\begin{equation}\label{s5e1}
+f^\opr(a) \approx \frac{f(a+h) - f(a)}{h}
+\end{equation}
+when $h$ is sufficiently small. The quantity $f(a+h) - f(a)$ is often called
+the forward difference. A related quantity $f(a) - f(a - h)$ is called the
+backward difference. The central difference is defined as
+\[
+f\left(a + \frac{h}{2}\right) - f\left(a - \frac{h}{2}\right).
+\]
+It is often convenient to approximate the derivative in equation \eqref{s5e1}
+in terms of the central difference as
+\begin{equation}\label{s5e2}
+f^\opr(a) \approx \frac{1}{h}
+\left(f\left(a + \frac{h}{2}\right) - f\left(a - \frac{h}{2}\right)\right).
+\end{equation}
+Once a differential equation is approximated by a difference equation, we can 
+cast it as an equation involving matrices. There are excellent numerical
+libraries to solve matrix equations which can be used to get an approximate
+numerical solution of the differential equation.
+
+The finite-difference time-domain method (FDTD) was developed by Kane Yee
+\cite{yee1966numerical} so solve Maxwell equations numerically. The domain
+in which the solution has to be found is divided into a grid of points at
+which the derivatives of $\vb{E}$ and $\vb{B}$ are evaluated using the
+central difference approximation of \eqref{s5e2}. The grid spans both space
+and time variables. The `time-domain' refers to the fact that the fields are
+analyzed as functions of time as opposed to taking their Fourier transforms
+and writing them as functions of frequency. Since the method involves
+functions of time and their derivatives with respect to time (and space)
+it works for a wide range of frequencies. In fact, the frequency is one of
+the parameters of an FDTD algorithm.
+
+We will illustrate FDTD for a simple one-dimensional problem. We observed
+in section \ref{s2} that an electromagnetic wave is sustained because a 
+changing electric field produces a magnetic field and vice versa. For sake
+of simplicity, let us consider the progagation of electromagnetic waves in
+vacuum. The pair of equations from which the wave equation emerges is
+\begin{eqnarray}
+\curl\vb{H} &=& \epsilon_0\pdv{\vb{E}}{t} \label{s5e3} \\
+\curl\vb{E} &=& -\mu_0\pdv{\vb{H}}{t} \label{s5e4}
+\end{eqnarray}
+Let us assume that the wave propagates in the $z$-direction with the 
+electric field in the $x$-direction and the $\vb{H}$ field in the
+$y$-direction. Equations \eqref{s5e3} and \eqref{s5e4} simplify to
+\begin{eqnarray}
+\pdv{E_x}{t} &=& -\frac{1}{\epsilon_0}\pdv{H_y}{z} \label{s5e5} \\
+\pdv{H_y}{t} &=& -\frac{1}{\mu_0}\pdv{E_x}{z} \label{s5e6}
+\end{eqnarray}
+The fields $E_x$ and $H_y$ are functions of $z$ and $t$. In this case, the
+domain of the problem is a segment along the $z$-axis. We divide it in by a 
+set of grid points and evaluate the fields at each one of them at successive
+instants of time. The numerical solution of the problem thus consists in
+evaluating $E_x(z, t)$ and $H_y(z, t)$ at a discrete set of points. We can
+approximate the derivatives in equations \eqref{s5e5} and \eqref{s5e6} in
+terms of central differences and write
+\begin{eqnarray}
+\frac{E_x(k, n + 1/2) - E_x(k, n - 1/2)}{\Delta t} 
+ &=& -\frac{H_y(k + 1/2, n) - H_y(k - 1/2, n)}{\epsilon_0\Delta x}
+\label{s5e7} \\
+\frac{H_y(k + 1/2, n + 1) - H_y(k + 1/2, n)}{\Delta t} 
+&=&
+-\frac{E_x(k + 1, n + 1/2) - E_x(k - 1, n + 1/2)}{\epsilon_0\Delta x}
+\nonumber \\
+ & & \label{s5e8} 
+\end{eqnarray}
+
+Notes:
+\begin{enumerate}
+\item What is the Finite difference method?
+\item What is FDTD? Why is it useful in solving electromagnetic problems?
+\item Courant-Friedrichs-Lewy stability condition.
+\item Illustration of an example in 1d.
+\end{enumerate}
 
 \bibliographystyle{plain}
 \bibliography{em}
