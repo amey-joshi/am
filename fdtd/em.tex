@@ -153,7 +153,7 @@ in the result, we get
 \end{equation}
 This is the equation of an electromagnetic wave in vacuum. Its speed is
 \begin{equation}\label{s2e18}
-c_0 = \frac{1}{\sqrt{\epsilon_0\mu_0}}.
+c = \frac{1}{\sqrt{\epsilon_0\mu_0}}.
 \end{equation}
 If we take the curl of equation \eqref{s2e16} and use equation \eqref{s2e14},
 we get
@@ -344,7 +344,7 @@ set of grid points and evaluate the fields at each one of them at successive
 instants of time. The numerical solution of the problem thus consists in
 evaluating $E_x(z, t)$ and $H_y(z, t)$ at a discrete set of points. We can
 approximate the derivatives in equations \eqref{s5e5} and \eqref{s5e6} in
-terms of central differences and write
+terms of central differences and write \cite{sullivan2013electromagnetic}
 \begin{eqnarray}
 \frac{E_x(k, n + 1/2) - E_x(k, n - 1/2)}{\Delta t} 
  &=& -\frac{H_y(k + 1/2, n) - H_y(k - 1/2, n)}{\epsilon_0\Delta x}
@@ -355,14 +355,201 @@ terms of central differences and write
 \nonumber \\
  & & \label{s5e8} 
 \end{eqnarray}
+We rewrite these equations as
+\begin{eqnarray}
+E_x\left(k ,n+\frac{1}{2}\right) &=& E_x\left(k ,
+n-\frac{1}{2}\right) \nonumber \\
+ & & -\frac{\Delta t}{\epsilon_0\Delta x}\left(\left(
+H_y\left(k + \frac{1}{2}, n\right) - H_y\left(k - \frac{1}{2}, n\right)\right)
+\right) \nonumber \\
+ & & \label{s5e9}
+\end{eqnarray}
+and
+\begin{eqnarray}
+H_y\left(k+\frac{1}{2},n+1\right) &=& H_y\left(k+\frac{1}{2}, n\right) 
+\nonumber \\
+ & & -\frac{\Delta t}{\mu_0\Delta x}\left(
+E_x\left(k + 1, n + \frac{1}{2}\right) - E_x\left(k - 1, n+\frac{1}{2}\right)
+\right) \nonumber \\
+ & & \label{s5e10}
+\end{eqnarray}
+A few observations about these equations:
+\begin{itemize}
+\item $E_x$ is computed at space coordinates $0, 1, \ldots$ and time 
+coordinates $1/2, 3/2, \ldots$.
+\item $H_y$ is computed at space coordinates $1/2, 3/2, \ldots$ and time 
+coordinates $0, 1, \ldots$.
+\item The points at which $E_x$ is computed are interleaved between the points
+at which $H_y$ is computed in both space and time grid.
+\end{itemize}
+When these equations are implemented in code, we compute the fields at 
+\emph{all} points in the domain \emph{at a given instant of time}. We repeat
+this process for the desired number of time steps. 
 
-Notes:
-\begin{enumerate}
-\item What is the Finite difference method?
-\item What is FDTD? Why is it useful in solving electromagnetic problems?
-\item Courant-Friedrichs-Lewy stability condition.
-\item Illustration of an example in 1d.
-\end{enumerate}
+There are a few more considerations when we implement these equations in code.
+Equations \eqref{s5e9} and \eqref{s5e10} are very similar except that the
+coefficient of the second term on the right hand side of the two equations
+have $\epsilon_0$ in the first case and $\mu_0$ in the second case. The
+values of these universal constants are $\epsilon_0 = 8.85418782\times 10^{-12}
+$ m$^{-3}$kg$^{-1}$s$^4$A$^2$ and $\mu_0=1.25663706 \times 10^{-6}$ m kg
+s$^{-2}$ A$^{-2}$. The two constants differ by $6$ orders of magnitude. In
+order to bridge this gap, we introduce a new variable
+\begin{equation}\label{s5e11}
+\tilde{E}_x = \sqrt{\frac{\epsilon_0}{\mu_0}}E_x.
+\end{equation}
+In terms of this variable, equations \eqref{s5e9} and \eqref{s5e10} become
+\begin{eqnarray}
+\tilde{E}_x\left(k ,n+\frac{1}{2}\right) &=& \tilde{E}_x\left(k ,
+n-\frac{1}{2}\right) \nonumber \\
+ & & -\frac{\Delta t}{\mu_0\epsilon_0\Delta x}\left(\left(
+H_y\left(k + \frac{1}{2}, n\right) - H_y\left(k - \frac{1}{2}, n\right)\right)
+\right) \nonumber \\
+ & & \label{s5e12}
+\end{eqnarray}
+and
+\begin{eqnarray}
+H_y\left(k+\frac{1}{2},n+1\right) &=& H_y\left(k+\frac{1}{2}, n\right) 
+\nonumber \\
+ & & -\frac{\Delta t}{\mu_0\epsilon_0\Delta x}\left(
+\tilde{E}_x\left(k + 1, n + \frac{1}{2}\right) - \tilde{E}_x\left(k - 1, n+\frac{1}{2}\right)
+\right) \nonumber \\
+ & & \label{s5e13}
+\end{eqnarray}
+Recall from equation \eqref{s2e18} that $c = 1/\sqrt{\epsilon_0\mu_0}$ so that
+we can write the two equations above as
+\begin{equation}\label{s5e14}
+\tilde{E}_x = \sqrt{\frac{\epsilon_0}{\mu_0}}E_x.
+\end{equation}
+In terms of this variable, equations \eqref{s5e9} and \eqref{s5e10} become
+\begin{eqnarray}
+\tilde{E}_x\left(k ,n+\frac{1}{2}\right) &=& \tilde{E}_x\left(k ,
+n-\frac{1}{2}\right) \nonumber \\
+ & & -\frac{c \Delta t}{\Delta x}\left(\left(
+H_y\left(k + \frac{1}{2}, n\right) - H_y\left(k - \frac{1}{2}, n\right)\right)
+\right) \nonumber \\
+ & & \label{s5e15}
+\end{eqnarray}
+and
+\begin{eqnarray}
+H_y\left(k+\frac{1}{2},n+1\right) &=& H_y\left(k+\frac{1}{2}, n\right) 
+\nonumber \\
+ & & -\frac{c \Delta t}{\Delta x}\left(
+\tilde{E}_x\left(k + 1, n + \frac{1}{2}\right) - \tilde{E}_x\left(k - 1, n+\frac{1}{2}\right)
+\right) \nonumber \\
+ & & \label{s5e16}
+\end{eqnarray}
+While implementing these equations in software we will have to choose certain
+values for $\Delta x$ and $\Delta t$. $\Delta x$ is chosen in such a way that
+there are at least ten points per wave. That is, if we are simulating a wave
+with wavelength $\lambda$ then \cite{sullivan2013electromagnetic}
+\begin{equation}\label{s5e17}
+\Delta x \approx \frac{\lambda}{10}.
+\end{equation}
+The time step $\Delta t$ is determined by the Courant-Friedrichs-Lewy condition
+\cite{cfl}. When we are solving a hyperbolic partial differential equation
+numerically on a grid, we should choose a time step in such a way that it is
+smaller than the time taken for the wave to travel to a neighboring point
+a distance $\Delta x$ away. Electromagnetic waves need a time $\Delta x/c$
+to travel from one grid point to the neighboring grid point. Therefore, we
+choose 
+\begin{equation}\label{s5e18}
+\Delta t = \frac{\Delta x}{2c}.
+\end{equation}
+Using this equation in \eqref{s5e15} and \eqref{s5e16} we get
+\begin{eqnarray}
+\tilde{E}_x\left(k ,n+\frac{1}{2}\right) &=& \tilde{E}_x\left(k ,
+n-\frac{1}{2}\right) \nonumber \\
+ & & -\frac{1}{2}\left(\left(
+H_y\left(k + \frac{1}{2}, n\right) - H_y\left(k - \frac{1}{2}, n\right)\right)
+\right) \nonumber \\
+ & & \label{s5e19}
+\end{eqnarray}
+and
+\begin{eqnarray}
+H_y\left(k+\frac{1}{2},n+1\right) &=& H_y\left(k+\frac{1}{2}, n\right) 
+\nonumber \\
+ & & -\frac{1}{2}\left(
+\tilde{E}_x\left(k + 1, n + \frac{1}{2}\right) - \tilde{E}_x\left(k - 1, n+\frac{1}{2}\right)
+\right) \nonumber \\
+ & & \label{s5e20}
+\end{eqnarray}
+Equations \eqref{s5e19} and \eqref{s5e20} can be readily written in software
+to simulate propagation of electromagnetic waves in one dimension.
+
+So far we have considered the propagation of electromagnetic waves in 
+vacuum. We now consider their propagation in dielectric and lossy media. In
+the case of a dielectric medium, the first equation of the pair \eqref{s5e5}
+and \eqref{s5e6} changes to
+\begin{equation}\label{s5e21}
+\pdv{E_x}{t} = -\frac{1}{\epsilon}\pdv{H_y}{z}.
+\end{equation}
+For linear dielectric, one can write
+\begin{equation}\label{s5e22}
+\epsilon = \kappa\epsilon_0,
+\end{equation}
+where $\kappa > 1$ is the relative permittivity, also called the dielectric
+constant. If we follow the development of equations \eqref{s5e19} and
+\eqref{s5e20} from Maxwell equation with the changes indicated in equations
+\eqref{s5e21} and \eqref{s5e22}, we get
+\begin{eqnarray}
+\tilde{E}_x\left(k ,n+\frac{1}{2}\right) &=& \tilde{E}_x\left(k ,
+n-\frac{1}{2\kappa}\right) \nonumber \\
+ & & -\frac{1}{2\kappa}\left(\left(
+H_y\left(k + \frac{1}{2}, n\right) - H_y\left(k - \frac{1}{2}, n\right)\right)
+\right) \nonumber \\
+ & & \label{s5e23}
+\end{eqnarray}
+and
+\begin{eqnarray}
+H_y\left(k+\frac{1}{2},n+1\right) &=& H_y\left(k+\frac{1}{2}, n\right) 
+\nonumber \\
+ & & -\frac{1}{2}\left(
+\tilde{E}_x\left(k + 1, n + \frac{1}{2}\right) - \tilde{E}_x\left(k - 1, n+\frac{1}{2}\right)
+\right) \nonumber \\
+ & & \label{s5e24}
+\end{eqnarray}
+Equation \eqref{s5e24} is identical with \eqref{s5e20} while equation
+\eqref{s5e23} differs from \eqref{s5e21} by the presence of dielectric 
+constant in the coefficient of the second term on the right hand side.
+
+In the case of electromagnetic waves propagating in a medium of dielectric
+constant $\kappa$ and electric conductivity $\sigma$, Ampere's law becomes
+\begin{equation}\label{s5e25}
+\curl\vb{H} = \kappa\epsilon_0\pdv{\vb{E}}{t} - \sigma\vb{E},
+\end{equation}
+where we have used Ohm's law \eqref{s4e5}. The one dimensional equations
+for the $H_y$ and $\tilde{E}_x$ (refer to \eqref{s5e11}) fields are
+\begin{eqnarray}
+\pdv{\tilde{E}_x}{t} &=& -\frac{c}{\kappa}\pdv{H_y}{z} - 
+\frac{\sigma}{\kappa\epsilon_0}\tilde{E}_x \label{s5e26} \\
+\pdv{\tilde{H}_y}{t} &=& -c\pdv{\tilde{E}_x}{z}. \label{s5e27}
+\end{eqnarray}
+If we follow the derivation of the difference equation from the differential
+equations and write 
+\[
+\tilde{E}_x(k, n) = \frac{\tilde{E}_x(k, n + 1/2) + \tilde{E}_x(k, n - 1/2)}{2}
+\]
+then we get a pair of equation of which the second one is the same as 
+\eqref{s5e24} but the first one is
+\begin{eqnarray}
+\tilde{E}_x\left(k ,n+\frac{1}{2}\right) &=& \frac{1-\alpha}{1+\alpha}
+\tilde{E}_x\left(k , n-\frac{1}{2\kappa}\right) \nonumber \\
+ & & -\frac{1}{2\kappa(1 + \alpha)}\left(\left(
+H_y\left(k + \frac{1}{2}, n\right) - H_y\left(k - \frac{1}{2}, n\right)\right)
+\right), \nonumber \\
+ & & \label{s5e28}
+\end{eqnarray}
+where \cite{sullivan2013electromagnetic}
+\begin{equation}\label{s5e29}
+\alpha = \frac{\sigma\Delta t}{2\kappa\epsilon_0}.
+\end{equation}
+
+\section{Some practical matters}\label{s6}
+\subsection{Absorbing boundary condition}
+\subsection{Perfectly matching layer}
+
+\section{A simple example of FDTD}\label{s7}
+
 
 \bibliographystyle{plain}
 \bibliography{em}
