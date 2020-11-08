@@ -87,7 +87,7 @@ Maxwell equations, in SI units, are
 \curl\vb{H} &=& \vb{J}_f + \pdv{\vb{D}}{t}, \label{s2e4}
 \end{eqnarray}
 where $\vb{E}$ is the electric field, $\vb{B}$ is the magnetic field,
-$\vb{D}$ is the electric displacement and $\vb{H}$ is the auxilary magnetic
+$\vb{D}$ is the electric displacement and $\vb{H}$ is the auxiliary magnetic
 vector. $\rho_f$ is the density of free charges and $\vb{J}_f$ is the 
 density of free current. Equation \eqref{s2e1} is Gauss' law. Equation
 \eqref{s2e2} is Faraday's law. Equation \eqref{s2e3} is the mathematical
@@ -325,7 +325,7 @@ the parameters of an FDTD algorithm.
 We will illustrate FDTD for a simple one-dimensional problem. We observed
 in section \ref{s2} that an electromagnetic wave is sustained because a 
 changing electric field produces a magnetic field and vice versa. For sake
-of simplicity, let us consider the progagation of electromagnetic waves in
+of simplicity, let us consider the propagation of electromagnetic waves in
 vacuum. The pair of equations from which the wave equation emerges is
 \begin{eqnarray}
 \curl\vb{H} &=& \epsilon_0\pdv{\vb{E}}{t} \label{s5e3} \\
@@ -546,10 +546,162 @@ where \cite{sullivan2013electromagnetic}
 
 \section{Some practical matters}\label{s6}
 \subsection{Absorbing boundary condition}
+A partial differential equation is not completely specified without its
+boundary conditions. One of the simplest boundary conditions is the 
+absorbing boundary condition. It permits the waves arriving on the boundary
+proceed beyond it without change. The choice of $\Delta t$ made in equation
+\eqref{s5e18} dictates that a wave will take two time steps to travel from
+one grid point to the next one. Therefore, we can easily implement the
+absorbing boundary condition as
+\begin{equation}\label{s6e1}
+\tilde{E}_x(0, n) = \tilde{E}_x(1, n-2).
+\end{equation}
+We do not need a separate equation for the $H_y$ field because it is 
+determined by the $\tilde{E}_x$ field.
+
 \subsection{Perfectly matching layer}
+It is easy to implement an absorbing boundary condition in one-dimensional
+problem because there is only one direction of propagation. In two or more
+dimensions it is difficult to come up with a boundary condition analogous to
+equation \eqref{s6e1} without introducing spurious reflections. In order to
+get over this problem, Berenger \cite{berenger1994perfectly} introduced an
+artificial absorbing layer outside the boundary that strongly attenuated a
+wave incident on it. However, the problem of spurious reflection does not 
+vanish. Instead of the grid boundary reflecting a wave, the absorbing layer
+starts reflecting. Berenger showed that it is possible to choose the material
+characteristics of the absorbing layer in such a way that there are no 
+reflected waves. Such an absorbing layer is called the \emph{perfectly matching
+layer}. In order to derive the equations describing it, we write Maxwell
+equations in two dimensions
+\begin{eqnarray}
+\pdv{\tilde{\vb{D}}}{t} &=& c\curl\vb{H} \label{s6e2} \\
+\pdv{\vb{H}}{t} &=& -c\curl\tilde{\vb{E}} \label{s6e3} \\
+\tilde{\vb{D}}(\omega) &=& \kappa^\ast(\omega)\tilde{\vb{E}}(\omega)
+\label{s6e4}
+\end{eqnarray}
+The complex dielectric constant in equation \eqref{s6e4} is defined as
+\begin{equation}\label{s6e5}
+\kappa^\ast = \kappa - \frac{i\sigma}{\omega\epsilon_0}.
+\end{equation}
+The field $\tilde{\vb{D}}$ is related to the electric displacement as
+\begin{equation}\label{s6e6}
+\tilde{\vb{D}} = c\vb{D} = \frac{1}{\sqrt{\mu_0\epsilon_0}}\vb{D}.
+\end{equation}
+When a wave propagating in one medium with an intrinsic impedance $\eta_1$
+enters another medium with intrinsic impedance $\eta_2$ then its gets
+reflected by a proportion
+\begin{equation}\label{s6e7}
+\Gamma = \frac{\eta_2 - \eta_1}{\eta_2 + \eta_1},
+\end{equation}
+where
+\begin{equation}\label{s6e8}
+\eta_{1,2} = \sqrt{\frac{\mu_{1,2}}{\kappa_{1,2}\epsilon_0}}.
+\end{equation}
+If we assume that the two media are non-magnetic then $\mu_1 = \mu_2 = \mu_0$.
+If we match the characteristic impedance of the absorbing layer with the
+domain then equation \eqref{s6e8} guarantees that there will be no reflection.
+However, we also want to ensure that the waves are strongly attenuated in
+the absorbing layer. In order to find the conditions to make that happen,
+we write equations \eqref{s6e2} to \eqref{s6e4} in component form. We choose 
+the TM waves so that the relevant components are $\tilde{E}_z, H_x$ and $H_y$.
+If we also take a Fourier transform of these equations we get
+\begin{eqnarray}
+i\omega\tilde{D}_x &=& c\left(\pdv{H_y}{x} - \pdv{H_x}{y}\right)\label{s6e9} \\
+\tilde{D}_z(\omega) &=& \kappa^\ast(\omega)\tilde{E}_z(\omega) \label{s6e10} \\
+i\omega H_x &=& -c\pdv{\tilde{E}_z}{y} \label{s6e11} \\
+i\omega H_y &=&  c\pdv{\tilde{E}_z}{x} \label{s6e12}
+\end{eqnarray}
+We now introduce new functions $\tilde{\kappa}, \tilde{\mu}_x$ and
+$\tilde{\mu}_y$ into equations \eqref{s6e9} to \eqref{s6e12} such that
+\begin{eqnarray}
+i\omega\tilde{\kappa}(x)\tilde{\kappa}(y)\tilde{D}_x &=& 
+c\left(\pdv{H_y}{x} - \pdv{H_x}{y}\right)\label{s6e13} \\
+\tilde{D}_z(\omega) &=& \kappa^\ast(\omega)\tilde{E}_z(\omega) \label{s6e14} \\
+i\omega H_x\tilde{\mu}_x(x)\tilde{\mu}_x(y) &=& 
+-c\pdv{\tilde{E}_z}{y} \label{s6e15} \\
+i\omega H_y\tilde{\mu}_y(x)\tilde{\mu}_y(y)&=&  
+c\pdv{\tilde{E}_z}{x} \label{s6e16}
+\end{eqnarray}
+The functions are chosen such that
+\begin{eqnarray}
+\Re(\tilde{\kappa}) &=& 1 \label{s6e17} \\
+\Re(\tilde{\mu}_x) &=& 1 \label{s6e18} \\
+\Re(\tilde{\mu}_y) &=& 1 \label{s6e19}
+\end{eqnarray}
+The functions $\tilde{\mu}_x$ and $\tilde{\mu}_y$ are written as
+\begin{equation}\label{s6e20}
+\tilde{\mu}_i = \mu_i - \frac{\tilde{\sigma}_i}{\omega\mu_0}, i = x, y
+\end{equation}
+and the imaginary part of $\tilde{\kappa}$ is written as
+\begin{equation}\label{s6e21}
+\tilde{\kappa} = -\frac{\tilde{\sigma}}{\omega\epsilon_0}.
+\end{equation}
+These conditions ensure the attenuation of waves in the absorbing layer
+\cite{sullivan2013electromagnetic}.
 
 \section{A simple example of FDTD}\label{s7}
+In this section we will illustrate a simple example of 1-d FDTD simulation
+demonstrating the propagation of a Gaussian pulse. The code is a minor 
+modification of the code available in Houle and Sullivan's book 
+\cite{sullivan2013electromagnetic}. We first import the necessary packages.
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+\end{verbatim}
+Next we set up the physical parameters of the problem.
+\begin{verbatim}
+ke = 200
+# x-component of normalized electric field.
+ex = np.zeros(ke)
+# y-component of magnetic field.
+hy = np.zeros(ke)
 
+kc = ke // 2  # The centre of the grid.
+t0 = 40       # The mean of the Gaussian pulse.
+spread = 12   # The standard deviation of the pulse.
+
+nsteps = 100
+\end{verbatim}
+In the next code snippet we evaluate the fields at all grid points for a 
+$100$ iterations.
+\begin{verbatim}
+for t in range(1, nsteps + 1):
+  for k in range(1, ke):
+    ex[k] +=0.5 * (hy[k - 1] - hy[k])
+
+  ex[kc] = np.exp(-0.5 * ((t0 - t)/spread)**2)
+
+  for k in range(ke - 1):
+    hy[k] += 0.5 * (ex[k] - ex[k + 1])
+\end{verbatim}
+Finally, we plot the results.
+\begin{verbatim}
+plt.figure(figsize=(8, 8))
+plt.subplot(211)
+plt.plot(ex, color='k', linewidth=1)
+plt.ylabel('E$_x$', fontsize='14')
+plt.xticks(np.arange(0, ke + 1, step=20))
+plt.xlim(0, 200)
+plt.yticks(np.arange(-1, 1.2, step=1))
+plt.ylim(-1.2, 1.2)
+plt.text(100, 0.5, 'T = {}'.format(t), horizontalalignment='center')
+plt.subplot(212)
+plt.plot(hy, color='k', linewidth=1)
+plt.ylabel('H$_y$', fontsize='14')
+plt.xlabel('FDTD cells')
+plt.xticks(np.arange(0, ke + 1, step=20))
+plt.xlim(0, 200)
+plt.yticks(np.arange(-1, 1.2, step=1))
+plt.ylim(-1.2, 1.2)
+plt.subplots_adjust(bottom=0.2, hspace=0.45)
+plt.show()
+\end{verbatim}
+The results of the simulation are
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{fdtd-1}
+\caption{Propagation of a Gaussian pulse}\label{f2}
+\end{figure}
 
 \bibliographystyle{plain}
 \bibliography{em}
