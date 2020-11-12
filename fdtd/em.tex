@@ -832,96 +832,91 @@ are needed to store the plots as image files.
 \begin{verbatim}
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-
-import glob
-from PIL import Image
-import re
+import matplotlib.patches as patches 
 import os
+import time
 \end{verbatim}
 
 We define the physical constants used in the problem.
 \begin{verbatim}
-c = 3e8           # The speed of light in vacuum.
-epsr = 1e4        # The relative dielectric permittivity of the screen.
-sigma = 0.3       # The conductivity of the screen.
-epsz = 8.854e-12  # Permittivity of free space in SI units.
+c = 3e8                 # The speed of light in vacuum.
+kappa = 7e3             # The relative dielectric permittivity of the screen.
+sigma = 0.1             # The conductivity of the screen.
+epsilon_0 = 8.854e-12   # Permittivity of free space in SI units.
 \end{verbatim}
 
 The geometrical parameters of the problem are:
 \begin{verbatim}
 # The extent of the domain. **You can alter these parameters.**
-ie = 200 # vertical limit.
-je = 200 # horizontal limit.
+xe = 100 # Width.
+ye = 100 # Height.
 
 # The central points in either directions.
-ic = ie // 2 - 1
-jc = je // 2 - 1
+yc = ye // 2 - 1
+xc = xe // 2 - 1
 
-# The location of the perfectly matching layer.
-ia = 10           # starting vertical position after PML.
-ib = ie - ia - 1  # ending horizontal position before PML.
-ja = 10           # starting horizontal position after PML.
-jb = je - ja - 1  # ending horizontal position before PML.
+# The location of the perfectly matching layer. 
+# PML starts after these limits.
+pml_dn = ye // 20           # starting vertical position after PML.
+pml_up = ye - pml_dn - 1    # ending vertical position before PML.
+pml_lf = xe // 20           # starting horizontal position after PML.
+pml_rt = xe - pml_lf - 1    # ending horizontal position before PML.
 
 # Slit geometry. **You can alter these parameters.**
-slit_width = 8 # width of each slit (vertical measure).
-slit_sep = 20 # separation between both slits (vertical measure).
-screen_width = 8 # width of the screen (horizontal measure).
+slit_height = 2 # height of each slit (vertical measure).
+slit_sep = 15 # separation between both slits (vertical measure).
+screen_thinkness = 2 # thickness of the screen (horizontal measure).
 \end{verbatim}
 
 We now allocate space to store the two dimensional field vectors. We simulate
 a TM wave propagating in vacuum until it hits the screen with two slits in 
 it.
 \begin{verbatim}
-ez = np.zeros((ie, je)) # electric field.
-dz = np.zeros((ie, je)) # electric displacement.
-hx = np.zeros((ie, je)) # x-component of H field.
-hy = np.zeros((ie, je)) # y-component of H field.
-iz = np.zeros((ie, je))
-ihx = np.zeros((ie, je))
-ihy = np.zeros((ie, je))
+Ez = np.zeros((ye, xe))     # z-component of E field.
+Dz = np.zeros((ye, xe))     # z-component of D field.
+Hx = np.zeros((ye, xe))     # x-component of H field.
+Hy = np.zeros((ye, xe))     # y-component of H field.
+int_Ez = np.zeros((ye, xe)) # Time integral of E_z field.
+int_Hx = np.zeros((ye, xe)) # Time integral of H_x field.
+int_Hy = np.zeros((ye, xe)) # Time integral of H_y field.
 
-ez_inc = np.zeros(je) # incident electric field
-hx_inc = np.zeros(je) # x-component of incident H field
+Ez_in = np.zeros(xe) # z component of the incident E field.
+Hx_in = np.zeros(xe) # x component of the incident H field.
 \end{verbatim}
 
 The simulation parameters and certain auxiliary variables are defined in the
 code snippet below.
 \begin{verbatim}
-ddx = 0.01 # Cell size in m
-dt = ddx / 2*c
-gaz = np.ones((ie, je))
-gbz = np.zeros((ie, je))
+cell_size = 0.01 # Cell size in m
+dt = cell_size / 2*c
+# The dielectric profile.
+dep_1 = np.ones((ye, xe))
+dep_2 = np.zeros((ye, xe))
+# The absorbing boundary conditions.
+lob = [0, 0]
+hib = [0, 0]
 
-boundary_low = [0, 0]
-boundary_high = [0, 0]
-# Time for which the source is generated. 
 # **You can alter this parameter.**
-t0 = 10       
-# Number of time steps. 
+t0 = 10 # Time for which the source is generated. 
 # **You can alter this parameter.**
-nsteps = 500  
+nsteps = 500  # Number of time steps. 
 
 # Vectors used for PML.
-gi2 = np.ones(ie)
-gi3 = np.ones(ie)
-fi1 = np.zeros(ie)
-fi2 = np.ones(ie)
-fi3 = np.ones(ie)
+defy_2 = np.ones(ye)
+defy_3 = np.ones(ye)
+def2y_1 = np.zeros(ye)
+def2y_2 = np.ones(ye)
+def2y_3 = np.ones(ye)
 
-gj2 = np.ones(je)
-gj3 = np.ones(je)
-fj1 = np.zeros(je)
-fj2 = np.ones(je)
-fj3 = np.ones(je)
+defx_2 = np.ones(xe)
+defx_3 = np.ones(xe)
+def2x_1 = np.zeros(xe)
+def2x_2 = np.ones(xe)
+def2x_3 = np.ones(xe)
 
-# Dictionary to keep track of desired points for plotting.
 plotting_points = []
-for num_steps in range(1,nsteps+1):
-    plotting_points.append({'label': 'a',
-                            'num_steps': num_steps,
-                            'data_to_plot': None})
+for n in range(1, nsteps+1):
+    plotting_points.append({'label': 'a', 'num_steps': n, 'Ez_data': None}
 \end{verbatim}
 
 We now define the functions that do the FDTD computations. The first one
@@ -929,235 +924,219 @@ creates the dielectric profile of the domain. It initializes the portion of the
 domain that has the screen with the screens $\sigma$ and $\kappa$.
 \begin{verbatim}
 def build_dielectric_profile():
-  for j in range(ja, jb): # vertical range
-      for i in range(ia, ib): # horizontal range
-          if (
-              ((i > 0 and i < ic - slit_width/2-slit_sep/2) or
-              (i > ic - slit_sep/2 + slit_width/2 and 
-			   i < ic + slit_sep/2 - slit_width/2) or
-              (i > ic + slit_width/2+slit_sep/2 and i < ie))
-              and (j > jc-screen_width/2 and j < jc+screen_width/2)
-              ): # If position is inside the dielectric
+  for j in range(pml_lf, pml_rt): # vertical range
+      for i in range(pml_dn, pml_up): # horizontal range
+          if point_on_screen(i, j): # If position is inside the dielectric                  
+              dep_1[i, j] = 1 / (kappa + (sigma * dt / epsilon_0))
+              dep_2[i, j] = (sigma * dt / epsilon_0)
+\end{verbatim}
 
-              gaz[i, j] = 1 / (epsr + (sigma * dt / epsz))
-              gbz[i, j] = (sigma * dt / epsz)
+It uses another function that checks if a point is on the screen.
+\begin{verbatim}
+def point_on_screen(i, j):
+    return (((i > 0 and i < yc - slit_height/2 - slit_sep/2) or 
+              (i > yc - slit_sep/2 + slit_height/2 and 
+               i < yc + slit_sep/2 - slit_height/2) or 
+              (i > yc + slit_height/2 + slit_sep/2 and 
+               i < ye)) 
+              and (j > xc - screen_thinkness/2 and 
+                   j < xc + screen_thinkness/2))
 \end{verbatim}
 
 The next function implements the absorbing boundary condition with a perfectly
 matched layer.
 \begin{verbatim}
 def create_pml():
-  npml = ia + 1 # number of points for the PML
-  for n in range(npml):
-      xnum = npml - n
-      xd = npml
-      xxn = xnum / xd
-      xn = 0.33 * xxn ** 3
-
-      gi2[n] = 1 / (1 + xn)
-      gi2[ie - 1 - n] = 1 / (1 + xn)
-      gi3[n] = (1 - xn) / (1 + xn)
-      gi3[ie - 1 - n] = (1 - xn) / (1 + xn)
-
-      gj2[n] = 1 / (1 + xn)
-      gj2[je - 1 - n] = 1 / (1 + xn)
-      gj3[n] = (1 - xn) / (1 + xn)
-      gj3[je - 1 - n] = (1 - xn) / (1 + xn)
-
-      xxn = (xnum - 0.5) / xd
-      xn = 0.33 * xxn ** 3
-
-      fi1[n] = xn
-      fi1[ie - 2 - n] = xn
-      fi2[n] = 1 / (1 + xn)
-      fi2[ie - 2 - n] = 1 / (1 + xn)
-      fi3[n] = (1 - xn) / (1 + xn)
-      fi3[ie - 2 - n] = (1 - xn) / (1 + xn)
-
-      fj1[n] = xn
-      fj1[je - 2 - n] = xn
-      fj2[n] = 1 / (1 + xn)
-      fj2[je - 2 - n] = 1 / (1 + xn)
-      fj3[n] = (1 - xn) / (1 + xn)
-      fj3[je - 2 - n] = (1 - xn) / (1 + xn)
+  for n in range(pml_dn + 1):    
+      # auxp stands for auxiliary parameter, as defined in eqn (3.20) of 
+      # Houle and Sullivan's book.
+      auxp = ((pml_dn + 1 - n) / (pml_dn + 1)) ** 3
+      auxp /= 3
+      
+      defy_2[n] = 1 / (1 + auxp)
+      defy_2[ye - 1 - n] = 1 / (1 + auxp)
+      defy_3[n] = (1 - auxp) / (1 + auxp)
+      defy_3[ye - 1 - n] = (1 - auxp) / (1 + auxp)
+      
+      defx_2[n] = 1 / (1 + auxp)
+      defx_2[xe - 1 - n] = 1 / (1 + auxp)
+      defx_3[n] = (1 - auxp) / (1 + auxp)
+      defx_3[xe - 1 - n] = (1 - auxp) / (1 + auxp)
+      
+      auxp = ((pml_dn + 0.5 - n) / (pml_dn + 1)) ** 3
+      auxp /= 3
+      
+      def2y_1[n] = auxp
+      def2y_1[ye - 2 - n] = auxp
+      def2y_2[n] = 1 / (1 + auxp)
+      def2y_2[ye - 2 - n] = 1 / (1 + auxp)
+      def2y_3[n] = (1 - auxp) / (1 + auxp)
+      def2y_3[ye - 2 - n] = (1 - auxp) / (1 + auxp)
+      
+      def2x_1[n] = auxp
+      def2x_1[xe - 2 - n] = auxp
+      def2x_2[n] = 1 / (1 + auxp)
+      def2x_2[xe - 2 - n] = 1 / (1 + auxp)
+      def2x_3[n] = (1 - auxp) / (1 + auxp)
+      def2x_3[xe - 2 - n] = (1 - auxp) / (1 + auxp)
 \end{verbatim}
 
 The fields are computed in
 \begin{verbatim}
-def compute_fields(time_step):
-  # Print progress.
-  if time_step%10 == 0:
-      print("\r",100*time_step/nsteps,'%', end="")
-
-  for j in range(1, je):
-      ez_inc[j] = ez_inc[j] + 0.5 * (hx_inc[j - 1] - hx_inc[j])
-
+def compute_fields(t): 
+  if t % 100 == 0:
+      print('|', end = '')
+  elif t % 10 == 0:
+      print('.', end = '')
+      
+  for j in range(1, xe):
+      Ez_in[j] = Ez_in[j] + 0.5 * (Hx_in[j - 1] - Hx_in[j])
+              
   # Absorbing Boundary Conditions
-  ez_inc[0] = boundary_low.pop(0)
-  boundary_low.append(ez_inc[1])
-  ez_inc[je - 1] = boundary_high.pop(0)
-  boundary_high.append(ez_inc[je - 2])
-
-  for j in range(1, je):
-      for i in range(1, ie):
-          dz[i, j] = gi3[i] * gj3[j] * dz[i, j] + \
-                      gi2[i] * gj2[j] * 0.5 * \
-                      (hy[i, j] - hy[i - 1, j] -
-                      hx[i, j] + hx[i, j - 1])
+  Ez_in[0] = lob.pop(0)
+  lob.append(Ez_in[1])  
+  Ez_in[xe - 1] = hib.pop(0)
+  hib.append(Ez_in[xe - 2])
+    
+  for j in range(1, xe):
+      for i in range(1, ye):
+          Dz[i, j] = defy_3[i] * defx_3[j] * Dz[i, j] + \
+                      defy_2[i] * defx_2[j] * 0.5 * \
+                      (Hy[i, j] - Hy[i - 1, j] -
+                      Hx[i, j] + Hx[i, j - 1])
 
   # Source of electromagnetic waves.
-  ez_inc[1] = (np.sin(2*np.pi*time_step/(2*t0)))**2
+  Ez_in[1] = (np.sin(2*np.pi*t/(2*t0)))**2
+  
+  for i in range(pml_dn, pml_up + 1):
+      Dz[i, pml_lf] = Dz[i, pml_lf] + 0.5 * Hx_in[pml_lf - 1]
+      Dz[i, pml_rt] = Dz[i, pml_rt] - 0.5 * Hx_in[pml_rt]
+      
+  for j in range(0, xe):
+      for i in range(0, ye):
+          Ez[i, j] = dep_1[i, j] * (Dz[i, j] - int_Ez[i, j])
+          int_Ez[i, j] = int_Ez[i, j] + dep_2[i, j] * Ez[i, j]
+                  
+  for j in range(0, xe - 1):
+      Hx_in[j] = Hx_in[j] + 0.5 * (Ez_in[j] - Ez_in[j + 1])
+      
+  for j in range(0, xe - 1):
+      for i in range(0, ye - 1):
+          curl_e = Ez[i, j] - Ez[i, j + 1]
+          int_Hx[i, j] = int_Hx[i, j] + curl_e
+          Hx[i, j] = def2x_3[j] * Hx[i, j] + def2x_2[j] * \
+                      (0.5 * curl_e + def2y_1[i] * int_Hx[i, j])
+              
+  for i in range(pml_dn, pml_up + 1):
+      Hx[i, pml_lf - 1] = Hx[i, pml_lf - 1] + 0.5 * Ez_in[pml_lf]
+      Hx[i, pml_rt] = Hx[i, pml_rt] - 0.5 * Ez_in[pml_rt]
+      
+  for j in range(0, xe):
+      for i in range(0, ye - 1):
+          curl_e = Ez[i, j] - Ez[i + 1, j]
+          int_Hy[i, j] = int_Hy[i, j] + curl_e
+          Hy[i, j] = def2y_3[i] * Hy[i, j] - def2y_2[i] * \
+                      (0.5 * curl_e + def2x_1[j] * int_Hy[i, j])
+  
+  for j in range(pml_lf, pml_rt + 1):
+      Hy[pml_dn - 1, j] = Hy[pml_dn - 1, j] - 0.5 * Ez_in[j]
+      Hy[pml_up, j] = Hy[pml_up, j] + 0.5 * Ez_in[j]
 
-  for i in range(ia, ib + 1):
-      dz[i, ja] = dz[i, ja] + 0.5 * hx_inc[ja - 1]
-      dz[i, jb] = dz[i, jb] - 0.5 * hx_inc[jb]
-
-  for j in range(0, je):
-      for i in range(0, ie):
-          ez[i, j] = gaz[i, j] * (dz[i, j] - iz[i, j])
-          iz[i, j] = iz[i, j] + gbz[i, j] * ez[i, j]
-
-  for j in range(0, je - 1):
-      hx_inc[j] = hx_inc[j] + 0.5 * (ez_inc[j] - ez_inc[j + 1])
-
-  for j in range(0, je - 1):
-      for i in range(0, ie - 1):
-          curl_e = ez[i, j] - ez[i, j + 1]
-          ihx[i, j] = ihx[i, j] + curl_e
-          hx[i, j] = fj3[j] * hx[i, j] + fj2[j] * \
-                      (0.5 * curl_e + fi1[i] * ihx[i, j])
-
-  for i in range(ia, ib + 1):
-      hx[i, ja - 1] = hx[i, ja - 1] + 0.5 * ez_inc[ja]
-      hx[i, jb] = hx[i, jb] - 0.5 * ez_inc[jb]
-
-  for j in range(0, je):
-      for i in range(0, ie - 1):
-          curl_e = ez[i, j] - ez[i + 1, j]
-          ihy[i, j] = ihy[i, j] + curl_e
-          hy[i, j] = fi3[i] * hy[i, j] - fi2[i] * \
-                      (0.5 * curl_e + fj1[j] * ihy[i, j])
-
-  for j in range(ja, jb + 1):
-      hy[ia - 1, j] = hy[ia - 1, j] - 0.5 * ez_inc[j]
-      hy[ib, j] = hy[ib, j] + 0.5 * ez_inc[j]
-
-  # Save data at certain points for later plotting
-  for plotting_point in plotting_points:
-      if time_step == plotting_point['num_steps']:
-          plotting_point['data_to_plot'] = np.copy(ez)
+  for pp in plotting_points:
+      if t == pp['num_steps']:
+          pp['Ez_data'] = np.copy(Ez)
 \end{verbatim}
 
-The main simulation is carried out by calling the functions in the previous
-snippets.
+Although this code is enough to carry out the simulation, we need some
+more functions to plot the results. The first one computes the average
+intensity of the field at a fixed point.
 \begin{verbatim}
-build_dielectric_profile()
-create_pml()
-
-print('Starting FDTD...')
-for time_step in range(1, nsteps + 1):
-  compute_fields(time_step)
+def generate_avg_plot():
+    left = int(ye * 0.2)
+    right = int(ye * 0.8)
+    x = [int(f) for f in np.linspace(left, right - 1, num = right - left)]           
+    
+    t1 = int(nsteps * 0.8)
+    t2 = nsteps - 1
+    y0 = int(xe * 0.75) # Horizontal position where the filed is to be measured
+    
+    average = 0
+    for i in range(t1, t2):
+        average += abs(plotting_points[i]['Ez_data'][left:right, y0])
+    
+    plt.plot(x, average/(t2 - t1))
+    plt.savefig('avg_intensity.png')
+    plt.close()
 \end{verbatim}
 
-The final snippet creates the intensity profile and saves intermediate results
-in image files.
+The next ones saves the field profiles at various time steps.
 \begin{verbatim}
-plt.rcParams['font.size'] = 12
-plt.rcParams['grid.color'] = 'gray'
-plt.rcParams['grid.linestyle'] = 'dotted'
+def create_rectangle(xy, width, height):
+    clr = '#ffffff'
+    return patches.Rectangle(xy, width, height, 
+                             linewidth=1, edgecolor=clr, facecolor=clr)
 
-print('Starting to save images to make gif...')
-for subplot_num, plotting_point in enumerate(plotting_points):
-    if subplot_num%10 == 0:
-        print("\r",100*subplot_num/nsteps,'%', end="")
-
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-
-    # Plot the dielectric in white color
-    rect1 = patches.Rectangle((jc-screen_width/2,0),
-                              screen_width,
-                              ic-slit_sep/2-slit_width/2,
-                              linewidth=1,
-                              edgecolor='#ffffff',
-                              facecolor='#ffffff')
-    rect2 = patches.Rectangle((jc-screen_width/2,
-                               ic-slit_sep/2+slit_width/2),
-                              screen_width,
-                              slit_sep-slit_width,
-                              linewidth=1,
-                              edgecolor='#ffffff',
-                              facecolor='#ffffff')
-    rect3 = patches.Rectangle((jc-screen_width/2,
-                               ic+slit_sep/2+slit_width/2),
-                              screen_width,
-                              ic-slit_sep/2-slit_width/2,
-                              linewidth=1,
-                              edgecolor='#ffffff',
-                              facecolor='#ffffff')
-    ax.add_patch(rect1)
-    ax.add_patch(rect2)
-    ax.add_patch(rect3)
-
-    plt.imshow(plotting_point['data_to_plot'],
-               interpolation='bilinear',
-               cmap='gist_heat')
-    plt.savefig('figs_%s.png'%str(subplot_num+1))
-    plt.close();
-
-def tryint(s):
-    try:
-        return int(s)
-    except:
-        return s
-
-def alphanum_key(s):
-    """ Turn a string into a list of string and number chunks.
-        "z23a" -> ["z", 23, "a"]
-    """
-    return [ tryint(c) for c in re.split('([0-9]+)', s) ]
-
-def sort_nicely(l):
-    """ Sort the given list in the way that humans expect.
-    """
-    l.sort(key=alphanum_key)
-    return l
-
-# filepaths
-if not os.path.exists('figs'):
-    print('Folder "figs" already exists. Saving/replacing images inside it...')
-    os.makedirs('figs')
-else:
-    print('Creating folder "figs". Saving images inside it...')
+def save_plots():       
+    print('Saving images.')
+    if not os.path.exists('figs'):
+        os.makedirs('figs')    
+        
+    pwd = os.getcwd()
+    os.chdir('figs') 
     
-fp_in = "figs_*.png"
-fp_out = "YoungMovie.gif"
-
-img, *imgs = [Image.open(f) for f in sort_nicely(glob.glob(fp_in))]
-# duration: time of each frame in miliseconds
-img.save(fp=fp_out, format='GIF', append_images=imgs,
-         save_all=True, duration=20, loop=0, optimize=True) 
-
-
-x = []
-x1 = 40 # Starting vertical position
-x2 = 160 # Final vertical position
-
-# Construct array with x values, along vertical position from x1 to x2
-for i in range(x1,x2):
-    x.append(i)
+    xy1 = (xc - screen_thinkness/2, 0)
+    xy2 = (xc - screen_thinkness/2, yc - slit_sep/2 + slit_height/2)
+    xy3 = (xc - screen_thinkness/2, yc + slit_sep/2 + slit_height/2)
     
-# Here we compute an averaged field over two times t1 and t2
-average = 0
-t1 = nsteps - 100
-t2 = nsteps - 1
-y_measure = 150 # Horizontal position where the filed is to be measured
-
-for i in range(t1,t2):
-    average += abs(plotting_points[i]['data_to_plot'][x1:x2,y_measure])
-
-# Plot the averaged field
-ignore = plt.plot(x, average/(t2-t1))
+    for sp_no, pp in enumerate(plotting_points):  
+        if sp_no % 100 == 0:
+            print('|', end = '')
+        elif sp_no % 10 == 0:
+            print('.', end = '')
+                                  
+        r1 = create_rectangle(xy1, 
+                              screen_thinkness, 
+                              yc - slit_sep/2 - slit_height/2)
+        r2 = create_rectangle(xy2, 
+                              screen_thinkness, 
+                              slit_sep - slit_height)
+        r3 = create_rectangle(xy3, 
+                              screen_thinkness, 
+                              yc - slit_sep/2 - slit_height/2)
+        
+        ax = plt.figure().add_subplot(1, 1, 1)
+        ax.add_patch(r1)
+        ax.add_patch(r2)
+        ax.add_patch(r3)
+    
+        plt.imshow(pp['Ez_data'], interpolation='bilinear', cmap='gist_heat')
+        plt.savefig(f'figs_{str(sp_no + 1)}.png')
+        plt.close()
+        
+    os.chdir(pwd)
+\end{verbatim}
+We call these functions in the main function.
+\begin{verbatim}
+def main():    
+    build_dielectric_profile()
+    create_pml()
+    
+    print('Computing the fields...')
+    t1 = time.time()
+    for t in range(1, nsteps + 1):
+      compute_fields(t)
+      
+    t2 = time.time()
+    print()
+    print(f'Simulation took {round(t2 - t1, 2)} s.')
+    generate_avg_plot()
+    
+    print('Saving the plots...')
+    t1 = time.time()           
+    save_plots()  
+    t2 = time.time()
+    print()
+    print(f'Saving images took {round(t2 - t1, 2)} s.') 
 \end{verbatim}
 
 The intensity profile generated with $500$ steps of simulation are 
@@ -1165,16 +1144,15 @@ shown in figure \ref{f4}. Figure \ref{f5} shows the interference
 pattern.
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{fdtd-3}
+\includegraphics[scale=0.5]{avg_intensity}
 \caption{Intensity profile in Young's experiment}\label{f4}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{figs_499}
+\includegraphics[scale=0.5]{figs_500}
 \caption{Interference pattern in Young's experiment}\label{f5}
 \end{figure}
-
 
 \bibliographystyle{plain}
 \bibliography{em}
