@@ -1,14 +1,14 @@
-seg1 <- read.csv('segment-1.csv')
-seg1$month <- substr(seg1$Date, 1, 2)
+seg <- read.csv('segment-1.csv')
+seg$month <- substr(seg$Date, 1, 2)
 
 analyze_model <- function(formula.str, show.plot = TRUE) {
-  x <- seg1$ARPU[1:200]
-  y <- seg1$Segment.1.MRR[1:200]
+  x <- seg$ARPU[1:200]
+  y <- seg$Segment.1.MRR[1:200]
   m <- lm(as.formula(formula.str))
   
-  newdata <- data.frame(x = seg1$ARPU[201:nrow(seg1)])
+  newdata <- data.frame(x = seg$ARPU[201:nrow(seg)])
   mrr.predicted  <- predict(m, newdata = newdata)
-  mrr.actual  <- seg1$Segment.1.MRR[201:nrow(seg1)]
+  mrr.actual  <- seg$Segment.1.MRR[201:nrow(seg)]
   
   if (show.plot) {
     plot(
@@ -45,15 +45,15 @@ plot(m)
 
 # Can one find monthly MRR by aggregating the prediction?
 m <- analyze_model('y ~ x + cos(x)', show.plot = FALSE)
-newdata <- data.frame(x = seg1$ARPU[201:nrow(seg1)])
+newdata <- data.frame(x = seg$ARPU[201:nrow(seg)])
 mrr.predicted  <- predict(m, newdata = newdata)
 
 prediction <-
-  data.frame(month = seg1$month[201:nrow(seg1)], mrr.predicted = mrr.predicted)
+  data.frame(month = seg$month[201:nrow(seg)], mrr.predicted = mrr.predicted)
 agg.prediction <-
   aggregate(mrr.predicted ~ month, data = prediction, sum)
 agg.actual <-
-  aggregate(Segment.1.MRR ~ month, data = seg1[201:nrow(seg1),], sum)
+  aggregate(Segment.1.MRR ~ month, data = seg[201:nrow(seg), ], sum)
 
 agg.comparison <- merge(agg.actual, agg.prediction)
 colnames(agg.comparison)[2] <- 'mrr.actual'
@@ -64,12 +64,17 @@ agg.comparison
 # NO. The percentage error is quite high.
 
 # Build a separate model for monthly aggregates.
-seg1.agg <- aggregate(cbind(Segment.1.MRR, ARPU) ~ month, data = seg1, sum)
-x <- seg1.agg$ARPU[1:9]
-y <- seg1.agg$Segment.1.MRR[1:9]
-m <- lm(y ~ x + cos(x), data = seg1.agg)
+seg.agg <-
+  aggregate(cbind(Segment.1.MRR, ARPU) ~ month, data = seg, sum)
+x <- seg.agg$ARPU[1:9]
+y <- seg.agg$Segment.1.MRR[1:9]
+m <- lm(y ~ x + cos(x), data = seg.agg)
 
-newdata <- data.frame(x = seg1.agg$ARPU[10:12])
+newdata <- data.frame(x = seg.agg$ARPU[10:12])
 y.pred <- predict(m, newdata = newdata)
-comparison <- data.frame(x=newdata$x, actual = seg1.agg$Segment.1.MRR[10:12], predicted = y.pred)
-comparison$pct_error <- (comparison$predicted - comparison$actual)/comparison$actual
+comparison <-
+  data.frame(x = newdata$x,
+             actual = seg.agg$Segment.1.MRR[10:12],
+             predicted = y.pred)
+comparison$pct_error <-
+  (comparison$predicted - comparison$actual) / comparison$actual
