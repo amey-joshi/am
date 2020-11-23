@@ -154,4 +154,6 @@ dmypy.json
 **.bak
 **.dvi
 **.djvu
-
+**.Rhistory
+**.Rproj
+**.ods
