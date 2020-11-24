@@ -1,0 +1,44 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{physics, mathtools, graphicx}
+\newcommand{\opr}{\prime}
+\linespread{1.2}
+\title{Young's experiment}
+\author{TBD}
+\date{12-Nov-2020}
+\begin{document}
+\maketitle
+Young's experiment is a landmark in the history of physics. It provided a firm
+evidence in favor of the wave theory of light. The experiment consists of
+allowing light to pass through two narrow slits, a distance $d$ apart, in a 
+screen and letting it on another screen a distance $D$ from the first screen.
+Young observed a pattern of alternating bright and dark bands on the second 
+screen and concluded that it was because of constructive and destructive
+interference of waves. The nature of the waves was not known in Young's time.
+It was only in the later part of the nineteenth century that light was
+understood as an electromagnetic wave. This article describes Young's experiment
+, derives the electromagnetic wave equation from Maxwell's equations, describes
+their nature in material media and solves them numerically to demonstrate the
+formation of interference fringes in a numerical simulation.
+
+The numerical simulation of the interference phenomenon is carried out using
+the finite difference time domain technique. The derivatives in each one of 
+Maxwell's equations are written as central differences on a carefully selected
+grid of points spanning the domain of integration. The electric and the magnetic
+field are evaluated at alternating points. The finite size of the domain of
+integration is taken into account by the absorbing boundary conditions. We
+first develop them in the simpler case of one-dimensional problem and extend
+it to two-dimensional problems using the perfectly matched layers. We
+demonstrate the finite difference time domain technique first in a simple 
+situation where we consider the propagation of a gaussian light pulse. We stop
+the simulation well before the light reaches the boundary so that we do not
+have to worry about the boundary conditions. We build on these simple examples
+to simulate Young's experiment where we take into account the boundary
+conditions by implementing a perfectly matched layer.
+
+Numerical algorithms, especially the ones solving hyperbolic partial
+differential equations, can be unstable. We explain the 
+Courant-Friedrichs-Lewy condition that ensures that the time-step of simulation
+is chosen in such a way that it is shorter than the time it takes for the 
+wave to reach a neighboring grid point.
+\end{document}
