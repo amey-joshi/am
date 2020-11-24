@@ -1,0 +1,202 @@
+---
+title: "Optimization"
+author: "Amey Joshi"
+date: "11/23/2020"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Contents
+
+- What is optimization?
+- Convex sets
+- Convex programming
+- Linear programming
+- Quadratic programming
+
+## What is optimization?
+
+- To optimize means to make most of what is available.
+- One likes to 
+  - **maximize** returns,
+  - **minimize** risks,
+  - **minimize** cost,
+  - **maximize** profit,
+  - find the **best** route from here to there.
+- Sometimes we have to achieve some of these simultaneously,
+  - **Maximize** returns but **minimize** risk.
+- Many times one has to work under constraints.
+  - **Maximize** returns but don't invest more than $5\%$ of my funds in a single instrument,
+  - **Maximize** profits but operate within a given inventory of raw materials.
+
+## A general optimization problem
+
+- minimize $f(x)$ subject to
+  - $g_i(x) \ge 0$, $i = 1, \ldots, m$,
+  - $h_i(x) = 0$, $i = 1, \ldots, n$.
+- $f, g_i, h_i$ are arbitrary functions.
+- $f$ is called the **objective function** while $g_i$ and $h_i$ are called
+**constraints**.
+- $x$ is an $n$-dimensional vector. That is, $x = (x_1, \ldots, x_n)$.
+- This problem is usually quite difficult. 
+- It has been attempted since at least $300$ years and has ushered many new concepts
+in Mathematics.
+- (Unfortunately) We are not mathematicians.
+  - We will talk in the mathematical language but we will focus on the ideas, not
+  the technicalities.
+  - We will consider the optimization problem in simpler settings.
+
+## Some notation
+
+- Mathematics is a language. Here's some vocabulary.
+- $\mathbb{N}$ denotes the set of all natural numbers $0, 1, \ldots$.
+- $\mathbb{Z}$ denotes the set of all integers $\ldots, -2, -1, 0, 1, 2, \ldots$.
+- $\mathbb{R}$ denotes the set of all real numbers.
+- $\mathbb{R}^n$ is a set of all $n$-dimensional vectors whose components are real
+numbers. They contain elements like $x = (x_1, \ldots, x_n)$.
+- If $S$ is a set and it contains an element $a$, we write it as $a \in S$.
+
+## Convex sets
+
+- Suppose $x, y \in S$ then the set of points $\lambda x + (1 - \lambda)y$, where
+$0 \le \lambda \le 1$ is a real number is called the set of all *convex combinations*
+of $x$ and $y$.
+  - In plain language, this set has all the points on the straight line joining $x$ and $y$.
+- A set $S$ is called a convex set if convex combinations of all pairs of its points
+lies in the set.
+  - In plain language, if you take any two points in the set and draw a straight 
+  line joining them then the line should lie entirely in the set.
+- Examples of convex sets:
+  - A circle, a square, an ellipse, a sphere, a box.
+- Examples of sets that are not convex.
+  - A circle with a hole, heart-shaped set, a torus (medu-vade)
+
+## Convex functions - 1
+
+- A function $f$ is a rule that maps **every** member of a set $D$ to a **unique**
+member of a set $R$. It is written as $f: D \mapsto R$. The set $D$ is called the
+domain of the function and the set $R$ the range.
+- Examples:
+  - A rule that maps an integer to its square. Its domain is $\mathbb{Z}$ and its
+  range is $\mathbb{N}$.
+- Let $f:\mathbb{R}^m \mapsto \mathbb{R}^n$. $f$ is convex if 
+$||f(\lambda x + (1 - \lambda y))|| \le \lambda ||f(x)|| + (1 - \lambda) ||f(y)||$.
+- What is $||f(x)||$? $f(x) \in \mathbb{R}^n$. It is a vector. $||f(x)||$ is the
+magnitude of the vector.
+  - The magnitude of a vector $y = (y_1, \ldots, y_n)$ is $||y|| = \sqrt{y_1^2 + \cdots + y_n^2}$.
+- If $f$ is convex, $-f$ is concave.
+- A function may be convex in some region, concave in others.
+- Choose $\lambda = 1/2$. If $\bar{x} = (x + y)/2$, $\overline{f(x)} = (f(x) + f(y))/2$ then
+$||f(\bar{x})|| \le ||\overline{f(x)}||$.
+  - Function of average is at most the average of the function.
+  
+## Convex functions - 2
+```{r fig.width=12}
+par(mfrow = c(1, 2))
+x = seq(from = 0.1, to = 5, length.out = 100)
+
+plot(x, (x-2)^2, xlab = 'x', ylab = expression((x-2)^2), main = 'Convex function', type = 'l')
+plot(x, log(x), xlab = 'x', ylab = 'log(x)', main = 'Concave function', type = 'l')
+```
+
+- In a convex function, a chord lies above the tangent. In a concave function it is it the other way round.
+
+## Convex functions - 3
+- Why are we so concerned about convex functions?
+  - For a convex function, a local minimum is the global minimum.
+  - If you find a minimum you can be assured that it is **the** minimum. You don't have to search any further.
+- An optimization problem consists of
+  - A set $F$ of feasible points.
+  - A cost function $c: F \mapsto \mathbb{R}$.
+- The solution of the optimization problem consists in finding $x^\ast \in F$ such that
+$c(x^\ast) \le c(x)$ for all $x \in F$.
+- A convex optimization problem is the one in which the set $F$ and the function $c$
+are convex.
+- In general, convex problems are much easier to solve than non-convex ones.
+- CPLEX solves convex problems.
+
+## Linear Programming
+- Programming?
+  - This is a term from the 1940s when a computer meant a person who computes and
+  a program mean a plan.
+  - In particular, it referred to the US army's training and logistic plans. George
+  Dantzing, the man who developed the simplex algorithm was working on military
+  problems during WW-II.
+- It has the same meaning in 'dynamic programming', a style of building algorithms
+that saves intermediate results in tables.
+- In a linear programming problem the objective function and the constraints are
+**linear functions**.
+  - Constraints are in the form of lines/planes/hyperplanes.
+  - Feasible region is a convex polygon/polyhedron/polytope.
+- An optimum, if it exists, is at the corner of the polytope or along an edge.
+
+## Linear Programming - Enough of theory
+- The 'hello world' of optimization is 'the diet problem', a simple version of which is:
+```{r}
+library(knitr)
+diet.data <- data.frame(food = c('Trout', 'CB Sandwich', 'Burrito', 'Hamburger'),
+                        Vit.A = c(203, 90, 270, 500),
+                        Vit.C = c(92, 84, 80, 90),
+                        Vit.D = c(100, 230, 512, 210),
+                        calories= c(600, 350, 250, 500))
+needs <- data.frame(nutrition = c('Vit.A', 'Vit.C', 'Vit.D'), amount = c(2000, 300, 430))
+kables(list(kable(diet.data, caption = 'Foods'),
+kable(needs, caption = 'Nutritional needs')))
+
+```
+
+- Minimize your calorie intake but ensure that you get minimum nutrition of 
+every kind.
+- How to solve it? Let $x_1, x_2, x_3, x_4$ be the amounts of foods consumed.
+  - The total calories consumed is $600x_1 + 350x_2 + 250x_3 + 500x_4$,
+  - Vit.A consumed is $203x_1 + 90x_2 + 270x_3 + 500x_4$,
+  - Vit.C consumed is $92x_1 + 84x_2 + 80x_3 + 90x_4$,
+  - Vit.D consumed is $600x_1 + 350x_2 + 250x_3 + 500x_4$.
+- Natural to assume $x_1 \ge 0, x_2 \ge 0, x_3 \ge 0, x_4 \ge 0$.
+
+## The diet problem - 1
+```{r echo=TRUE}
+library(lpSolve)
+tot.calories <- c(600, 350, 250, 500)
+nutrition <- matrix(data = c(203, 90, 270, 500, 92, 84, 80, 90, 100, 230, 512, 210), byrow = TRUE, nrow = 3)
+needs <- c(2000, 300, 430)
+food <- c('Trout', 'CB Sandwich', 'Burrito', 'Hamburger')
+stopifnot(length(needs) == nrow(nutrition))
+lp.results <-
+  lp(direction = "min",
+     objective.in = tot.calories,
+     const.mat = nutrition,
+     const.dir = rep(">=", nrow(nutrition)),
+     const.rhs = needs)
+if (lp.results$status == 0) {
+  print(paste('Calories consumed =', round(lp.results$objval, 0)))
+  X <- lp.results$solution
+  print(paste('Solution:', food[1], ":", X[1], ',', food[2], ':', X[2], ',', food[3], ':', X[3], ',', food[4], ':', X[4]))
+}
+```
+
+Even professional mathematicians don't order $7.407$ Burritos.
+
+## The diet problem - 2
+```{r echo=TRUE}
+lp.results <-
+  lp(direction = "min",
+     objective.in = tot.calories,
+     const.mat = nutrition,
+     const.dir = rep(">=", nrow(nutrition)),
+     const.rhs = needs,
+     int.vec = c(1, 2, 3, 4)) # Insist that the solution must be an integer.
+if (lp.results$status == 0) {
+  print(paste('Calories consumed =', round(lp.results$objval, 0)))
+  X <- lp.results$solution
+  print(paste('Solution:', food[1], ":", X[1], ',', food[2], ':', X[2], ',', food[3], ':', X[3], ',', food[4], ':', X[4]))
+}
+```
+- Adding the last argument is to the function `lp` is a trivial change to the code but
+a significant change to the problem.
+  - Integer linear programming is NP-hard.
+
+## Quadratic programming
