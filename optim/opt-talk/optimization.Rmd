@@ -199,4 +199,69 @@ if (lp.results$status == 0) {
 a significant change to the problem.
   - Integer linear programming is NP-hard.
 
-## Quadratic programming
+## Quadratic programming - 1
+- The problem does not get complicated if the objective function is a quadratic form.
+That is, it can be written as $$Q = \frac{1}{2}x^T\Sigma x. \tag{1}$$ where $x \in \mathbb{R}^n$
+and $\Sigma$ is an $n \times n$ symmetric matrix.
+- Consider the problem of allocating a certain amount of money into asset classes with the objective of
+minimizing the risk while still ensuring a certain return. It is equivalent to finding out what fraction 
+$x_i$ of the available money should be invested in an asset 1 ≤ i ≤ N . Let the mean returns of the $N$ assets be
+$r_1 , . . . , r_N$ and let $\Sigma$ be the covariance matrix of the returns.
+- The problem then is to minimize the quantity $Q$ in equation (1) subject to
+  - $x_1r_1 + \cdots + x_nr_n \ge r$, where $r$ is that minimum return desired.
+  - $x_1 + \cdots + x_n = 1$, that is, the entire money is invested and
+  - $x_1, \ldots, x_n \ge 0$, that is, there is not shorting.
+  
+## Quadratic programming - 2
+- We simulate the returns and the variance-covariance matrix of the returns of
+a portfolio of $N = 5$ assets.
+- Generating a random covariance matrix is a little involved process for it has to be positive semidefinite.
+We use the fact that if Q is an orthogonal matrix and D a diagonal matrix with all non-negative entries
+then QT DQ is positive semi-definite. We can extract an orthogonal matrix from any matrix by its QR
+decomposition. 
+
+```{r echo=TRUE}
+set.seed(19471508)
+N <- 5 # number of assets
+mu <- rnorm(n = N, mean = 6, sd = 2) # mean returns
+
+# Randomly generated covariance matrix.
+M <- matrix(data = rnorm(N*N), nrow = N, ncol = N)
+Q <- qr.Q(qr(M))
+C <- Q %*% diag(seq(from = 1, to = 5)) %*% t(Q) # The variance-covariance matrix.
+```
+
+## Quadratic programming - 3
+- We solve the quadratic program.
+
+```{r echo=TRUE}
+library(quadprog)
+k <- rep(1, N)
+r <- 6.5 # Minimum return
+b <- c(r, 1, -1, rep(0, 5))
+A <- rbind(mu, k, -k, diag(rep(1, N)))
+qp.results <- solve.QP(Dmat = C, dvec = rep(0, N), Amat = t(A), bvec = b)
+s <- round(qp.results$solution, 4)
+names(s) <- paste(sep = "", "asset", seq(from = 1, to = N))
+cat("The optimal asset allocation is:\n")
+print(s)
+cat(paste(sep = "", "The risk of the portfolio is ", round(qp.results$value, 4), ".\n"))
+```
+
+## Closing remarks
+- You might feel that optimization is too technical and dry. Yet,
+  - Several problems in physics and engineering are cast as (nonlinear) optimization problems.
+  - Optimization is at the heart of many AI/ML problems. You may have heard of 
+  terms like gradient descent,conjugate gradient descent, batch gradient descent, 
+  XGBOOST, ADABOOST etc. Every one of them is an optimization algorithm.
+  - Even traditional statistical problems like ordinary least square regression
+  and logistic regression are solved with an optimizer. You **minimize** an
+  error function in each of them.
+- Linear optimization might not be glamorous but the simplex method is the 
+commercially most successful algorithm. Some examples:
+  - How to transport $m$ items from $n$ factories to $l$ warehouses in the 
+  *cheapest* way?
+  - How to match $m$ people to $n$ jobs to get the *maximal* matching?
+  - How to build a schedule of buses so that they are idle for the *least* time?
+  - How to design a tour of $n$ cities that is the *cheapest*? (This problem
+  is computationally very expensive.)
