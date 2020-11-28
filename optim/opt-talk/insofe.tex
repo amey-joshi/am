@@ -1,0 +1,274 @@
+\documentclass{beamer}
+\usefonttheme[onlymath]{serif}
+\usepackage{graphicx}
+\newcommand{\sor}{\mathbf{R}}
+\usetheme{Boadilla}
+\title{Optimisation Methods in Business Analytics}
+\author{Amey Joshi}
+\date{\today}
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+\begin{frame}
+\frametitle{The mathematics of decision-making}
+\begin{itemize}
+\item To optimise is to find the `best' among a number of possibilities.
+\item For example, when we select a school for our children, we consider 
+several criteria:
+\begin{itemize}
+\item The quality of education,
+\item The distance from home,
+\item The peer group,
+\item Extra-curricular activities, sports etc.,
+\item The cost.
+\end{itemize}
+\item We choose the school that \textbf{best} meets \textbf{all} the criteria.
+\item We follow similar process to find the right job, car, life-partner or
+home. A large number of business decisions follow a similar pattern.
+\item Optimisation is the mathematical model behind decision-making.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{A brief history of optimisation}
+\begin{itemize}
+\item Kepler conceived and used the `secretary problem' to select his second
+wife.
+\item Newton was interested in finding a shape that experiences least 
+resistance while moving in air - a study that led to the development of the
+Calculus of Variations.
+\item The method of least squares by Gauss and Legendre in the 19th century.
+\item Until the 20th century the problems were mostly of a scientific nature.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Optimisation outside science}
+\begin{itemize}
+\item The socialist states required a model to describe their centralised 
+economic planning. Leontif developed an input-output model, an early linear
+program (LP).
+\item Kantorovich put the input-output model in the form of an LP.
+\item Stigler worked on the problem of designing the cheapest diet that met
+the nutritional needs of US soldiers in the 1930s.
+\item Dantzig developed Simplex algorithm to solve LP.
+\begin{itemize}
+\item Perhaps the world's most `commercially successful' algorithm.
+\item Used in all spheres of life - shipping, scheduling, matching, industrial
+processes, military operations, transport.
+\item Mysterious behaviour - theory warns that it can be very slow, in
+practice it is quite fast.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The optimisation problem}
+\begin{itemize}
+\item Minimise $f: \sor^n \rightarrow \sor$ subject to
+\begin{itemize}
+\item $g_i(x) \ge 0$, $i = 1, \ldots, n$ and $g_i: \sor^m \rightarrow \sor$,
+\item $h_j(x) = 0$, $j = 1, \ldots, m$ and $h_j: \sor^m \rightarrow \sor$.
+\end{itemize}
+\item The function $f$ to be minimised is called the \textbf{objective}
+function.
+\item The variables $x = (x_1, \ldots, x_n) \in \sor^n$ to be searched for
+the minimum are called the \textbf{decision} variables.
+\item The functions $g_i, h_j$ are called \textbf{constraints}.
+\item The form is not restrictive.
+\begin{itemize}
+\item To maximise $f$, minimise $-f$.
+\item A constraint of the form $g(x) <= a$ can be written as $-g(x) + a \ge 0$.
+\end{itemize}
+\item The general optimisation problem is very difficult to solve.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Convex sets}
+\begin{itemize}
+\item If you select any two points in a set $S$, join them by a straight line and
+if the line lies entirely in $S$ then the set is convex.
+\begin{itemize}
+\item A circle, a polygon, a sphere are all convex.
+\item A circle with a hole, a torus, a heart-shaped figure are not convex.
+\end{itemize}
+\end{itemize}
+\begin{figure}
+\includegraphics[scale=0.3]{cardioid}
+\caption{A non-convex set}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Convex functions}
+\begin{itemize}
+\item $f$ is a convex function if 
+\begin{equation}
+f\left(\frac{x_1 + x_2}{2}\right) \le \frac{f(x_1) + f(x_2)}{2},
+\end{equation}
+for all $x_1, x_2$. Function of average is $\le$ average of the function.
+\end{itemize}
+\begin{figure}
+\includegraphics[scale=0.3]{f1}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Why the fuss about convexity?}
+\begin{itemize}
+\item If the objective function $f$ and the constraints $g_i, f_j$ in an
+optimisation problem are convex then it is called a \textbf{convex optimisation}
+problem.
+\item Convexity is the boundary between tractable and intractable problems.
+\item A minimum of a convex function is \textbf{the} global minimum.
+\end{itemize}
+\begin{figure}
+\includegraphics[scale=0.3]{many}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Linear programming}
+\begin{itemize}
+\item If the objective function $f$ and the constraints $g_i, f_j$ in an
+optimisation problem are linear then it is a \textbf{linear programming}
+problem.
+\item Linear? Fine. What is `programming'? A relic of the 1940s.
+\item The set of all points $x$ which satisfy the constraints is called the
+feasible set $F$.
+\item The optimal point $x^\ast \in F$ is the one for which $f(x^\ast) \le
+f(x)$ for all $x \in F$.
+\item The feasible set is a polygon in 2d or a polyhedron in 3d or a convex
+polytope in higher dimensions.
+\item The point $x^\ast$ is \textbf{always} on the corner of the polytope.
+\begin{itemize}
+\item Simplex algorithm: hop from corner to corner in search of the minimum.
+\item Interior point methods: cut through the interior of the polytope to
+reach the minimum.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{The diet problem}
+\begin{itemize}
+\item A military problem from the 1930s. There are $77$ food items. For each
+one of them we have data about the number of calories and amount of Ca, Fe,
+vitamins A, B1, B2, B3 and C. 
+\item We are also given how many calories and nutrients are needed by an
+average man, every day.
+\item \textbf{The problem}: Find the cheapest combinations of foods that meets
+calorific and nutritional needs.
+\item George Stigler and his team took 120 person days to solve it using
+heuristic methods and desk calculators.
+\item Simplex method implemented in Google OR tools on Google Colaboratory
+took $0.5$ ms.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Integer linear programming}
+\begin{itemize}
+\item What if you insist that some or all decision variables are integers?
+\item The problem ceases to be convex. 
+\begin{itemize}
+\item If $m$ and $n$ are two integers in a set and if $m + n$ is odd then
+clearly $(m + n)/2$ is not a member of the set.
+\end{itemize}
+\item Integer linear programming is $NP$-hard.
+\item Solved using 
+\begin{itemize}
+\item Cutting planes method;
+\item Branch and bound method;
+\item Branch and cut.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Examples of LP - Transportation Problem - 1}
+\begin{itemize}
+\item There are $m$ warehouses and $n$ outlets. Each warehouse has a certain 
+amount of material available and each outlet has a certain demand for the 
+material. Every pair of a warehouse and an outlet has a certain cost to 
+transport the material.
+
+\item Find the cheapest way to transport goods from the warehouses to the outlets
+so that every outlet's demands are met and no warehouse supplies more than
+it has.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Examples of LP - Transportation Problem - 1}
+\begin{itemize}
+\item Decision variables: $x_{ij}$ the amount of material shipped from warehouse
+$i$ to outlet $j$.
+\item Objective function: 
+\begin{equation}\nonumber
+\sum_{i=1}^m\sum_{j=1}^n c_{ij}x_{ij}
+\end{equation}
+\item Constraints:
+\begin{itemize}
+\item If $a_1, \ldots, a_m$ are the amounts available in the warehouses then
+\begin{equation}\nonumber
+\sum_{j=1}^n x_{ij} \le a_i.
+\end{equation}
+\item If $d_1, \ldots, d_n$ are the demands of each outlet then
+\begin{equation}\nonumber
+\sum_{i=1}^m x_{ij} \le d_j.
+\end{equation}
+\item Each $x_{ij}$ should be $\ge 0$.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some more examples of LP}
+\begin{itemize}
+\item We are given a lorry with a certain capacity in terms of the weight it 
+can carry. We are also given a set of items. Each item has a weight, a value 
+and a quantity. The quantity is the number of items of that kind. Fill the 
+lorry with a selection of items such that the value is maximized. (Knapsack
+problem)
+
+\item Consider a rail network connecting two cities by way of a number of 
+intermediate cities, where each link of the network has a number assigned to it 
+representing its capacity. Assuming a steady state condition, find a maximal 
+flow from one given city to the other. (Max-flow problem)
+
+\item There are $m$ agents and $n$ tasks. An agent can do one or more tasks.
+Find an assignment of the agents such that maximum number of tasks are completed
+and no task is done be more than one agent. (Assignment problem)
+ 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Beyond LP}
+\begin{itemize}
+\item When the objective function is a quadratic form we have the quadratic 
+programming problem. Used in portfolio optimisation.
+\item Even OLS regression is an optimisation problem.
+\item Logistic regression uses MLE solved by an optimiser.
+\item Gradient descent, Adaptive gradient descent, congugate gradient descent,
+xgboost are all optimisation algorithms used in ML algorithms. All of them 
+minimize an error term.
+\item Several optimisation algorithms are inspired by nature. For example,
+simulated annealing, genetic algorithms, swarm-based algorithms etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{To sum up ...}
+\begin{itemize}
+\item Optimisation mimicks human thinking; no surprise that so many AI
+algorithms use optimisation underneath;
+\item The boundary between easy and hard problem is determined by convexity;
+\item Linear programming is far more pervasive than we sometimes imagine.
+\end{itemize}
+\end{frame}
+\end{document}

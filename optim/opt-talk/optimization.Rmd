@@ -40,7 +40,7 @@ knitr::opts_chunk$set(echo = FALSE)
 - $f, g_i, h_i$ are arbitrary functions.
 - $f$ is called the **objective function** while $g_i$ and $h_i$ are called
 **constraints**.
-- $x$ is an $n$-dimensional vector. That is, $x = (x_1, \ldots, x_n)$.
+- $x$ is an $n$-dimensional vector. That is, $x = (x_1, \ldots, x_n)$. These are the **decision variables**.
 - This problem is usually quite difficult. 
 - It has been attempted since at least $300$ years and has ushered many new concepts
 in Mathematics.
@@ -71,17 +71,17 @@ lies in the set.
   line joining them then the line should lie entirely in the set.
 - Examples of convex sets:
   - A circle, a square, an ellipse, a sphere, a box.
-- Examples of sets that are not convex.
-  - A circle with a hole, heart-shaped set, a torus (medu-vade)
+- Examples of sets that are [not convex](https://en.wikipedia.org/wiki/Convex_set).
+  - A circle with a hole, heart-shaped set, a [torus](https://en.wikipedia.org/wiki/Torus).
 
 ## Convex functions - 1
 
 - A function $f$ is a rule that maps **every** member of a set $D$ to a **unique**
 member of a set $R$. It is written as $f: D \mapsto R$. The set $D$ is called the
-domain of the function and the set $R$ the range.
+domain of the function and the set $R$ the co-domain.
 - Examples:
   - A rule that maps an integer to its square. Its domain is $\mathbb{Z}$ and its
-  range is $\mathbb{N}$.
+  codomain is $\mathbb{N}$.
 - Let $f:\mathbb{R}^m \mapsto \mathbb{R}^n$. $f$ is convex if 
 $||f(\lambda x + (1 - \lambda y))|| \le \lambda ||f(x)|| + (1 - \lambda) ||f(y)||$.
 - What is $||f(x)||$? $f(x) \in \mathbb{R}^n$. It is a vector. $||f(x)||$ is the
@@ -109,7 +109,7 @@ plot(x, log(x), xlab = 'x', ylab = 'log(x)', main = 'Concave function', type = '
   - For a convex function, a local minimum is the global minimum.
   - If you find a minimum you can be assured that it is **the** minimum. You don't have to search any further.
 - An optimization problem consists of
-  - A set $F$ of feasible points.
+  - A set $F$ of feasible points. A feasible point is the one that satisfies all constraints.
   - A cost function $c: F \mapsto \mathbb{R}$.
 - The solution of the optimization problem consists in finding $x^\ast \in F$ such that
 $c(x^\ast) \le c(x)$ for all $x \in F$.
@@ -126,11 +126,11 @@ are convex.
   Dantzing, the man who developed the simplex algorithm was working on military
   problems during WW-II.
 - It has the same meaning in 'dynamic programming', a style of building algorithms
-that saves intermediate results in tables.
+that save intermediate results in tables.
 - In a linear programming problem the objective function and the constraints are
 **linear functions**.
   - Constraints are in the form of lines/planes/hyperplanes.
-  - Feasible region is a convex polygon/polyhedron/polytope.
+  - Feasible region is a convex polygon/[polyhedron](https://en.wikipedia.org/wiki/Polyhedron)/polytope.
 - An optimum, if it exists, is at the corner of the polytope or along an edge.
 
 ## Linear Programming - Enough of theory
