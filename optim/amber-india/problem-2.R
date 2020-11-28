@@ -8,8 +8,9 @@ eval_f <- function(x) {
   objective <- 0.1 * x[1] * x[1] - 1.13 * x[1] + 0.4 +
     0.002 * x[2] * x[2] - 0.124 * x[2] - 0.14 +
     0.00321 * x[3] * x[3] - 0.706 * x[3] + 0.09
+  # This is the gradient of the objective function.
   gradient <-
-    c(0.2 * x[2] - 1.13, 0.004 * x[2] - 0.124, 0.00641 * x[3] - 0.706)
+    c(0.2 * x[1] - 1.13, 0.004 * x[2] - 0.124, 0.00642 * x[3] - 0.706)
   
   return(list('objective' = objective, 'gradient' = gradient))
 }
@@ -37,7 +38,8 @@ eval_g_ineq <- function(x) {
 }
 
 # Initial values, we start from the solution to the previous problem.
-x0 <- c(4, 0, 14)
+# x0 <- c(4, 0, 14)
+x0 <- c(1, 19, 9)
 
 # lower and upper bounds of control
 lb <- c(0, 0, 0)

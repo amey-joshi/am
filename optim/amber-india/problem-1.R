@@ -39,7 +39,7 @@ const.rhs <- c(1e6, 4e6, -5e6, -5e6, -1.49e6, 5)
 stopifnot(length(const.rhs) == nrow(constraints))
 
 lp.results <-
-  lp(direction = "min",
+  lp(direction = "max",
      objective.in = advertisement,
      const.mat = constraints,
      const.dir = rep("<=", nrow(constraints)),
