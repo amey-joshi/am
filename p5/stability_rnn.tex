@@ -196,7 +196,8 @@ all of them to get the final result. We call a recurrent neural network
 implementing an algorithm to solve an ordinary differential equation an
 ODERNN.
 
-We now define a general ODERNN\cite{niu2019recurrent}.
+We now define a general ODERNN\cite{niu2019recurrent} (Definition 1 in section
+2.1 of the cited reference).
 \begin{defn}\label{s7d1}
 An ODE-RNN of $n$-th order in non-linearity and $t$-th order in gradient,
 called $(n,t)$-ODERNN, where $n, t \ge 1$ are integers is described by
@@ -223,6 +224,7 @@ This explain $t$ in $(n, t)$-ODERNN.
 \item $\alpha_{q, k}$, for $q = 2, \ldots, n$ and $k = 1, \ldots, n - 1$
 are $p \times p$ matrices. So are $\gamma_2, \ldots, \gamma_{n}, \kappa_2, 
 \ldots, \kappa_{n}$;
+\item $\beta_1, \ldots, \beta_n$ are Runge-Kutta weights. 
 \item $\gamma_{n+1}$ is an $s \times s$ matrix and $\kappa_{n+1}$ is a 
 $s \times p$ matrix.
 \item $h \in \mathbb{R}$ is a constant and
