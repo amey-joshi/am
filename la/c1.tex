@@ -92,5 +92,124 @@ multiplicative inverse does not exist.
 field operations are defined as $\alpha \oplus \beta = (\alpha + 
 \beta)\mod n$ and $\alpha \odot \beta = (\alpha\cdot\beta)\mod n$.
 The set $(Z_m, \oplus)$ is an abelian group. However, $(Z_m, \odot)$
-has an inverse if and only if $m$ is prime.
+has an inverse if and only if $m$ is prime. If $m$ is prime then the 
+remainders when $\alpha\dot\beta$ are divided by $m$ are in the range
+$0, \ldots, m- 1$. If it is not then the remainders may not include $1$
+when one of $\alpha$ of $\beta$ is a divisor of $m$. As a result, in
+this latter case, some elements may not have an inverse.
+\begin{enumerate}
+\item The table of additions modulo $5$ is
+\[
+\begin{array}{c|c c c c c}
++ & 0 & 1 & 2 & 3 & 4 \\
+\hline 
+0 & 0 & 1 & 2 & 4 & 4 \\
+1 & 1 & 2 & 3 & 4 & 0 \\
+2 & 2 & 3 & 4 & 0 & 1 \\
+3 & 3 & 4 & 0 & 1 & 2 \\
+4 & 4 & 0 & 1 & 2 & 3
+\end{array}
+\]
+From this table it we observe that $1 + 4 = 0$ so that $-1 = 4$.
+\item The table of multiplication modulo $7$ is
+\[
+\begin{array}{c|c c c c c c c c}
+\cdot & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
+2 & 0 & 2 & 4 & 6 & 1 & 3 & 5 \\
+3 & 0 & 3 & 6 & 2 & 5 & 1 & 4 \\
+4 & 0 & 4 & 1 & 5 & 2 & 6 & 3 \\
+5 & 0 & 5 & 3 & 1 & 6 & 4 & 2 \\
+6 & 0 & 6 & 5 & 4 & 3 & 2 & 1 
+\end{array}
+\]
+From this table we read $3 \times 5 = 1$ so that $1/3 = 5$.
+\end{enumerate}
+
+\item Let
+\[
+x_m = \begin{cases}
+1 & \text{ when } m = 0 \\
+x_{m-1} + 1 & \text{ otherwise}
+\end{cases}
+\]
+Suppose that $x_m = 0$ and the field is not finite. Then $x_{km} = 0$ for all
+$k = 1, 2, \ldots$ or that $x_{km - 1} + 1 = 0$ for all $k = 1, 2, \ldots$ or
+that $x_{km - 1} = -1$ for all $k = 1, 2, \ldots$. However, the additive
+inverse has to be unique.
+
+If the field is finite then we proved in the previous exercise that $m$ must
+be prime.
+
+\item The set $Q(\sqrt{2})$ is a field but $Z(\sqrt{2})$ is not. The latter
+set does not have a multiplicative inverse.
+
+\item The set of all polynomials with integer coefficients is not a field.
+The reciprocal of $x^2 + x - 2$ is calculated as
+\begin{eqnarray*}
+\frac{1}{x^2+x-2} &=& -\frac{1}{3}\left(\frac{1}{1-x} - 
+                      \frac{1}{2}\frac{1}{1+x/2}\right) \\
+ &=& -\frac{1}{6} + \frac{x}{4} - \frac{7}{8}x^2 + \frac{5}{16}x^3 + \cdots.
+\end{eqnarray*}
+Clearly, the reciprocal is not a polynomial of integer coefficients.
+
+The set of all polynomials with real coefficients is a field. By the 
+fundamental theorem of algebra, any polynomial of degree $n$ has $n$ roots,
+some of which may be complex. Further, the complex roots always come in pairs
+of conjugates. If all roots are real then the polynomial definitely has a
+reciprocal with real coefficients. We will show that even if the polynomial has
+complex roots, the resulting reciprocal is real.
+
+Since the complex roots come in pairs, the reciprocal will have factors like
+\[
+\frac{1}{(x - a)(x - \bar{a})} = \frac{i}{2\Im(a)}\left(\frac{1}{x - \bar{a}}
+- \frac{1}{x - a}\right).
+\]
+We can write this as
+\begin{eqnarray*}
+\frac{1}{(x - a)(x - \bar{a})} &=& \frac{i}{2\Im(a)}\left[\left(\frac{1}{a} + 
+\frac{1}{\bar{a}}\right) - x\left(\frac{1}{a^2} + \frac{1}{\bar{a}^2}\right) 
++ x^2\left(\frac{1}{a^3} + \frac{1}{\bar{a}^3}\right) + \cdots\right] \\
+ &=& \frac{i}{2\Im(a)}\sum_{k \ge 0}(-x)^k
+     \left(\frac{1}{a^k} + \frac{1}{\bar{a}^k}\right) \\
+ &=& \frac{i}{2\Im(a)}\sum_{k \ge 0}(-x)^k\frac{a^k + \bar{a}^k}{|a|^{2k}}
+\end{eqnarray*}
+If $a = x + iy$ then
+\[
+a^k + \bar{a}^k = \sum_{l=0}^k\binom{k}{l}x^{l}y^{k-l}(i^{k-1} + (-i)^{k-l}),
+\]
+which is always real.
+
+\item Consider the pair $(\alpha, \beta)$ of real numbers.
+\begin{enumerate}
+\item Let addition and multiplication be defined as
+\begin{eqnarray*}
+(\alpha, \beta) + (\gamma, \delta) &=& (\alpha + \gamma, \beta + \delta) \\
+(\alpha, \beta)(\gamma, \delta) &=& (\alpha\gamma, \beta\delta)
+\end{eqnarray*}
+Then $(0, 0)$ is the additive identity and $(1, 1)$ the multiplicative. 
+Therefore, the multiplicative inverse of $(\alpha, \beta)$ is defined with the
+equation
+\[
+(\alpha, \beta)(\gamma, \delta) = (1, 1).
+\]
+Clearly, the inverse is not defined for $(\alpha, 0)$ and $(0, \beta)$.
+
+\item If the addition and multiplication are defined as
+\begin{eqnarray*}
+(\alpha, \beta) + (\gamma, \delta) &=& (\alpha + \gamma, \beta + \delta) \\
+(\alpha, \beta)(\gamma, \delta) &=& (\alpha\gamma - \beta\delta,
+                                     \alpha\delta + \beta\gamma)
+\end{eqnarray*}
+then the operations are same as that for complex numbers, a field.
+
+\item If $\alpha$ and $\beta$ are complex numbers then the first scheme fails
+to form a field for the same reasons. In the second scheme, consider the
+product $(1, i)(1, -i) = (0, 0)$. Thus, a product of two non-zero numbers is
+zero. This is the same problem that we had in $Z_m$ when $m$ was not a prime.
+However, if non-zero elements $a, b$ belong to a field then $ab \ne 0$.
+\end{enumerate}
+
 \end{enumerate}
