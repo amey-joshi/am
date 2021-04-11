@@ -1,0 +1,97 @@
+\chapter{Functions on Euclidean Space}\label{c1}
+\section{Norm and Inner Product}\label{c1s1}
+$\sor^n$ has points $x = (x^1, \ldots, x^n)$ such that if $\alpha \in \sor$
+then $\alpha x = (\alpha x^1, \ldots, \alpha x^n)$ is also a point in $\sor^n$
+and so is $x + y = (x^1 + y^1, \ldots x^n + y^n)$. $\sor^n$ is a linear vector
+space. 
+\begin{defn}\label{c1s1d1}
+The norm of a vector $x \in \sor^n$ is defined as
+\[
+\norm{x} = \left((x^1)^2 + \cdots + (x^n)^2\right)^{1/2}.
+\]
+\end{defn}
+
+\begin{defn}\label{c1s1d2}
+The inner product of vectors $x, y \in \sor$ is defined as
+\[
+\ip{x}{y} = \abs{\sum_{i=1}^n x^i y^i }.
+\]
+\end{defn}
+
+\begin{lem}\label{c1s1l1}
+$\norm{x}^2 = \ip{x}{x}$.
+\end{lem}
+
+\begin{lem}\label{c1s1l2}
+$\ip{x}{y} = \ip{y}{x}$.
+\end{lem}
+
+\begin{lem}\label{c1s1l3}
+$\ip{\alpha x}{y} = \alpha\ip{y}{x}$ and $\ip{x}{\alpha y} = \alpha\ip{x}{y}$
+for all $\alpha \in \sor$.
+\end{lem}
+
+\begin{lem}\label{c1s1l4}
+$\ip{x}{y_1 + y_2} = \ip{x}{y_1} + \ip{x}{y_2}$ and $\ip{x_1 + x_2}{y} = 
+\ip{x_1}{y} + \ip{x_2}{y}$.
+\end{lem}
+
+\begin{lem}[Polarisation identity]\label{c1s1l5}
+\[
+\ip{x}{y} = \frac{\norm{x + y}^2 - \norm{x - y}^2}{4}.
+\]
+\end{lem}
+\begin{proof}
+Follows immediately from lemmas \ref{c1s1l1} and \ref{c1s1l2}.
+\end{proof}
+
+The norm has the following properties.
+\begin{thm}\label{c1s1t1}
+If $x, y \in \sor^n$ and $\alpha \in \sor$ then
+\begin{enumerate}
+\item $\norm{x} \ge 0$ and $\norm{x} = 0$ iff $x = 0$.
+\item Cauchy-Schwarz inequality
+\[
+\ip{x}{y} \le \norm{x}\norm{y}.
+\]
+the equality is true if $x = \lambda y$ for some $\lambda \in \sor$.
+\item $\norm{x + y} \le \norm{x} + \norm{y}$.
+\item $\norm{\alpha x} = \abs{\alpha}\norm{x}$ for all $\alpha \in \sor$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+$\norm{x}$ is the positive square root of the sum of non-negative reals. 
+Therefore it is non-negative. If $x = 0$ then clearly $\norm{x} = 0$. If
+$\norm{x} = 0$ then the sum of $n$ non-negative numbers is zero, which is
+possible only if all of them are zero.
+
+Consider $\norm{x - \lambda y}^2 = \ip{x - \lambda y}{x - \lambda y}$
+so that
+\[
+\norm{x - \lambda y}^2 = \ip{x}{x} - 2\lambda\ip{x}{y}  + \lambda^2\ip{y}{y}
+\]
+We showed previously that $\norm{x - \lambda y} \ge 0$ and that it is zero
+iff $x - \lambda y = 0$. If $\norm{x - \lambda y}^2 > 0$ then then the quadratic
+on the rhs has no real roots, in which case the discriminant
+\[
+4\lambda^2\ip{x}{y}^2 - 4\lambda^2\norm{x}^2\norm{y}^2 < 0
+\]
+from which it follows that
+\[
+\ip{x}{y} < {\norm{x}}{\norm{y}}.
+\]
+If, on the other hand, $\norm{x - \lambda y} = 0$ then the quadratic has real
+roots in which case $\ip{x}{y} \ge {\norm{x}}{\norm{y}}$. However, if $\norm{x -
+\lambda y} = 0$ then $x = \lambda y$ and then $\ip{x}{y} = {\norm{x}}
+{\norm{y}}$. In either case, $\ip{x}{y} \le {\norm{x}} {\norm{y}}$. Now suppose
+that $\ip{x}{y} = \norm{x}\norm{y}$ then the discriminant of the quadratic
+is zero which indicates that real roots exist and that $x = \lambda y$.
+
+$\norm{x + y}^2 = \ip{x+y}{x+y} = \norm{x}^2 + 2\ip{x}{y} + \norm{y}^2$. Using
+the Cauchy-Schwarz inequality, $\norm{x + y}^2 \le \norm{x}^2 + 2\norm{x}
+\norm{y} + \norm{y}^2 = (\norm{x} + \norm{y})^2$.
+
+The fourth statement follows immediately from the definitions of the scalar
+product and the norm.
+\end{proof}
+
