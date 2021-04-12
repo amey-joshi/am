@@ -45,6 +45,10 @@ $\ip{x}{y_1 + y_2} = \ip{x}{y_1} + \ip{x}{y_2}$ and $\ip{x_1 + x_2}{y} =
 Follows immediately from lemmas \ref{c1s1l1} and \ref{c1s1l2}.
 \end{proof}
 
+\begin{lem}\label{c1s1l6}
+$\norm{x} = \norm{-x}$.
+\end{lem}
+
 The norm has the following properties.
 \begin{thm}\label{c1s1t1}
 If $x, y \in \sor^n$ and $\alpha \in \sor$ then
@@ -95,3 +99,152 @@ The fourth statement follows immediately from the definitions of the scalar
 product and the norm.
 \end{proof}
 
+\subsection{Problems}
+\begin{enumerate}
+\item We will prove by induction on $n$. If $n = 1$, $x = (x^1)$ and $\norm{x}
+= \sqrt{(x^1)^2} \le \abs{x^1}$, as we always choose the positive square root.
+Assume that the statement is true for all $n < k$ and consider
+\[
+\norm{x}^2 = \sum_{i=1}^{k-1}(x^i)^2 + (x^k)^2 \le 
+\left(\sum_{i=1}^{k-1}\abs{x^i}\right)^2 + \abs{x^k}^2 = 
+\left(\sum_{i=1}^k\abs{x^i}^2\right)^2.
+\]
+
+\item When is $\norm{x + y} = \norm{x} + \norm{y}$? Only when $x = \lambda y$ 
+for $\lambda \ge 0$.
+
+\item $\norm{x - y} = \norm{x + (-y)} \le \norm{x} + \norm{-y} = \norm{x} + 
+\norm{y}$. Equality holds when $x = \lambda y$ with $\lambda \le 0$.
+
+\item $\norm{x} = \norm{x - y + y} \le \norm{x - y} + \norm{y}$ so that
+$\norm{x} - \norm{y} \le \norm{x - y}$. We can similarly show that $\norm{y} -
+\norm{x} \le \norm{y - x} = \norm{x - y}$.
+
+\item The length of one side of a triangle never exceeds the sum of lengths of
+the other two sides.
+
+\item Given that $f$ and $g$ are (real-valued) integrable on $[a, b]$. 
+\begin{enumerate}
+\item[(a)] Then
+\[
+\int_a^b (f - \lambda g)^2 = \int_a^b f^2 - 2\lambda\int_a^b fg + \lambda^2
+\int_a^b g^2.
+\]
+The expression is non-negative. If suppose it is zero then $f - \lambda g = 0$
+almost everywhere. If $f$ and $g$ are continuous then $f = \lambda g$, that is
+the two functions are linearly dependent, in which case
+\[
+\int_a^b fg = \left(\int_a^b f^2\right)^{1/2}\left(\int_a^b g^2\right)^{1/2}.
+\]
+On the other hand, if the expression
+is positive then the quadratic
+\[
+\lambda^2 \int_a^b g^2 - 2\lambda\int_a^b fg + \int_a^b f^2
+\]
+has no real roots, which is possible only when the discriminant
+\[
+4\lambda^2 \left(\int_a^b fg\right)^2 - 
+4\lambda^2\left(\int_a^b f^2\right)\left(\int_a^b g^2\right) < 0
+\]
+
+\item[(b)] In the case of equality, $f = \lambda g$ only if both functions are
+continuous. Otherwise, $f = \lambda g$ a.e. and the two are \emph{not} linearly
+dependent.
+
+\item[(c)] Part 2 of theorem \ref{c1s1t1} is a special case of this statement
+because a norm defined as a sum has properties similar to an integral except
+that when the norm is zero the vector is also zero.
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item[(a)] If $T$ is inner product preserving then $\ip{T(x)}{T(y)}=\ip{x}{y}$.
+Choose $x = y$. Then $\ip{T(x)}{T(x)} = \ip{x}{y} \Rightarrow \norm{T(x)}^2 =
+\norm{x}^2$ or that $T$ is norm preserving.
+
+To prove the converse, use the polarisation identity (lemma \ref{c1s1l5})
+\[
+\ip{T(x)}{T(y)} = \frac{\norm{T(x) + T(y)}^2 - \norm{T(x) - T(y)}^2}{4}.
+\]
+Since $T$ is linear, $T(x \pm y) = T(x) \pm T(y)$ so that
+is inner product preserving as well.
+\[
+\ip{T(x)}{T(y)} = \frac{\norm{T(x + y)}^2 - \norm{T(x - y)}^2}{4}.
+\]
+Since $T$ is norm preserving,
+\[
+\ip{T(x)}{T(y)} = \frac{\norm{x + y}^2 - \norm{x - y}^2}{4} = \ip{x}{y}.
+\]
+
+\begin{rem}
+Every inner product preserving transformation is a norm-preserving 
+transformation but the converse is true only if the transformation is linear.
+The set of norm preserving transformations is, in general, bigger than the
+set of inner-product preserving transformations.
+\end{rem}
+
+\item[(b)] Let $T$ be a norm-preserving linear transformation and let if 
+possible $T(x_1) = T(x_2)$. Then $0 = \norm{T(x_1) - T(x_2)} = 
+\norm{T(x_1 - x_2)} = \norm{x_1 - x_2}$ which implies that $x_1 = x_2$.
+
+Thus, $T(e_i) \ne T(e_j)$ for all $i \ne j$ and $T$ is also onto. As a result,
+$T^{-1}$ exists. To show that $T^{-1}$ is of the same sort, it suffices to show
+that $T^{-1}$ is linear and norm preserving. To show that it is linear, let
+$T(x_1) = y_1, T(x_2) = y_2$ and consider
+\[
+T^{-1}(y_1 + y_2) = T^{-1}(T(x_1) + T(x_2)).
+\]
+Since $T$ is linear, the right hand side is $T^{-1}(T(x_1 + x_2)) = x_1 + x_2
+= T^{-1}(y_1) + T^{-1}(y_2)$. Similarly, $T^{-1}(cy_1) = T^{-1}(cT(x_1)) = 
+T^{-1}T(cx_1) = cx_1 = cT^{-1}(y_1)$. To show that it is norm-preserving,
+consider $\norm{T^{-1}(y_1)} = \norm{T^{-1}T(x_1)} = \norm{x_1}$. But $T$ is
+norm-preserving so that we have $\norm{T^{-1}(y_1)}=\norm{T(x_1)}=\norm{y_1}$,
+making $T^{-1}$ norm-preserving.
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Some theorems used to solve the problems}
+\begin{thm}\label{c1s1t2}
+If $f$ is a real-valued continuous function on $[a, b]$ and 
+\[
+\int_a^b f^2 = 0
+\]
+then $f = 0$.
+\end{thm}
+\begin{proof}
+The integrand is non-negative and continuous throughout $[a, b]$. Let it take 
+a positive value $c$ for some $x_0 \in [a, b]$. Then there is neighbourhood
+$(x_0 - \delta, x_0 + \delta$ in which the integrand is positive and hence
+\[
+\int_{x_0 - \delta}^{x_0 + \delta} f^2 > 0.
+\]
+But
+\[
+\int_a^b f^2 \ge \int_{x_0 - \delta}^{x_0 + \delta} f^2 > 0,
+\]
+a contradiction. 
+\end{proof}
+
+\begin{thm}\label{c1s1t3}
+If $f$ is a real-valued integrable function on $[a, b]$ and 
+\[
+\int_a^b f^2 = 0
+\]
+then $f = 0$ a.e..
+\end{thm}
+\begin{proof}
+Suppose $f = 0$ a.e. is not true. Then create sets 
+\begin{eqnarray*}
+B_0 &=& \left\{x \in [a, b]: f^2 \ge 1\right\} \\
+B_n &=& \left\{x \in [a, b] : \frac{1}{n-1} > f^2 \ge \frac{1}{n}\right\}
+\end{eqnarray*}
+where $n > 1$ is an integer. The sets $\{B_n\}$ are disjoint and the integral is
+just the sum of measures of each of these sets. When $f = 0$ a.e. is not true
+at least one of these sets, say $B_k$, will have a positive measure, in which
+case
+\[
+\int_a^b f^2 > \frac{\mu(B_k)}{k} > 0,
+\]
+a contradiction.
+
+\end{proof}
