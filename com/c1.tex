@@ -1,5 +1,5 @@
 \chapter{Functions on Euclidean Space}\label{c1}
-\section{Norm and Inner Product}\label{c1s1}
+\section{Norm and inner product}\label{c1s1}
 $\sor^n$ has points $x = (x^1, \ldots, x^n)$ such that if $\alpha \in \sor$
 then $\alpha x = (\alpha x^1, \ldots, \alpha x^n)$ is also a point in $\sor^n$
 and so is $x + y = (x^1 + y^1, \ldots x^n + y^n)$. $\sor^n$ is a linear vector
@@ -201,6 +201,80 @@ consider $\norm{T^{-1}(y_1)} = \norm{T^{-1}T(x_1)} = \norm{x_1}$. But $T$ is
 norm-preserving so that we have $\norm{T^{-1}(y_1)}=\norm{T(x_1)}=\norm{y_1}$,
 making $T^{-1}$ norm-preserving.
 \end{enumerate}
+
+\item 
+\begin{enumerate}
+\item[(a)] If $T$ is norm preserving then it is also inner-product preserving.
+Therefore, it leaves the quantity
+\[
+\frac{\ip{x}{y}}{\norm{x}\norm{y}}
+\]
+invariant. 
+
+\item[(b)] There is a mistake in the problem statement. $T$ is angle preserving
+if $\lambda_1 = \ldots = \lambda_n = \lambda$. In this case, let
+\begin{eqnarray*}
+a &=& \alpha_1 x_1 + \cdots + \alpha_n x_n \\
+b &=& \beta_1 x_1 + \cdots + \beta_n x_n 
+\end{eqnarray*}
+Then
+\begin{eqnarray*}
+\norm{a}^2 &=& \ip{a}{a} = \sum_{i,j=1}^n\alpha_i\alpha_j\ip{x_i}{x_j} \\
+\norm{b}^2 &=& \ip{b}{b} = \sum_{i,j=1}^n\beta_i\beta_j\ip{x_i}{x_j} \\
+\ip{a}{b} &=& \sum_{i,j=1}^n\alpha_i\beta_j\ip{x_i}{x_j}
+\end{eqnarray*}
+and
+\begin{eqnarray*}
+\norm{T(a)}^2 = \sum_{i,j=1}^n\lambda^2\alpha_i\alpha_j\ip{x_i}{x_j} \\
+\norm{T(b)}^2 = \sum_{i,j=1}^n\lambda^2\beta_i\beta_j\ip{x_i}{x_j} \\
+\ip{T(a)}{T(b)} = \sum_{i,j=1}^n\lambda^2\alpha_i\beta_j\ip{x_i}{x_j}
+\end{eqnarray*}
+so that
+\[
+\angle(T(a),T(b)) = \angle(a, b).
+\]
+
+To spot this mistake, consider the $2$-dimensional case with $T(x_1) = x_1,
+T(x_2) = -x_2$.
+
+Let us now examine the converse. Let $T(x_i) = \lambda_i x_i$. Introduce the
+variables
+\begin{eqnarray*}
+A_{ij} &=& \alpha_i\alpha_j\ip{x_i}{x_j} \\
+B_{ij} &=& \beta_i\beta_j\ip{x_i}{x_j} \\
+C_{ij} &=& \alpha_i\beta_j\ip{x_i}{x_j}
+\end{eqnarray*}
+so that
+\begin{eqnarray*}
+\angle(a, b) &=& \frac{\sum_{r,s}C_{rs}}
+                 {\sqrt{\sum_{k,l}A_{kl}}\sqrt{\sum_{m,n}B_{mn}}} \\
+(\angle(a, b))^2 &=& \frac{\sum_{rstu}C_{rs}C_{tu}}
+                 {\sum_{k,l}A_{kl}\sum_{m,n}B_{mn}}  \\
+(\angle(T(a), T(b)))^2 &=& \frac{\sum_{rstu}\lambda_r\lambda_s\lambda_t\lambda_u
+    C_{rs}C_{tu}}
+    {\sum_{k,l}\lambda_k\lambda_l A_{kl}\sum_{m,n}\lambda_m\lambda_n B_{mn}} 
+\end{eqnarray*}
+When $T$ is angle preserving,
+\[
+\sum_{k,l,m,n,r,s,t,u}\lambda_k\lambda_l\lambda_m\lambda_n A_{kl}B_{mn}C_{rs}
+C_{tu} = 
+\sum_{k,l,m,n,r,s,t,u}\lambda_r\lambda_s\lambda_t\lambda_u A_{kl}B_{mn}C_{rs}
+C_{tu}
+\]
+or
+\[
+\sum_{k,l,m,n,r,s,t,u}(\lambda_k\lambda_l\lambda_m\lambda_n - 
+\lambda_r\lambda_s\lambda_t\lambda_u)A_{kl}B_{mn}C_{rs}C_{tu} = 0.
+\]
+This equation is true for all vectors $a, b$, that is all possible values of 
+$A_{kl}, B_{mn}, C_{rs}$ and $C_{tu}$. Therefore, we must have
+\[
+\lambda_k\lambda_l\lambda_m\lambda_n = \lambda_r\lambda_s\lambda_t\lambda_u
+\]
+for all $k, l, m, n, r, s, t, u$. In particular, it is true for $k = l = m = n$
+and $r = s = t = u$ so that $\lambda_k^4 = \lambda_r^4$ or $\lambda_k = \pm
+\lambda_r$.
+\end{enumerate}
 \end{enumerate}
 
 \subsection{Some theorems used to solve the problems}
@@ -247,4 +321,26 @@ case
 \]
 a contradiction.
 
+\end{proof}
+
+\section{Subsets of euclidean sets}\label{c1s2}
+\begin{thm}[Heine-Borel]
+$[a, b]$ is compact.
+\end{thm}
+\begin{proof}
+Let $\mathcal{O}$ be an open cover of $[a, b]$ and define the set
+\[
+X = \{x : [a, x] \text{ has a finite open cover}\}.
+\]
+The set $X$ is non-empty because $a \in X$. It is also bounded. Therefore, it
+has a supremum, say $L$. 
+
+$L \in X$. Since $L = \sup X$, for any $\epsilon > 0$, $L - \epsilon \in X$.
+Choose $\epsilon$ such that it is the radius of one of the member of 
+$\mathcal{O}$ that covers $L$. But this means that $[a, L]$ has a finite cover
+and hence $L \in X$.
+
+$L = b$. If it did not then consider an open set of radius $\epsilon$ that
+covers $L$. Then $L + \epsilon$ will also be in $X$ contradicting the fact
+that $L = \sup X$.
 \end{proof}
