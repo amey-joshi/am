@@ -275,6 +275,62 @@ for all $k, l, m, n, r, s, t, u$. In particular, it is true for $k = l = m = n$
 and $r = s = t = u$ so that $\lambda_k^4 = \lambda_r^4$ or $\lambda_k = \pm
 \lambda_r$.
 \end{enumerate}
+
+\item The transformation
+\[
+T = \begin{bmatrix}\cos\theta&\sin\theta\\-\sin\theta&\cos\theta\end{bmatrix}
+\]
+is a rotation by an angle $\theta$ therefore it is angle-preserving. 
+Nevertheless, one can formally confirm its nature by checking if it is norm-
+preserving. Consider 
+\[
+y = T(x) = \begin{bmatrix}x^1\cos\theta + x^2\sin\theta \\ 
+-x^1\sin\theta + x^2\cos\theta\end{bmatrix}
+\]
+so that
+\begin{eqnarray*}
+\norm{y} &=& (x^1)^2\cos^2\theta + (x^2)^2\sin^2\theta + 2x^1x^2\sin\theta
+\cos\theta \\
+ & & + (x^1)^2\sin^2\theta + (x^2)^2\cos^2\theta - 2x^1x^2\sin\theta
+\cos\theta \\
+ &=& (x^1)^2 + (x^2)^2 \\
+ &=&  \norm{x}.
+\end{eqnarray*}
+
+\item $T$ is a fixed linear transformation. Let $h = (h^1, \ldots, h^m)$,
+then the $j$th component of $T(h)$ is $T(h)^j = T_{ij}h^j$ and the norm of
+$T(h)$ is
+\[
+\norm{T(h)} = \sum_{j=1}^m (T_{ij}h^j)^2
+\]
+Let $M$ be the largest among $\abs{T_{ij}}$ so that
+\[
+\norm{T(h)} \le M \sum_{j=1}^m (h^j)^2 = M\norm{h}.
+\]
+\begin{rem} This exercise shows that a linear transformation does not lead to
+a blow up.
+\end{rem}
+
+\item Quite straightforward.
+
+\item $T : \sor^n \rightarrow (\sor^n)^\ast$ is such that $T(x) = \varphi_x$.
+Consider $T(x_1 + x_2) = \varphi_{x_1 + x_2}$ so that
+\begin{eqnarray*}
+T(x_1 + x_2)(y) &=& \varphi_{x_1+x_2}(y) \\
+ &=& \ip{x_1+x_2}{y} \\
+ &=& \ip{x_1}{y} + \ip{x_2}{y} \\
+ &=& \varphi_{x_1}(y) + \varphi_{x_2}(y) \\
+ &=& T(x_1)(y) + T(x_2)(y) \\
+ &=& (T(x_1) + T(x_2))(y)
+\end{eqnarray*}
+\begin{rem}
+$\varphi_x$ is called a linear functional. The space of all linear functionals,
+the dual space $(\sor^n)^\ast$ is a linear space so is the set of 
+transformations $T(x) = \varphi_x$.
+\end{rem}
+
+\item Follows immediately from the fact that $\norm{x+y}^2 = \ip{x+y}{x+y}$ 
+and the linearity of the inner product.
 \end{enumerate}
 
 \subsection{Some theorems used to solve the problems}
@@ -324,7 +380,15 @@ a contradiction.
 \end{proof}
 
 \section{Subsets of euclidean sets}\label{c1s2}
-\begin{thm}[Heine-Borel]
+\begin{lem}\label{c1s2l1}
+Every set $X$ has an open cover.
+\end{lem}
+\begin{proof}
+$\{\cup_x B_\epsilon(x) : x \in X, \epsilon > 0\}$ is an open cover, where 
+$B_\epsilon(x)$ is an open ball of radius $\epsilon$ centred at $x$.
+\end{proof}
+
+\begin{thm}[Heine-Borel]\label{c1s2t1}
 $[a, b]$ is compact.
 \end{thm}
 \begin{proof}
@@ -344,3 +408,121 @@ $L = b$. If it did not then consider an open set of radius $\epsilon$ that
 covers $L$. Then $L + \epsilon$ will also be in $X$ contradicting the fact
 that $L = \sup X$.
 \end{proof}
+
+\begin{lem}\label{c1s2l2}
+If $B \subset \sor^m$ is a compact set then for any $x \in \sor^n$, the set
+$\{x\} \times B$ is compact.
+\end{lem}
+\begin{proof}
+The finite open cover $A_1, \ldots, A_k$ of $B$ can be extended to $\{x\} \times
+A_1, \ldots, \{x\} \times A_k$, which is a finite open cover of $\{x\}\times B$.
+\end{proof}
+
+\begin{thm}\label{c1s2t2}
+If $B \subset \sor^m$ is a compact set and $\mathcal{O}$ is an open cover of
+$\{x\} \times B$, for an $x \in \sor^n$, then there exists a subset $U$ of
+$\sor^n$, containing $x$, such that $U \times B$ is covered by a finite number
+of members of $\mathcal{O}$.
+\end{thm}
+\begin{proof}
+From \eqref{c1s2l1} we can assume that $\mathcal{O}$ is a finite set. Consider
+$\{x\} \times B$. Let $\{x\} \times W_1, \ldots \{x\} \times W_k$ be its cover.
+Each one of these has an open rectangle $Q_1 \times R_1, \ldots R_k \times Q_k$
+such that $Q_1, \ldots Q_k$ are subsets of $\sor^n$ and $R_1, \ldots, R_k$ are
+subsets of $\sor^m$. Let $U = Q_1 \cap \cdots \cap Q_k$. Then $U \times B$ is
+covered by $Q_1 \times R_1, \ldots, Q_k \times R_k$.
+\end{proof}
+
+This theorem assures that one can always extend the finite open cover of a 
+subset of $\sor^m$ to an open cover of a subset of $\sor^n \times \sor^m$.
+
+\begin{prop}\label{c1s2p1}
+If $A \subset \sor^n$ and $B \subset \sor^m$ are compact then $A \times B 
+\subset \sor^n \times \sor^m$ is compact.
+\end{prop}
+\begin{proof}
+If $U_1, \ldots, U_k$ is an open cover of $A$ and $V_1, \ldots, V_l$ that of
+$B$ then the sets $U_i \times V_j$ where $i = 1, \ldots, k$ and $j = 1, \ldots,
+l$ is a finite open cover of $A \times B$.
+\end{proof}
+
+As a result of theorem \ref{c1s2t1} and proposition \ref{c1s2p1} we have
+\begin{lem}\label{c1s2l3}
+A closed bounded set of $\sor^n$ is compact.
+\end{lem}
+
+\subsection{Some additional lemmas}
+\begin{lem}\label{c1s2l4}
+A set if open if every element of it lies in a open ball entirely in the set.
+\end{lem}
+\begin{proof}
+By definition, a set is open if every element of it lies in an open hyper-
+rectangle entirely in the set. Choose the rectangle to be a hypercube of side 
+$a$ centered at the element. Then we can enclose a ball of radius $a/2$ with 
+centre coinciding the hypercube's centre.
+\end{proof}
+
+\subsection{Problems}
+\begin{enumerate}
+\item It is easy to check that a union, countable or not, of open sets is open.
+Now consider a finite intersection of open sets. If $x \in U_1, \ldots, U_k$
+then there are open balls $B^1_{\epsilon_1}(x), \ldots, B^k_{\epsilon_k}(x)$
+entirely in $U_1, \ldots, U_k$. The ball $B_\epsilon(x)$ where $\epsilon = 
+\min(\epsilon_1, \ldots, \epsilon_k)$ lies entirely in $U_1 \cap \cdots U_k$,
+making it an open set.
+
+Infinite unions may not be open because the infimum of $\epsilon_1, \epsilon_2,
+\ldots$ may be zero leaving us with a singleton set after taking an intersection
+and a singleton set is always closed.
+
+As an example consider the open sets is $U_n = (-1/n, 1/n)$, $n \in \soi^+$.
+Their intersection is $\{0\}$.
+
+\begin{rem}
+That is why a topological space is defined as the pair $(X, \tau)$, where $\tau$
+is a collection of subsets of $X$ such that
+\begin{enumerate}
+\item $X$ and $\varnothing$ belong to $\tau$.
+\item An arbitrary union of sets of $\tau$ belong to $\tau$.
+\item A \underline{finite} intersection of sets of $\tau$ belong to $\tau$.
+\end{enumerate}
+We want a topological space to be closed under operations on open sets.
+\end{rem}
+
+\item Proved as lemma \ref{c1s2l4}.
+
+\item 
+\begin{enumerate}
+\item[(a)] $U = \{x \in \sor^n : \norm{x} \le 1\}$. The interior is the open
+ball $B_1(0)$, the boundary is the sphere $S^2$ and the exterior is everything
+outside it.
+\item[(b)] $S^2 = \{x \in \sor^n : \norm{x} = 1\}$. There is no interior. 
+Neither is there any exterior. $S^2$ is its own boundary.
+\item[(c)] $U = \{x \in \sor^n : x^i \in \soq\}$. There is no neighbourhood of 
+$x \in U$ with points only in $U$. The same is true for the set $\sor^n - U$.
+Therefore, $U$ is neither open nor closed. It has no interior or exterior and
+it is its own boundary.
+\end{enumerate}
+
+\item If $A$ was defined as $(0, 1) \times (0, 1)$ and there was no mention of
+the boundary then a diagonal line would have met the restrictions of the 
+problem.
+
+If $A = [0, 1] \times [0, 1]$ then let $i_n, j_n = 2^{-n}$ for all $n \in \son$.
+Then the points $H=\{0, i_n, 1 - i_n, 1\}$ divide $[0, 1]$ in $n$ intervals of
+equal length. Same is true for the points $V = \{0, j_n, 1 - j_n, 1\}$. The
+set $H \times V$ defines a grid of equally sized cells of the closed rectangle
+ $A$. Choose one point from each of these cells.
+
+\item $A$ is an open set and is a subset of $[0, 1]$. The boundary of $A$
+contains points all neighbourhoods of which contain some points in $A$ and
+some in its exterior. If $E$ is the exterior of $A$ and $\partial A$ is its
+boundary then $E \cap \partial A = [0, 1] - A$.
+
+It suffices to show that $E$ is empty. Let $x \in E$. Then there exists a
+neighbourbood $(x - \epsilon, x + \epsilon)$ such that there is no point of
+$A$ in it. But that is impossible because there is at least one rational number
+in this neighbourhood. Thus, $E = \varnothing$ and hence $\partial A = [0, 1]
+- A$.
+
+\end{enumerate}
