@@ -462,6 +462,21 @@ $a$ centered at the element. Then we can enclose a ball of radius $a/2$ with
 centre coinciding the hypercube's centre.
 \end{proof}
 
+\begin{defn}\label{c1s2d1}
+A point $x$ is a limit point of a set $X$ is $B_\epsilon(x)$ contains a point
+of $X$ for all $\epsilon > 0$.
+\end{defn}
+
+\begin{lem}\label{c1s2l5}
+If $X$ is a closed set then it contains all its limit points.
+\end{lem}
+\begin{proof}
+Let $x_0$ be a limit point of $X$ and $x_0 \notin X$. Since $X$ is closed,
+$\sor^n - X$ is open. Since $x_0$ is a limit point of $X$, every neighbourhood
+of $x_0$ has points of $X$. Therefore, there is no neighbourhood of $x_0$ with
+points in $\sor^n - X$, a contradiction.
+\end{proof}
+
 \subsection{Problems}
 \begin{enumerate}
 \item It is easy to check that a union, countable or not, of open sets is open.
@@ -524,5 +539,65 @@ neighbourbood $(x - \epsilon, x + \epsilon)$ such that there is no point of
 $A$ in it. But that is impossible because there is at least one rational number
 in this neighbourhood. Thus, $E = \varnothing$ and hence $\partial A = [0, 1]
 - A$.
+
+\item Let $X$ be a compact set in $\sor^n$ and let $U_1, \ldots, U_k$ be its
+finite, open cover. Each $U_i$ is of the form $(a_i^1, b_i^1) \times \cdots
+\times (a_i^n, b_i^n)$. Let $a_0^1 = \min(a_1^1, \ldots, a_k^1), b_0^1 = \min(
+b_1^1, \ldots, b_k^1), \ldots a_0^n = \min(a_1^n, \ldots, a_k^n), b_0^n = 
+\min(b_1^n, \ldots, b_k^n)$ so that the set $X$ is bounded by $[a_0^1, b_0^1]
+\times \cdots \times [a_0^n, b_0^n]$.
+
+To show that $X$ is closed consider an arbitrary limit point $x_0$ of $X$. Let,
+if possible, $x_0$ not be in $X$. Consider a family of open sets
+\[
+U_n = \{\sor^n - B_{n^{-1}}(x_0) : n \in \soi^+\}.
+\]
+This is an open cover of $X$. Since $X$ is compact, there exists $m > 0$ such
+that $U_1, \ldots, U_m$ cover $X$. Therefore, the points in $B_{m^{-1}}(x_0)$
+do not belong to $X$, which implies that $x_0$ is not a limit point of $X$.
+
+\item
+\begin{enumerate}
+\item $A$ is closed and $y \notin A$. Therefore, $y$ is not a limit point of 
+$A$. Therefore, there exists $d > 0$ such that $B_d(y)$ lies outside $A$. 
+That is, for all $x \in A$, $\norm{x - y} > d$.
+
+\item Consider the set $\{||x - y|| : x \in A, y \in B\}$. It is bounded below
+and therefore has an infimum, say $d_0 \ge 0$. Let $x_0 \in A$ and $y_0 \in B$
+be such that $\norm{x_0 - y_0} = d_0$. Consider the set of points $\{x(\lambda)
+= x_0 + \lambda(y_0 - x_0) : \lambda \in [0, 1]\}$. This is the straight line 
+joining $x_0$ and $y_0$. There exists $\mu \in [0, 1]$ such that $x(\mu)$
+is neither in $A$ nor in $B$. For if not, there would be two possibilities:
+\begin{itemize}
+\item $x(\lambda) \in A$ for all $\lambda \le \mu$ and $x(\lambda) \in B$ for
+all $\lambda > \mu$. The sets $U_n = \{B_{n^{-1}}(x_0 + \mu(y_0 - x_0)) : n 
+\in \soi^+\}$ form an open cover of $B$. Since $B$ is compact, there exists 
+$m > 0$ such that $U_m$ does not cover $B$. Therefore, for $\mu < \lambda < 
+\mu + m^{-1}$, $x(\lambda) \notin B$, contradicting the assumption that $
+x(\lambda) \in B$ for all $\lambda > \mu$.
+
+\item $x(\lambda) \in A$ for all $\lambda < \mu$ and $x(\lambda) \in B$ for
+all $\lambda \ge \mu$. This is ruled out because if $x(\mu)$ is a limit point
+of $A$ and $A$ is closed.
+\end{itemize}
+
+Since $x(\mu) \notin A$ and $x(\mu)$ is also not a limit point of $A$, there 
+exists $d_1 > 0$ such that $B_{d_1}(x(\mu))$ and $A$ are disjoint so that for 
+all $x \in A$, $\norm{x - x(\mu)} > d_1$. 
+
+Since $x(\mu) \notin B$ and $B$ is compact, there exists $d_2 > 0$ such that
+$B_{d_2}(x(\mu)) \cap B = \varnothing$ so that for all $y \in B$, $\norm{y -
+x(\mu)} > d_2$.
+
+Therefore, $\norm{x - y} \le \norm{x - x(\mu)} + \norm{x(\mu) - y} < d_1+d_2$.
+
+\item Consider the sets $A = \{(x^1, x^2) : x^1 x^2 \ge 1, x^2 > 0\}$ and $B = 
+\{(x^1, x^2) : x^1 x^2 \le -1, x^2 > 0\}$. $A$ is the region about the hyperbola
+$x^1x^2 = 1$ and $B$ is the region above the hyperbola $x^1x^2 = -1$. The two
+sets are closed because they contain all their limit points. However, neither
+is compact. As $x^2 \rightarrow \infty$, the two sets get closer to each other
+and there is no $d > 0$ such that their elements are at least a distance $d$
+apart.
+\end{enumerate}
 
 \end{enumerate}
