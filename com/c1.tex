@@ -600,4 +600,209 @@ and there is no $d > 0$ such that their elements are at least a distance $d$
 apart.
 \end{enumerate}
 
+\item Given that $U$ is open, $C$ is compact, $C \subset U$ so that, $U^c$ is 
+closed $C \cap U^c = \varnothing$. Therefore, (from the previous exercise),
+there exits $d > 0$ such that for all $x \in C, y \in U^c$, $\norm{x - y} \ge
+d$.
+
+Define the collection $\{B_{d/2}(x) | x \in U\}$. It is an open cover of $U$
+and $C \subset U$. Since $C$ is compact, there is finite subcover, say $
+B_{d/2}(x_1) \cup \cdots \cup B_{d/2}(x_n)$ that covers $C$.
+
+Let 
+\[
+D = \overline{\cup_{i=1}^n B_{d/2}(x_i)}
+\]
+then clearly $C \subset D \subset U$. Further, if $X$ is an open set then 
+$X$ lies in the interior of $\overline{X}$.
 \end{enumerate}
+
+\section{Functions and continuity}\label{c1s3}
+\begin{defn}\label{c1s3d1}
+Consider a function $f: \sor^n \rightarrow \sor^m$. Then
+\[
+\lim_{x \rightarrow a}f(x) = b
+\]
+if for any $\epsilon > 0$, there exists $\delta > 0$ such that for all $0 < 
+\norm{x - a} \le \delta$, $\norm{f(x) -b} \le \epsilon$.
+\end{defn}
+\begin{rem}
+$f$ need not be defined at $x = a$ for its limit to be defined at $x = a$.
+\end{rem}
+
+\begin{defn}\label{c1s3d2}
+Consider a function $f: \sor^n \rightarrow \sor^m$. $f$ is said to be continuous
+at $x = a$ if for any $\epsilon > 0$, there exists $\delta > 0$ such that 
+$\norm{x - a} \le \delta \Rightarrow \norm{f(x) - f(a)} \le epsilon$.
+\end{defn}
+\begin{rem}
+$f$ must be defined at $x = a$ for it to be continuous at $x = a$.
+\end{rem}
+
+\begin{thm}\label{c1s3t1}
+If $A \subset \sor^n$ and $f: A \rightarrow \sor^m$. Then $f$ is continuous
+on $A$ if and only if for every open set $U \subset \sor^m$, there is an open 
+set $V \subset \sor^n$ sich that $f^{-1}(U) = V \cap A$.
+\end{thm}
+\begin{proof}
+Assume that $f$ is continuous in $A$. Let $U$ be an open set in $\sor^m$.
+Let $a \in f^{-1}(U)$. By continuity of $f$ in A, for any $\epsilon > 0$, there
+exists $\delta > 0$ such that $x \in B_\delta(a) \Rightarrow f(x) \in B_\epsilon
+(f(a))$. Now the open ball $B_\delta(a)$ need not lie entirely in $A$. Therefore, we say that for any $B_\epsilon(f(a))$ there exists a set $A \cap B_\delta(a)$
+such that $x \in A \cap B_\delta(a) \Rightarrow f(x) \in B_\epsilon(f(a))$. This
+is true for all points $a \in A$.
+
+To prove the converse, let $U = B_\epsilon(y)$, where $y \in \sor^m$. Then
+there exists an open set $V \subset \sor^n$ such that $f^{-1}(U) = V \cap A$.
+Choose $\delta$ such that $B_\delta(f^{-1}(y)) \subset V \cap A$. This proves
+the continuity of $f$.
+\end{proof}
+
+\begin{rem}
+The greatest significance of this theorem is that one can gets an equivalent
+definition of continuity that does not require limits.
+\end{rem}
+
+Continuous functions have several useful properties.
+\begin{thm}\label{c1s3t2}
+If $f: A \rightarrow \sor^m$ is continuous where $A \subset \sor^n$ and $A$
+is compact then $f(A)$ is also compact.
+\end{thm}
+\begin{proof}
+Since $A$ is compact, it has a finite open cover. Since $f$ is continuous, it
+maps an open set in $A$ to an open set in $f(A)$. Thus, $f(A)$ can be covered
+with a finite number of open sets.
+\end{proof}
+
+\begin{rem}
+What about the converse? Functions can be many-to-one. Continuity guarantees
+that the pre-image is open but it cannot guarantee that it is finite. $f(x) =
+\tanh(x)$, $x \in \sor$ is continuous but $\atanh([-1, 1])$ is not compact.
+\end{rem}
+
+\begin{defn}\label{c1s3d3}
+Let $f: A \rightarrow \sor$ be bounded. If
+\begin{eqnarray*}
+M(a, f, \epsilon) &=& \sup\{f(x) : x \in B_\epsilon(a) \cap A\} \\
+m(a, f, \epsilon) &=& \inf\{f(x) : x \in B_\epsilon(a) \cap A\} 
+\end{eqnarray*}
+then the oscillation of $f$ at $a$ is
+\[
+o(f, a) = \lim_{\epsilon \rightarrow 0} (M(a, f, \epsilon) - m(a, f, \epsilon)).
+\]
+\end{defn}
+
+\begin{lem}\label{c1s3l1}
+$o(f, a)$ always exists.
+\end{lem}
+\begin{proof}
+Since $f$ is bounded, the infimum and supremum exist.
+\end{proof}
+
+\begin{thm}\label{c1s3t3}
+A bounded function $f$ is continuous at $a$ if and only if $o(f, a) = 0$.
+\end{thm}
+\begin{proof}
+If $f$ is continuous at $a$ then $f(x) \in B_{\epsilon}(f(a))$ or $M(x, f, a)
+= f(a) + \epsilon$ and $m(x, f, a) = f(a) - \epsilon$ from which it follows
+that $o(f, a) = 0$.
+
+Conversely, if $o(f, a) = 0$ then as $\delta \rightarrow 0$, $M(a,f,\delta)
+- m(a, f, \delta) < \epsilon \Rightarrow f(x) \in (f(a) - \epsilon/2, f(a) + 
+\epsilon/2)$.
+\end{proof}
+
+\subsection{Problems}
+\begin{enumerate}
+\item If 
+\[
+\lim_{x \rightarrow a} f^i(x) = b^i
+\]
+for all $i = 1, \ldots, m$ then it is clear that $f(x) = (f^1(x), \ldots,
+f^m(x)) \rightarrow (b^1, \ldots, b^m) = b$ as $x \rightarrow a$.
+
+To prove the converse, note that 
+\[
+\norm{f(x) - b}^2 = \sum_{i=1}^m (f^i(x) - b^i)^2 < \epsilon^2 \Rightarrow
+\abs{f^i(x) - b^i} < \epsilon.
+\]
+
+\item If $f^i$ is continuous at $a$ then $\abs{f^i(x) - f^i(a)} < \epsilon/
+\sqrt{m}$ and
+\[
+\norm{f(x) - f(a)}^2 = \sum_{i=1}^m \abs{f^i(x) - f^i(a)}^2 < \epsilon^2
+\Rightarrow \norm{f(x) - f(a)} < \epsilon.
+\]
+
+Conversely, 
+\[
+\norm{f(x) - f(a)}^2 < \epsilon^2 \Rightarrow \abs{f^i(x) - f^i(a)}
+^2 < \epsilon^2 \Rightarrow \abs{f^i(x) - f^i(a)} < \epsilon.
+\]
+
+\item Let $T: \sor^n \rightarrow \sor^m$ be a linear transformation. Consider
+$T(x + h) - T(x) = T(h) \le M\norm{h}$, by problem 10 of section \ref{c1s1}.
+Therefore, if $\norm{h} < \epsilon/M$ then $\norm{T(x + h) - T(x)} < \epsilon$.
+
+\item The set $A$ is the region in the first quadrant between the $x$-axis and
+the parabola $y = x^2$.
+\begin{enumerate}
+\item A straightline that does not cut through $A$ surely has an interval
+aroung the origin in $R^2 - A$ because the entire line lies in $R^2 - A$. A 
+line that cuts $A$ still has an interval around the origin in $R^2 - A$
+because for small $x$, $y = x^2 < mx$ and therefore the line is entirely in $R^2
+- A$.
+
+\item $f$ is the indicator function for $A$. For $h \in \sor^2$, define 
+$g_h: \sor \rightarrow \sor = f(th)$. Thus, $g_h(t) = 1$ if $th \in A$ else it
+is zero. To show that $g_h(t)$ is continuous at $t = 0$, consider an interval
+$(-\delta, \delta)$. Any line through the origin has an interval around the 
+origin entirely in $R^2 - A$ on which $g_h(t)$ takes the value $0$. Therefore,
+$g_h$ as a function of $t$ is continuous at the origin.
+
+However $f(h)$ is not continuous because it takes a value $1$ if we approach
+$0$ from the positive $x$ axis and it takes a value $0$ if we approach from
+any other side.
+\end{enumerate}
+
+\item The function $f(x) = \norm{x - a}$ is continuous.
+
+\item $A$ is not closed. Therefore, there is at least one limit point of $A$,
+say $x_0$, that is not part of $A$. The function $f = \norm{x - x_0}^{-1}$ is
+an example of a continuous but unbounded function on $A$.
+
+\item Since $A$ is compact and $f: A \rightarrow \sor$ is continuous, $f(A)$
+is compact. Since $f(A) \subset \sor$, its compactness means that $f(A)$ is 
+also closed and bounded. Therefore $\sup(A), \inf(A) \in f(A)$ so that
+there are $x_m, x_M \in A$ such that $f(x_m) = \inf(A)$ and $f(x_M) = \sup(A)$.
+
+\item $f:[a, b] \rightarrow \sor$ is an increasing function. Without loss of
+generality, assume that $a < x_1 < \ldots, < x_n < b$. Now, 
+\[
+o(f, x_i) = \lim_{\delta \rightarrow 0}(M(x_i, f, \delta) - m(x_i, f, \delta))
+\]
+so that
+\[
+\sum_{i=1}^n o(f, x_i) = \lim_{\delta \rightarrow 0} \sum_{i=1}^n
+(M(x_i, f, \delta) - m(x_i, f, \delta))
+\]
+Since $f$ is increasing,
+\begin{eqnarray*}
+M(x_i, f, \delta) &\le& f\left(\frac{x_i + x_{i+1}}{2}\right) \\
+m(x_i, f, \delta) &\ge& f\left(\frac{x_{i-1} + x_i}{2}\right) 
+\end{eqnarray*}
+for any $\delta > 0$. Therefore, 
+\[
+\sum_{i=1}^n o(f, x_i) \le \sum_{i=1}^n f\left(\frac{x_i + x_{i+1}}{2}\right) -
+f\left(\frac{x_{i-1} + x_i}{2}\right) = f\left(\frac{b + x_n}{2}\right) - 
+f\left(\frac{a + x_1}{2}\right).
+\]
+The result follows from the fact that 
+\begin{eqnarray*}
+f(a) &<& f\left(\frac{a + x_1}{2}\right) \\
+f(b) &>& f\left(\frac{b + x_n}{2}\right).
+\end{eqnarray*}
+
+\end{enumerate}
+
+
