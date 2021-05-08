@@ -1,0 +1,25 @@
+\documentclass{report}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{xcolor}
+
+\numberwithin{equation}{section}                                                
+\newcommand{\son}{\mathbf{N}}                                                   
+\newcommand{\soi}{\mathbf{Z}}                                                   
+\newcommand{\soq}{\mathbf{Q}}                                                   
+\newcommand{\sor}{\mathbf{R}}                                                   
+\newcommand{\soc}{\mathbf{C}}                                                   
+                                                                                
+\newtheorem{defn}{Definition}[section]                                          
+\newtheorem{lem}{Lemma}[section]                                                
+\newtheorem{prop}{Proposition}[section]                                         
+\newtheorem{thm}{Theorem}[section]                                              
+\newtheorem*{rem}{Remark} 
+
+\newcommand{\abs}[1]{\left\vert{#1}\right\vert}
+\DeclareMathOperator{\Arg}{arg}
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+
+\begin{document}
+\include{c1}
+\end{document}

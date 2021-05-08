@@ -1,0 +1,156 @@
+\chapter{Complex Numbers}\label{c1}
+\section{Hierarchy of numbers}\label{c1s1}
+The set of natural numbers is a monoid. When extended to the set of integers
+it becomes a group under addition. In fact, it is also a ring. The set of
+rational numbers is a field. But it is not a complete field. The set of real
+numbers is a complete field which also has an order. However, the set $\sor[x]$
+, of all polynomials with real coefficients, is not algebraically closed. That 
+is, some polynomials do not have real roots. The set of complex numbers is an
+algebraically closed, complete field. However, it does not have an order. More
+on that later.
+
+\section{Construction of complex numbers}\label{c1s2}
+There are several ways to construct the set of complex numbers. We will consider
+the one that is the simplest. A real number signifies a displacement along a 
+line. A complex number does the same on a plane. Therefore, one expects the
+complex number to be made up of two real numbers. Let us consider the set of 
+all ordered pairs $(x, y)$ of real numbers with the following operations defined
+on them.
+\begin{itemize}
+\item $(x_1, y_1) + (x_2, y_2) = (x_1 + x_2, y_1 + y_2)$,
+\item $(x_1, y_1)(x_2, y_2) = (x_1x_2 - y_1y_2, x_1y_2 + x_2y_1)$.
+\end{itemize}
+It is easy to check that the set of ordered pairs with these definitions is a
+field. It is also easy to convince oneself that $(x, 0)$ has all the properties
+of the real numbers. If we denote $(0, 1)$ as $i$ and write $(x, y) = x + iy$
+then all the properties above can be derived if we assume $i^2 = -1$. 
+
+We will now show that there is no order relation in $\soc$. An order relation
+$<$ on a field $F$ has the following properties.
+\begin{itemize}
+\item for any $x, y \in F$ exactly one of $x < y, x = y, x > y$ is true.
+\item if $x < y$ and $y < z$ then $x < z$.
+\item if $x < y$ and $u < v$ then $x + u < y + v$.
+\item if $0 < x < u$ and $0 < y < v$ then $xy < uv$.
+\end{itemize}
+Let, if possible, $\soc$ be ordered. We know that $i \ne 0$. If $i > 0$ then
+$i^2 = -1 > 0$ is a contradiction. If $i < 0$ then $-i > 0$ and $(-i)^2 = -1 
+> 0$ another contradiction.
+
+Since a complex number can be represented as a point on the plane, we can
+as well represent it in the polar form $(r\cos\theta, r\sin\theta)$ or
+$r\cos\theta + ir\sin\theta = r(\cos\theta + i\sin\theta)$. The number $r$
+is easily seen to be the positive square root $\sqrt{x^2 + y^2}$ and it is
+unique for a given complex number. It is called the \emph{modulus} of the
+complex number. The angle $\theta$ is called the \emph{argument} and it is
+clearly multivalued. All angles $\theta + 2\pi n$, $n \in \soi$ correspond to
+the same complex number. The multi-valuedness of the argument has many 
+interesting consequences to the nature of functions of complex variables. The
+modulus of a complex number $z = x + iy$ is denoted by $\abs{z}$ and the
+argument by $\Arg{z}$. The value of $\theta$ in the range $[0, 2\pi)$ is called
+the \emph{principle value} of the argument. (An equivalent convention is to let
+it be in the range $(-\pi, \pi]$).
+
+We know the Taylor series expansions of the real functions $\sin$ and $\cos$,
+\begin{eqnarray*}
+\sin\theta &=& \theta - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \ldots \\
+\cos\theta &=& 1 + \frac{\theta^2}{2!} - \frac{\theta^4}{4!} + \ldots.
+\end{eqnarray*}
+From these expressions we can easily infer that
+\begin{equation}\label{c1s2e1}
+\cos\theta + i\sin\theta = e^{i\theta}.
+\end{equation}
+It is called \emph{Euler's formula}. It allows us to represent a complex number
+as $z = (x, y) = x + iy = r\exp(i\theta)$. The last representation simplifies
+many calculations and has some immediate interesting consequences. First of all
+$e^{i\pi} = -1$ so that $\log(-1) = i\pi$. Logarithms of negative numbers are
+imaginary. They not only exist but they are multi-valued. $\log(-1) = i\pi + 
+2\pi in$ for $n \in \soi$. Since $e^{2\pi i + 2\pi im} = 1$, it is easy to see 
+that 
+\[
+1^{1/n} = \exp\left(i\frac{2\pi}{n} + i\frac{2\pi m}{n}\right).
+\]
+If we let $m$ range from $0$ to $n - 1$ we get $n$ different roots of unity.
+
+The conjugate of a complex number $z = (x, y) = x + iy = re^{i\theta}$ is
+defined as $\bar{z} = (x, -y) = x - iy = re^{-i\theta}$.
+
+\section{A few inequalities}\label{c1s3}
+Since $\abs{z} = r = \sqrt{x^2 + y^2}$, it follows that
+\begin{eqnarray}
+\abs{x} &\le& \abs{z} \label{c1s3e1} \\
+\abs{y} &\le& \abs{z} \label{c1s3e2}
+\end{eqnarray}
+Now consider
+\[
+\abs{z_1 + z_2}^2 = (z_1 + z_2)\overline{(z_1 + z_2)} = \abs{z_1}^2 + \abs{z_2}^2
+ + z_1\bar{z}_2 + \bar{z}_1z_2.
+\]
+We can combine the last two terms,
+\[
+\abs{z_1 + z_2}^2 = \abs{z_1}^2 + \abs{z_2} + 2\re(z_1z_2) \le 
+\abs{z_1}^2 + \abs{z_2}^2 + 2\abs{z_1z_2},
+\] 
+where we used \eqref{c1s3e1} to get the last inequality. Since $\abs{z_1z_2}
+= \abs{z_1}\abs{z_2}$, we get 
+\begin{equation}\label{c1s3e3}
+\abs{z_1 + z_2} \le \abs{z_1} + \abs{z_2}.
+\end{equation}
+We can use the same reasoning to conclude that
+\begin{equation}\label{c1s3e4}
+\abs{z_1 - z_2} \ge \abs{z_1} - \abs{z_2}.
+\end{equation}
+We next prove the Cauchy-Schwarz inequality,
+\begin{equation}\label{c1s3e5}
+\abs{z_1\bar{w}_1 + \cdots + z_n\bar{w}_n}^2 \le \sum_{i=1}^n\abs{z_i}^2
+\sum_{i=1}^n\abs{w_i}^2.
+\end{equation}
+We can consider $z = (z_1, \ldots, z_n)$ and $w = (w_1, \ldots, w_n)$ to be 
+elements of $\soc^n$. We can define the inner product in $\soc^n$ as
+\begin{equation}\label{c1s3e6}
+(z, w) = \sum_{i=1}^n z_i\bar{w}_i.
+\end{equation}
+We note the following properties of the inner product.
+\begin{eqnarray}
+(z, w) &=& \overline{(w, z)} \label{c1s3e7} \\
+(\alpha z, w) &=& \alpha(z, w) \label{c1s3e8} \\
+(z, \alpha w) &=& \bar{\alpha}(z, w), \label{c1s3e9}
+\end{eqnarray} 
+where $\alpha \in \soc$. 
+
+In terms of the inner product, the Cauchy-Schwarz inequality is
+\begin{equation}\label{c1s3e10}
+(z, w)^2 \le (z, z)(w, w).
+\end{equation}
+In order to prove this, consider the vector
+\[
+u = z - \frac{(z, w)}{(w, w)}w.
+\]
+Then
+\[
+(u, u) = (z, z) - \frac{\overline{(z, w)}}{(w, w)}(z, w) - 
+\frac{(z, w)}{(w, w)}(w, z) + \frac{\abs{(z, w)}^2}{(w, w)^2}(w, w).
+\]
+Using properties \eqref{c1s3e7} to \eqref{c1s3e9} we get
+\[
+(u, u) = (z, z) - \frac{\abs{(z, w)}^2}{(w, w)}
+\]
+Since $(u, u) \ge 0$ is always true, equation \eqref{c1s3e10} follows. Since
+the modulus of a complex number and its conjugate are the same, we can as well
+write equation \eqref{c1s3e5} as
+\begin{equation}\label{c1s3e11}
+\abs{z_1w_1 + \cdots + z_nw_n}^2 \le \sum_{i=1}^n\abs{z_i}^2
+\sum_{i=1}^n\abs{w_i}^2.
+\end{equation}
+
+{\color{red}{Add Lagrange's identity}}.
+
+Before leaving this section we note that the inner product in $\soc$ is just
+the product $z_1\bar{z}_2$. In the representation using ordered pair of reals,
+\[
+(z_1, z_2) = (x_1, y_1)(x_2, -y_2) = (x_1x_2 + y_1y_2, x_1y_2 - x_2y_1)
+\]
+If $(x_1, y_1)$ and $(x_2, y_2)$ were 2-dimensional vectors then the real part
+of $(z_1, z_2)$ is their dot product and the imaginary part is the magnitude of
+the cross product. This idea is exploited to develop the exterior algebra and
+differential forms.
